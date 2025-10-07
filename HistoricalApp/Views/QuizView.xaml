@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HistoricalApp.Views.QuizPage"
+             xmlns:vm="clr-namespace:HistoricalApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:QuizViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="{Binding CurrentQuestion.Text}" FontSize="24" />
+
+        <CollectionView ItemsSource="{Binding CurrentQuestion.Choices}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedAnswer, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Submit Answer" Command="{Binding SubmitAnswerCommand}" />
+        <Button Text="Next Question" Command="{Binding NextQuestionCommand}" />
+        <Label Text="{Binding Score, StringFormat='Score: {0}'}" FontSize="18" />
+    </VerticalStackLayout>
+</ContentPage>
