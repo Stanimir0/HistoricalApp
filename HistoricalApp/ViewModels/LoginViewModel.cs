@@ -1,24 +1,21 @@
-﻿
-using HistoricalApp.Services.Interfaces;
+﻿using HistoricalApp.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly FirebaseAuthService _authService;
         private string email;
+        private string password;
+
         public string Email
         {
             get => email;
             set => SetProperty(ref email, value);
         }
 
-        private string password;
         public string Password
         {
             get => password;
@@ -26,16 +23,41 @@ namespace HistoricalApp.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand RegisterCommand { get; }
 
         public LoginViewModel()
         {
-            LoginCommand = new Command(OnLogin);
+            _authService = new FirebaseAuthService();
+            LoginCommand = new Command(async () => await OnLogin());
+            RegisterCommand = new Command(async () => await OnRegister());
         }
 
-        private void OnLogin()
+        private async Task OnLogin()
         {
-            
-            Console.WriteLine($"Trying to log in with {Email} and {Password}");
+            try
+            {
+                var response = await _authService.LoginUserAsync(Email, Password);
+                await App.Current.MainPage.DisplayAlert("Success", "Logged in successfully!", "OK");
+                Console.WriteLine(response);
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
+        private async Task OnRegister()
+        {
+            try
+            {
+                var response = await _authService.RegisterUserAsync(Email, Password);
+                await App.Current.MainPage.DisplayAlert("Success", "Account created successfully!", "OK");
+                Console.WriteLine(response);
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
         }
     }
 }
