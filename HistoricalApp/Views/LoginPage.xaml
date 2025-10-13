@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-    
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HistoricalApp.Views.LoginPage"
@@ -9,13 +8,29 @@
         <vm:LoginViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="30">
+    <VerticalStackLayout Padding="30" Spacing="15">
+
+        <Label Text="Welcome to Historical App"
+               FontSize="24"
+               HorizontalOptions="Center"
+               TextColor="DarkBlue" />
+
         <Entry Placeholder="Email"
                Text="{Binding Email}" />
+
         <Entry Placeholder="Password"
                IsPassword="True"
                Text="{Binding Password}" />
+
         <Button Text="Login"
-                Command="{Binding LoginCommand}" />
+                Command="{Binding LoginCommand}"
+                BackgroundColor="CornflowerBlue"
+                TextColor="White" />
+
+        <Button Text="Register"
+                Command="{Binding RegisterCommand}"
+                BackgroundColor="MediumSeaGreen"
+                TextColor="White" />
+
     </VerticalStackLayout>
 </ContentPage>
