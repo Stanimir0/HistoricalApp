@@ -1,9 +1,12 @@
+using HistoricalApp.ViewModels;
+
 namespace HistoricalApp.Views;
 
-public partial class NewPage1 : ContentPage
+public partial class QuizSelectionPage : ContentPage
 {
-	public NewPage1()
-	{
-		InitializeComponent();
-	}
+    public QuizSelectionPage()
+    {
+        InitializeComponent();
+        BindingContext = new QuizSelectionViewModel();
+    }
 }
