@@ -70,13 +70,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Battle.xaml.cs">
+	    <DependentUpon>Battle.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\QuizSelectionPage.xaml.cs">
 	    <DependentUpon>QuizSelectionPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\Characters.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Events.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Battle.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QuizSelectionPage.xaml">

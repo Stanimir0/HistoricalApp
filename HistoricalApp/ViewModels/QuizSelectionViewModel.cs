@@ -23,19 +23,19 @@ namespace HistoricalApp.ViewModels
         private async void OnBattleSelected()
         {
             await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Battles!", "OK");
-        
+            await App.Current.MainPage.Navigation.PushAsync(new Views.NewPage1());
         }
 
         private async void OnEventSelected()
         {
             await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Events!", "OK");
-           
+            await App.Current.MainPage.Navigation.PushAsync(new Views.Events());
         }
 
         private async void OnCharacterSelected()
         {
             await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Characters!", "OK");
-            
+            await App.Current.MainPage.Navigation.PushAsync(new Views.Characters());
         }
     }
 }
