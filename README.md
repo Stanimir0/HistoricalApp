@@ -1,6 +1,6 @@
-                                                       🏛️ Historical App
+                                              🏛️ Historical App
 Learn History the Fun Way!
-Historical App is a gamified learning platform built with .NET MAUI and powered by Firebase (or Supabase) to make history engaging, competitive, and interactive.
+Historical App is a gamified learning platform built with .NET MAUI and powered by Firebase to make history engaging, competitive, and interactive.
  
  ------------------------------------------------------------------
  
