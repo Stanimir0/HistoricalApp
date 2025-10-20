@@ -1,4 +1,4 @@
-🏛️ Historical App
+                                                       🏛️ Historical App
 Learn History the Fun Way!
 Historical App is a gamified learning platform built with .NET MAUI and powered by Firebase (or Supabase) to make history engaging, competitive, and interactive.
  
@@ -7,11 +7,10 @@ Historical App is a gamified learning platform built with .NET MAUI and powered 
 📚 Overview
  
 History doesn’t have to be boring!
-The Historical App transforms the way users learn about Battles, Events, and Historical Characters through interactive quizzes, rank progression, and leaderboards. Compete with friends, earn points, and climb your way from Bronze to Legend!
- 
- 
-🚀 Features
- 
+The Historical App transforms the way users learn about Battles, Events, and Historical Characters through interactive quizzes, rank progression, and leaderboards. Compete with friends, earn points, and climb your way from Bronze to Historian!
+
+------------------------------------------------------------------
+
 👤 Authentication
  
 Secure login and signup using Firebase Authentication.
