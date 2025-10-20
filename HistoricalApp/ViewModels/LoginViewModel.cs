@@ -38,7 +38,9 @@ namespace HistoricalApp.ViewModels
             {
                 var response = await _authService.LoginUserAsync(Email, Password);
                 await App.Current.MainPage.DisplayAlert("Success", "Logged in successfully!", "OK");
-                Console.WriteLine(response);
+
+                
+                await App.Current.MainPage.Navigation.PushAsync(new Views.QuizSelectionPage());
             }
             catch (Exception ex)
             {

@@ -70,7 +70,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\QuizSelectionPage.xaml.cs">
+	    <DependentUpon>QuizSelectionPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QuizSelectionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QuizView.xaml">
