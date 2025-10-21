@@ -1,0 +1,34 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
+             x:Class="HistoricalApp.Views.AdminPage"
+             Title="Admin Panel">
+
+    <ContentPage.BindingContext>
+        <vm:AdminViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20">
+        <Label Text="Admin Panel" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20"/>
+
+        <Button Text="Add Quiz" Command="{Binding AddQuizCommand}" />
+
+        <CollectionView ItemsSource="{Binding Quizzes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,10" Padding="10">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" />
+                            <Label Text="{Binding Description}" FontSize="12" />
+                            <Label Text="{Binding Category}" FontSize="12" TextColor="Gray" />
+                            <HorizontalStackLayout>
+                                <Button Text="Edit" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AdminViewModel}}, Path=EditQuizCommand}" CommandParameter="{Binding .}" />
+                                <Button Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AdminViewModel}}, Path=DeleteQuizCommand}" CommandParameter="{Binding .}" TextColor="Red"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
