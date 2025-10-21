@@ -7,9 +7,10 @@
     Shell.FlyoutBehavior="Flyout"
     Title="HistoricalApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
-
+    <FlyoutItem Title="Login/Register" Icon="admin_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Admin" Icon="admin_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate local:AdminPage}" />
+    </FlyoutItem>
 </Shell>

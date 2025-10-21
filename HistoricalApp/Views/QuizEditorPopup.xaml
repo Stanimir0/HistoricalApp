@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage>
+<toolkit:Popup
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="HistoricalApp.Views.QuizEditorPopup">
 
-    <VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="White">
-        <Label Text="Quiz Editor" FontSize="24" HorizontalOptions="Center" />
+	<VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="black">
+		<Label Text="Quiz Editor" FontSize="24" HorizontalOptions="Center" />
 
-        <Entry Placeholder="Title" Text="{Binding Title}" />
-        <Entry Placeholder="Description" Text="{Binding Description}" />
-        <Entry Placeholder="Category (Battles, Events, Characters)" Text="{Binding Category}" />
-        <Entry Placeholder="Difficulty (Easy, Medium, Hard)" Text="{Binding Difficulty}" />
-        <Entry Placeholder="Points" Keyboard="Numeric" Text="{Binding Points}" />
+		<Entry Placeholder="Title" Text="{Binding Title}" />
+		<Entry Placeholder="Description" Text="{Binding Description}" />
+		<Entry Placeholder="Category (Battles, Events, Characters)" Text="{Binding Category}" />
+		<Entry Placeholder="Difficulty (Easy, Medium, Hard)" Text="{Binding Difficulty}" />
+		<Entry Placeholder="Points" Keyboard="Numeric" Text="{Binding Points}" />
 
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
-            <Button Text="Save" Command="{Binding SaveCommand}" />
-            <Button Text="Cancel" Command="{Binding CancelCommand}" />
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
-</ContentPage>
+		<HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+			<Button Text="Save" Command="{Binding SaveCommand}" />
+			<Button Text="Cancel" Command="{Binding CancelCommand}" />
+		</HorizontalStackLayout>
+	</VerticalStackLayout>
+</toolkit:Popup>

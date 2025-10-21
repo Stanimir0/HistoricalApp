@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Views;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
@@ -42,7 +43,8 @@ namespace HistoricalApp.ViewModels
 
         private async Task AddQuiz()
         {
-            var popup = new QuizEditorPopup();
+            var newQuiz = new Quiz(); 
+            var popup = new QuizEditorPopup(newQuiz); 
             var result = await App.Current.MainPage.ShowPopupAsync(popup) as Quiz;
 
             if (result != null)

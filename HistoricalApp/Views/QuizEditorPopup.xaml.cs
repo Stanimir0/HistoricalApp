@@ -1,8 +1,10 @@
+using CommunityToolkit.Maui.Views;
+
 namespace HistoricalApp.Views;
 
-public partial class QuizEditorPopup : ContentPage
+public partial class QuizEditorPopup : Popup
 {
-	public QuizEditorPopup()
+	public QuizEditorPopup(Models.Quiz quiz)
 	{
 		InitializeComponent();
 	}
