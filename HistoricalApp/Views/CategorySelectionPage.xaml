@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HistoricalApp.Views.CategorySelectionPage"
+             BackgroundColor="#1e1e1e"
+             Title="Select Category">
+
+    <VerticalStackLayout Padding="40,100" Spacing="25" HorizontalOptions="Center">
+        <Label Text="Select a Quiz Category"
+               FontAttributes="Bold"
+               FontSize="26"
+               TextColor="#0b0b7a"
+               HorizontalOptions="Center" />
+
+        <Button Text="Battles"
+                BackgroundColor="#5b8ef7"
+                TextColor="White"
+                CornerRadius="20"
+                WidthRequest="250"
+                Clicked="OnBattlesClicked" />
+
+        <Button Text="Events"
+                BackgroundColor="#9876d8"
+                TextColor="White"
+                CornerRadius="20"
+                WidthRequest="250"
+                Clicked="OnEventsClicked" />
+
+        <Button Text="Characters"
+                BackgroundColor="#2f8f58"
+                TextColor="White"
+                CornerRadius="20"
+                WidthRequest="250"
+                Clicked="OnCharactersClicked" />
+    </VerticalStackLayout>
+</ContentPage>

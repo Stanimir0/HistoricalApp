@@ -1,10 +1,8 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using HistoricalApp.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HistoricalApp.Services
@@ -18,39 +16,27 @@ namespace HistoricalApp.Services
             _firebaseClient = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
-       
         public async Task AddQuizAsync(Quiz quiz)
         {
-            await _firebaseClient.Child("quizzes").PostAsync(quiz);
+            await _firebaseClient
+                .Child("quizzes")
+                .PostAsync(quiz);
         }
 
-      
         public async Task<List<Quiz>> GetAllQuizzesAsync()
         {
             var quizzes = await _firebaseClient
                 .Child("quizzes")
                 .OnceAsync<Quiz>();
 
-            return quizzes.Select(q =>
+            return quizzes.Select(item =>
             {
-                q.Object.Id = q.Key;
-                return q.Object;
+                var q = item.Object;
+                q.Id = item.Key;
+                return q;
             }).ToList();
         }
 
-       
-        public async Task<Quiz> GetQuizByIdAsync(string quizId)
-        {
-            var quiz = await _firebaseClient
-                .Child("quizzes")
-                .Child(quizId)
-                .OnceSingleAsync<Quiz>();
-
-            quiz.Id = quizId;
-            return quiz;
-        }
-
-       
         public async Task UpdateQuizAsync(Quiz quiz)
         {
             await _firebaseClient
@@ -59,11 +45,11 @@ namespace HistoricalApp.Services
                 .PutAsync(quiz);
         }
 
-        public async Task DeleteQuizAsync(string quizId)
+        public async Task DeleteQuizAsync(string id)
         {
             await _firebaseClient
                 .Child("quizzes")
-                .Child(quizId)
+                .Child(id)
                 .DeleteAsync();
         }
     }

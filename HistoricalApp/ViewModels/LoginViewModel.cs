@@ -1,4 +1,5 @@
 ﻿using HistoricalApp.Services;
+using HistoricalApp.Views;
 using System;
 using System.Windows.Input;
 
@@ -40,7 +41,7 @@ namespace HistoricalApp.ViewModels
                 await App.Current.MainPage.DisplayAlert("Success", "Logged in successfully!", "OK");
 
                 
-                await App.Current.MainPage.Navigation.PushAsync(new Views.QuizSelectionPage());
+                await App.Current.MainPage.Navigation.PushAsync(new Views.CategorySelectionPage());
             }
             catch (Exception ex)
             {

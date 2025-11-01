@@ -10,7 +10,11 @@
 
     <VerticalStackLayout Padding="20">
         <Label Text="Admin Panel" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20"/>
-
+        <Button Text="Test Firebase Connection"
+        BackgroundColor="DarkGreen"
+        TextColor="White"
+        Command="{Binding TestConnectionCommand}"
+        Margin="0,0,0,10"/>
         <Button Text="Add Quiz" Command="{Binding AddQuizCommand}" />
 
         <CollectionView ItemsSource="{Binding Quizzes}">

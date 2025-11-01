@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using HistoricalApp.Models;
+using HistoricalApp.Services;
+using HistoricalApp.Views;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,33 +9,58 @@ namespace HistoricalApp.ViewModels
 {
     public class QuizSelectionViewModel : BaseViewModel
     {
-        public ICommand SelectBattleQuizCommand { get; }
-        public ICommand SelectEventQuizCommand { get; }
-        public ICommand SelectCharacterQuizCommand { get; }
+        private readonly FirebaseQuizService _quizService;
+        public ObservableCollection<Quiz> Quizzes { get; set; } = new();
+        public ICommand SelectQuizCommand { get; }
 
-        public QuizSelectionViewModel()
+        private readonly string _category;
+        public string CategoryTitle { get; }
+
+        private bool _hasNoQuizzes;
+        public bool HasNoQuizzes
         {
-            SelectBattleQuizCommand = new Command(OnBattleSelected);
-            SelectEventQuizCommand = new Command(OnEventSelected);
-            SelectCharacterQuizCommand = new Command(OnCharacterSelected);
+            get => _hasNoQuizzes;
+            set => SetProperty(ref _hasNoQuizzes, value);
         }
 
-        private async void OnBattleSelected()
+        private bool _hasQuizzes;
+        public bool HasQuizzes
         {
-            await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Battles!", "OK");
-            await App.Current.MainPage.Navigation.PushAsync(new Views.NewPage1());
+            get => _hasQuizzes;
+            set => SetProperty(ref _hasQuizzes, value);
         }
 
-        private async void OnEventSelected()
+        public QuizSelectionViewModel(string category)
         {
-            await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Events!", "OK");
-            await App.Current.MainPage.Navigation.PushAsync(new Views.Events());
+            _quizService = new FirebaseQuizService();
+            _category = category;
+            CategoryTitle = string.IsNullOrEmpty(category) ? "All Quizzes" : $"{category} Quizzes";
+
+            SelectQuizCommand = new Command<Quiz>(async (quiz) => await GoToInfoPage(quiz));
+            _ = LoadQuizzes();
         }
 
-        private async void OnCharacterSelected()
+        private async Task LoadQuizzes()
         {
-            await App.Current.MainPage.DisplayAlert("Quiz Selected", "You chose Characters!", "OK");
-            await App.Current.MainPage.Navigation.PushAsync(new Views.Characters());
+            var allQuizzes = await _quizService.GetAllQuizzesAsync();
+            var filtered = string.IsNullOrEmpty(_category)
+                ? allQuizzes
+                : allQuizzes.Where(q => q.Category?.Equals(_category, StringComparison.OrdinalIgnoreCase) == true);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Quizzes.Clear();
+                foreach (var quiz in filtered)
+                    Quizzes.Add(quiz);
+
+                HasQuizzes = Quizzes.Any();
+                HasNoQuizzes = !HasQuizzes;
+            });
+        }
+
+        private async Task GoToInfoPage(Quiz quiz)
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new QuizInfoPage(quiz));
         }
     }
 }

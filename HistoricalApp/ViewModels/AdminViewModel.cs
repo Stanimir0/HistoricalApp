@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
+using Firebase.Database;
+using Firebase.Database.Query;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,6 +21,7 @@ namespace HistoricalApp.ViewModels
         public ICommand AddQuizCommand { get; }
         public ICommand EditQuizCommand { get; }
         public ICommand DeleteQuizCommand { get; }
+        public ICommand TestConnectionCommand { get; } // ✅ New command
 
         public AdminViewModel()
         {
@@ -26,6 +30,7 @@ namespace HistoricalApp.ViewModels
             AddQuizCommand = new Command(async () => await AddQuiz());
             EditQuizCommand = new Command<Quiz>(async (quiz) => await EditQuiz(quiz));
             DeleteQuizCommand = new Command<Quiz>(async (quiz) => await DeleteQuiz(quiz));
+            TestConnectionCommand = new Command(async () => await TestFirebaseConnection()); // ✅
 
             _ = LoadQuizzes();
         }
@@ -43,34 +48,94 @@ namespace HistoricalApp.ViewModels
 
         private async Task AddQuiz()
         {
-            var newQuiz = new Quiz(); 
-            var popup = new QuizEditorPopup(newQuiz); 
-            var result = await App.Current.MainPage.ShowPopupAsync(popup) as Quiz;
-
-            if (result != null)
+            var popup = new QuizEditorPopup();
+            popup.OnPopupClosed += async (quiz) =>
             {
-                await _quizService.AddQuizAsync(result);
+                if (quiz == null)
+                {
+                    Console.WriteLine("[DEBUG] Popup returned null.");
+                    return;
+                }
+
+                Console.WriteLine($"[DEBUG] Popup returned quiz: {quiz.Title}");
+                await _quizService.AddQuizAsync(quiz);
+                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz saved to Firebase!", "OK");
                 await LoadQuizzes();
-            }
+            };
+
+          
+            await App.Current.MainPage.ShowPopupAsync(popup);
         }
+
 
         private async Task EditQuiz(Quiz quiz)
         {
-            var popup = new QuizEditorPopup(quiz);
-            var result = await App.Current.MainPage.ShowPopupAsync(popup) as Quiz;
+            if (quiz == null)
+                return;
 
-            if (result != null)
+        
+            var popup = new QuizEditorPopup(new Quiz
             {
-                result.Id = quiz.Id;
-                await _quizService.UpdateQuizAsync(result);
-                await LoadQuizzes();
-            }
+                Id = quiz.Id,
+                Title = quiz.Title,
+                Description = quiz.Description,
+                Category = quiz.Category,
+                Difficulty = quiz.Difficulty,
+                Points = quiz.Points
+            });
+
+          
+            popup.OnPopupClosed += async (updatedQuiz) =>
+            {
+                if (updatedQuiz == null)
+                {
+                    Console.WriteLine("[DEBUG] Edit canceled.");
+                    return;
+                }
+
+             
+                updatedQuiz.Id = quiz.Id;
+
+                try
+                {
+                    await _quizService.UpdateQuizAsync(updatedQuiz);
+                    await App.Current.MainPage.DisplayAlert("✅ Updated", "Quiz updated successfully!", "OK");
+                    await LoadQuizzes();
+                }
+                catch (Exception ex)
+                {
+                    await App.Current.MainPage.DisplayAlert("❌ Error", ex.Message, "OK");
+                    Console.WriteLine($"[ERROR] Update failed: {ex}");
+                }
+            };
+
+            await App.Current.MainPage.ShowPopupAsync(popup);
         }
 
         private async Task DeleteQuiz(Quiz quiz)
         {
             await _quizService.DeleteQuizAsync(quiz.Id);
             await LoadQuizzes();
+        }
+
+     
+        private async Task TestFirebaseConnection()
+        {
+            try
+            {
+                var client = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
+                await client.Child("connectionTests").PostAsync(new
+                {
+                    message = "Connection successful!",
+                    timestamp = DateTime.UtcNow.ToString("O")
+                });
+
+                await App.Current.MainPage.DisplayAlert("✅ Firebase", "Connection successful!", "OK");
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("❌ Firebase Error", ex.Message, "OK");
+            }
         }
     }
 }
