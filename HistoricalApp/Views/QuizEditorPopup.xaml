@@ -38,6 +38,10 @@
                         BackgroundColor="Gray"
                         TextColor="White"
                         Clicked="OnCancelClicked" />
+                <Button Text="Manage Questions"
+                     BackgroundColor="#444"
+                      TextColor="White"
+                     Clicked="OnManageQuestionsClicked" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

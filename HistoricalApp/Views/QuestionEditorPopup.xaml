@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="HistoricalApp.Views.QuestionEditorPopup"
+    BackgroundColor="#1e1e1e">
+
+    <VerticalStackLayout Padding="20" Spacing="10"
+                         WidthRequest="400"
+                         HeightRequest="500">
+
+        <Label Text="Edit Question"
+               FontSize="22"
+               TextColor="#FFD700"
+               HorizontalOptions="Center" />
+
+        <Entry Placeholder="Question text"
+               Text="{Binding Text}" />
+
+        <Entry Placeholder="Answer 1" Text="{Binding Answers[0]}" />
+        <Entry Placeholder="Answer 2" Text="{Binding Answers[1]}" />
+        <Entry Placeholder="Answer 3" Text="{Binding Answers[2]}" />
+        <Entry Placeholder="Answer 4" Text="{Binding Answers[3]}" />
+
+        <Entry Placeholder="Correct Answer Index (0-3)"
+               Keyboard="Numeric"
+               Text="{Binding CorrectAnswerIndex}" />
+
+        <Button Text="Save"
+                BackgroundColor="#28a745"
+                TextColor="White"
+                Clicked="OnSaveClicked" />
+
+        <Button Text="Cancel"
+                BackgroundColor="#555"
+                TextColor="White"
+                Clicked="OnCancelClicked" />
+    </VerticalStackLayout>
+</toolkit:Popup>

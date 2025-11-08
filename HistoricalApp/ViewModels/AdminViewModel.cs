@@ -21,7 +21,7 @@ namespace HistoricalApp.ViewModels
         public ICommand AddQuizCommand { get; }
         public ICommand EditQuizCommand { get; }
         public ICommand DeleteQuizCommand { get; }
-        public ICommand TestConnectionCommand { get; } // ✅ New command
+        public ICommand TestConnectionCommand { get; }
 
         public AdminViewModel()
         {
@@ -30,7 +30,7 @@ namespace HistoricalApp.ViewModels
             AddQuizCommand = new Command(async () => await AddQuiz());
             EditQuizCommand = new Command<Quiz>(async (quiz) => await EditQuiz(quiz));
             DeleteQuizCommand = new Command<Quiz>(async (quiz) => await DeleteQuiz(quiz));
-            TestConnectionCommand = new Command(async () => await TestFirebaseConnection()); // ✅
+            TestConnectionCommand = new Command(async () => await TestFirebaseConnection());
 
             _ = LoadQuizzes();
         }
@@ -49,64 +49,45 @@ namespace HistoricalApp.ViewModels
         private async Task AddQuiz()
         {
             var popup = new QuizEditorPopup();
+
+            // ✅ Subscribe to the popup's close event
             popup.OnPopupClosed += async (quiz) =>
             {
                 if (quiz == null)
-                {
-                    Console.WriteLine("[DEBUG] Popup returned null.");
                     return;
-                }
 
-                Console.WriteLine($"[DEBUG] Popup returned quiz: {quiz.Title}");
+                if (quiz.Questions == null)
+                    quiz.Questions = new List<Question>();
+
                 await _quizService.AddQuizAsync(quiz);
-                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz saved to Firebase!", "OK");
+                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz added successfully!", "OK");
                 await LoadQuizzes();
             };
 
-          
             await App.Current.MainPage.ShowPopupAsync(popup);
         }
 
-
         private async Task EditQuiz(Quiz quiz)
         {
-            if (quiz == null)
-                return;
+            var popup = new QuizEditorPopup(quiz);
 
-        
-            var popup = new QuizEditorPopup(new Quiz
-            {
-                Id = quiz.Id,
-                Title = quiz.Title,
-                Description = quiz.Description,
-                Category = quiz.Category,
-                Difficulty = quiz.Difficulty,
-                Points = quiz.Points
-            });
-
-          
+            // ✅ Subscribe to the popup's close event
             popup.OnPopupClosed += async (updatedQuiz) =>
             {
                 if (updatedQuiz == null)
-                {
-                    Console.WriteLine("[DEBUG] Edit canceled.");
                     return;
-                }
 
-             
                 updatedQuiz.Id = quiz.Id;
 
-                try
-                {
-                    await _quizService.UpdateQuizAsync(updatedQuiz);
-                    await App.Current.MainPage.DisplayAlert("✅ Updated", "Quiz updated successfully!", "OK");
-                    await LoadQuizzes();
-                }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert("❌ Error", ex.Message, "OK");
-                    Console.WriteLine($"[ERROR] Update failed: {ex}");
-                }
+                if (updatedQuiz.Questions == null)
+                    updatedQuiz.Questions = new List<Question>();
+
+                if (quiz.Questions != null && quiz.Questions.Count > 0 && updatedQuiz.Questions.Count == 0)
+                    updatedQuiz.Questions = quiz.Questions;
+
+                await _quizService.UpdateQuizAsync(updatedQuiz);
+                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz updated successfully!", "OK");
+                await LoadQuizzes();
             };
 
             await App.Current.MainPage.ShowPopupAsync(popup);
@@ -114,11 +95,18 @@ namespace HistoricalApp.ViewModels
 
         private async Task DeleteQuiz(Quiz quiz)
         {
-            await _quizService.DeleteQuizAsync(quiz.Id);
-            await LoadQuizzes();
+            bool confirm = await App.Current.MainPage.DisplayAlert(
+                "Confirm Delete",
+                $"Are you sure you want to delete the quiz '{quiz.Title}'?",
+                "Yes", "No");
+
+            if (confirm)
+            {
+                await _quizService.DeleteQuizAsync(quiz.Id);
+                await LoadQuizzes();
+            }
         }
 
-     
         private async Task TestFirebaseConnection()
         {
             try

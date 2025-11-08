@@ -10,7 +10,12 @@
     <FlyoutItem Title="Login/Register" Icon="admin_icon.png">
         <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Admin" Icon="admin_icon.png">
+    <FlyoutItem Title="Admin Panel"
+            Route="AdminPage"
+            x:Name="AdminPanelItem"
+            FlyoutDisplayOptions="AsSingleItem"
+            Icon="admin.png">
         <ShellContent ContentTemplate="{DataTemplate local:AdminPage}" />
     </FlyoutItem>
+
 </Shell>
