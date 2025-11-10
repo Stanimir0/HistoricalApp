@@ -1,5 +1,7 @@
 ﻿using HistoricalApp.Services;
+using HistoricalApp.Views; 
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 
@@ -24,11 +26,14 @@ namespace HistoricalApp.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand GoToRegisterCommand { get; }
 
         public LoginViewModel()
         {
             _authService = new FirebaseAuthService();
+
             LoginCommand = new Command(async () => await OnLogin());
+            GoToRegisterCommand = new Command(async () => await OnGoToRegister());
         }
 
         private async Task OnLogin()
@@ -37,12 +42,19 @@ namespace HistoricalApp.ViewModels
             {
                 var userId = await _authService.LoginUserAsync(Email, Password);
                 await App.Current.MainPage.DisplayAlert("Success", $"Welcome back! User ID: {userId}", "OK");
-                await Shell.Current.GoToAsync("//ProfilePage");
+
+                await App.Current.MainPage.Navigation.PushAsync(new ProfilePage());
             }
             catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Login Failed", ex.Message, "OK");
             }
+        }
+
+        private async Task OnGoToRegister()
+        {
+            
+            await App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
     }
 }
