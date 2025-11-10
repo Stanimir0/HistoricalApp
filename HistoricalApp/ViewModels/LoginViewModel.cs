@@ -41,9 +41,10 @@ namespace HistoricalApp.ViewModels
             try
             {
                 var userId = await _authService.LoginUserAsync(Email, Password);
-                await App.Current.MainPage.DisplayAlert("Success", $"Welcome back! User ID: {userId}", "OK");
+                await App.Current.MainPage.DisplayAlert("Success", $"Welcome back!", "OK");
 
-                await App.Current.MainPage.Navigation.PushAsync(new ProfilePage());
+                await Shell.Current.GoToAsync("//ProfilePage");
+                (Shell.Current as AppShell)?.RefreshUserAccessAsync();
             }
             catch (Exception ex)
             {

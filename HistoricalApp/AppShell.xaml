@@ -10,21 +10,25 @@
     <FlyoutItem Title="Login/Register" Icon="admin_icon.png">
         <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
     </FlyoutItem>
+
     <FlyoutItem Title="Admin Panel"
-            Route="AdminPage"
-            x:Name="AdminPanelItem"
-            FlyoutDisplayOptions="AsSingleItem"
-            Icon="admin.png">
+                Route="AdminPage"
+                x:Name="AdminPanelItem"
+                FlyoutDisplayOptions="AsSingleItem"
+                Icon="admin.png"
+                IsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate local:AdminPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Profile" Route="ProfilePage" Icon="user.png">
+
+    <FlyoutItem Title="Profile"
+                Route="ProfilePage"
+                Icon="user.png">
         <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
     </FlyoutItem>
-    <FlyoutItem Title="QuizeSelectionPage" Route="QuizSelectionPage" Icon="user.png">
-        <ShellContent ContentTemplate="{DataTemplate local:QuizSelectionPage}" />
-    </FlyoutItem>
 
-    <FlyoutItem Title="Leaderboard" Route="LeaderboardPage" Icon="trophy.png">
+    <FlyoutItem Title="Leaderboard"
+                Route="LeaderboardPage"
+                Icon="trophy.png">
         <ShellContent ContentTemplate="{DataTemplate local:LeaderboardPage}" />
     </FlyoutItem>
 

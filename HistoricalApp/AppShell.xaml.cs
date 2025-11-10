@@ -12,23 +12,26 @@ namespace HistoricalApp
             InitializeComponent();
             _authService = new FirebaseAuthService();
 
-            _ = CheckUserRoleAsync();
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(800);
+                await RefreshUserAccessAsync();
+            });
         }
 
-        private async Task CheckUserRoleAsync()
+        public async Task RefreshUserAccessAsync()
         {
             try
             {
-                var token = Preferences.Get("UserToken", string.Empty);
-
-                if (string.IsNullOrEmpty(token))
+                var userId = Preferences.Get("UserId", string.Empty);
+                if (string.IsNullOrEmpty(userId))
                 {
                     AdminPanelItem.IsVisible = false;
                     return;
                 }
 
-                var role = await _authService.GetUserRoleAsync(token);
-                AdminPanelItem.IsVisible = role == "Admin";
+                var role = await _authService.GetUserRoleAsync(userId);
+                AdminPanelItem.IsVisible = role.Equals("Admin", StringComparison.OrdinalIgnoreCase);
             }
             catch
             {

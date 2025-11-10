@@ -21,14 +21,14 @@ namespace HistoricalApp.Services
             _firebaseClient = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
-       
+        // ✅ REGISTER
         public async Task<string> RegisterUserAsync(string email, string password)
         {
-            var requestUri = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={ApiKey}";
+            var uri = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={ApiKey}";
             var body = new { email, password, returnSecureToken = true };
 
             var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(requestUri, content);
+            var response = await _httpClient.PostAsync(uri, content);
             var result = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -40,7 +40,6 @@ namespace HistoricalApp.Services
             Preferences.Set("UserId", userId);
             Preferences.Set("UserEmail", email);
 
-           
             await _firebaseClient.Child("users").Child(userId).PutAsync(new User
             {
                 Id = userId!,
@@ -52,14 +51,14 @@ namespace HistoricalApp.Services
             return userId!;
         }
 
-        
+        // ✅ LOGIN
         public async Task<string> LoginUserAsync(string email, string password)
         {
-            var requestUri = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={ApiKey}";
+            var uri = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={ApiKey}";
             var body = new { email, password, returnSecureToken = true };
 
             var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(requestUri, content);
+            var response = await _httpClient.PostAsync(uri, content);
             var result = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -71,7 +70,6 @@ namespace HistoricalApp.Services
             Preferences.Set("UserId", userId);
             Preferences.Set("UserEmail", email);
 
-          
             var existing = await _firebaseClient.Child("users").Child(userId).OnceSingleAsync<User>();
             if (existing == null)
             {
@@ -87,11 +85,11 @@ namespace HistoricalApp.Services
             return userId!;
         }
 
-      
+        // ✅ ROLE CHECK
         public async Task<string> GetUserRoleAsync(string userId)
         {
             if (string.IsNullOrEmpty(userId))
-                return "User"; 
+                return "User";
 
             try
             {

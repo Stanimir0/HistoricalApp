@@ -36,13 +36,16 @@ namespace HistoricalApp.ViewModels
             try
             {
                 var userId = await _authService.RegisterUserAsync(Email, Password);
-                await App.Current.MainPage.DisplayAlert("Registration Successful", $"Your account has been created! User ID: {userId}", "OK");
+                await App.Current.MainPage.DisplayAlert("Account Created", "Welcome!", "OK");
+
                 await Shell.Current.GoToAsync("//ProfilePage");
+                (Shell.Current as AppShell)?.RefreshUserAccessAsync();
             }
             catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Registration Failed", ex.Message, "OK");
             }
         }
+
     }
 }

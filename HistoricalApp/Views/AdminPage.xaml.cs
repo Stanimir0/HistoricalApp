@@ -1,6 +1,5 @@
 ﻿using HistoricalApp.Services;
 using Microsoft.Maui.Storage;
-using System;
 
 namespace HistoricalApp.Views
 {
@@ -12,38 +11,31 @@ namespace HistoricalApp.Views
         {
             InitializeComponent();
             _authService = new FirebaseAuthService();
-            _ = CheckAccessAsync();
+
+            // Check access only when page becomes visible
+            this.Appearing += AdminPage_Appearing;
         }
 
-        private async Task CheckAccessAsync()
+        private async void AdminPage_Appearing(object sender, EventArgs e)
         {
-            try
+            await VerifyAccessAsync();
+        }
+
+        private async Task VerifyAccessAsync()
+        {
+            var userId = Preferences.Get("UserId", string.Empty);
+            if (string.IsNullOrEmpty(userId))
             {
-                var token = Preferences.Get("UserToken", string.Empty);
-
-                if (string.IsNullOrEmpty(token))
-                {
-                    await DisplayAlert("Access Denied", "You are not logged in.", "OK");
-                    await Navigation.PushAsync(new LoginPage());
-                    return;
-                }
-
-                var role = await _authService.GetUserRoleAsync(token);
-                Console.WriteLine($"[DEBUG] User role: {role}");
-
-                if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
-                {
-                    await DisplayAlert("Access Denied", "Only admins can access this panel.", "OK");
-                    await Navigation.PushAsync(new CategorySelectionPage());
-                    return;
-                }
-
-                Console.WriteLine("[DEBUG] Access granted to admin panel.");
+                await DisplayAlert("Access Denied", "You are not logged in.", "OK");
+                await Shell.Current.GoToAsync("//LoginPage");
+                return;
             }
-            catch (Exception ex)
+
+            var role = await _authService.GetUserRoleAsync(userId);
+            if (!role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
             {
-                await DisplayAlert("Error", $"Failed to verify admin access: {ex.Message}", "OK");
-                await Navigation.PushAsync(new CategorySelectionPage());
+                await DisplayAlert("Access Denied", "Only admins can access this page.", "OK");
+                await Shell.Current.GoToAsync("//LoginPage");
             }
         }
     }
