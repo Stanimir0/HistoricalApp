@@ -1,4 +1,5 @@
 using HistoricalApp.Models;
+using HistoricalApp.ViewModels;
 using System.Windows.Input;
 
 namespace HistoricalApp.Views
@@ -14,15 +15,18 @@ namespace HistoricalApp.Views
 
             Quiz = quiz;
             StartQuizCommand = new Command(OnStartQuiz);
-
-            BindingContext = Quiz;
+            BindingContext = this;
         }
 
         private async void OnStartQuiz()
         {
-            await DisplayAlert("Quiz Starting", $"Good luck with '{Quiz.Title}'!", "OK");
+            await DisplayAlert("Quiz Starting", $"Good luck with '{Quiz.Title}'!", "Let's go!");
 
-          
+            var quizPage = new QuizPage();
+            if (quizPage.BindingContext is QuizPlayViewModel vm)
+                vm.LoadQuiz(Quiz);
+
+            await Navigation.PushAsync(quizPage);
         }
     }
 }

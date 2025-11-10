@@ -1,67 +1,48 @@
-﻿using HistoricalApp.Models;
-using HistoricalApp.Services;
-using HistoricalApp.Views;
+﻿using HistoricalApp.Services;
 using System;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace HistoricalApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly FirebaseAuthService _authService;
-        public string Email { get; set; }
-        public string Password { get; set; }
+
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
 
         public ICommand LoginCommand { get; }
-        public ICommand GoToRegisterCommand { get; }
 
         public LoginViewModel()
         {
             _authService = new FirebaseAuthService();
             LoginCommand = new Command(async () => await OnLogin());
-            GoToRegisterCommand = new Command(async () =>
-                await App.Current.MainPage.Navigation.PushAsync(new RegisterPage()));
         }
 
         private async Task OnLogin()
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
-                    return;
-                }
-
-                var (token, roleString) = await _authService.LoginUserAsync(Email, Password);
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    
-                    Enum.TryParse(roleString, out UserRole role);
-
-                    await App.Current.MainPage.DisplayAlert("✅ Login Successful", $"Role: {role}", "OK");
-
-                    if (role == UserRole.Admin)
-                    {
-                        await App.Current.MainPage.Navigation.PushAsync(new AdminPage());
-                    }
-                    else
-                    {
-                        await App.Current.MainPage.Navigation.PushAsync(new CategorySelectionPage());
-                    }
-                }
-                Preferences.Set("UserToken", token);
-                Preferences.Set("UserEmail", Email);
-                Preferences.Set("UserRole", roleString);
-
+                var userId = await _authService.LoginUserAsync(Email, Password);
+                await App.Current.MainPage.DisplayAlert("Success", $"Welcome back! User ID: {userId}", "OK");
+                await Shell.Current.GoToAsync("//ProfilePage");
             }
             catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Login Failed", ex.Message, "OK");
             }
         }
-
-
     }
 }

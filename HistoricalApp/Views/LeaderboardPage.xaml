@@ -1,0 +1,25 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+             x:Class="HistoricalApp.Views.LeaderboardPage"
+             BackgroundColor="#1e1e1e"
+             Title="Leaderboard">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LeaderboardViewModel />
+    </ContentPage.BindingContext>
+
+    <CollectionView ItemsSource="{Binding Users}" Margin="15">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame BackgroundColor="#2a2a2a" Padding="15" CornerRadius="15" Margin="0,5">
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding Email}" TextColor="White" FontSize="16" HorizontalOptions="StartAndExpand"/>
+                        <Label Text="{Binding Rank}" TextColor="#FFD700" FontSize="14" HorizontalOptions="Center"/>
+                        <Label Text="{Binding TotalPoints}" TextColor="#00FF7F" FontSize="16" HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

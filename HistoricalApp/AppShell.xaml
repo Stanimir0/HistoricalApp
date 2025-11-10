@@ -17,5 +17,15 @@
             Icon="admin.png">
         <ShellContent ContentTemplate="{DataTemplate local:AdminPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Profile" Route="ProfilePage" Icon="user.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="QuizeSelectionPage" Route="QuizSelectionPage" Icon="user.png">
+        <ShellContent ContentTemplate="{DataTemplate local:QuizSelectionPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Leaderboard" Route="LeaderboardPage" Icon="trophy.png">
+        <ShellContent ContentTemplate="{DataTemplate local:LeaderboardPage}" />
+    </FlyoutItem>
 
 </Shell>

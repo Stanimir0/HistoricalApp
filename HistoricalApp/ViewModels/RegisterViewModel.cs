@@ -1,52 +1,43 @@
-﻿using HistoricalApp.Models;
-using HistoricalApp.Services;
-using HistoricalApp.Views;
+﻿using HistoricalApp.Services;
 using System;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace HistoricalApp.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
         private readonly FirebaseAuthService _authService;
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
 
         public ICommand RegisterCommand { get; }
-        public ICommand GoToLoginCommand { get; }
 
         public RegisterViewModel()
         {
             _authService = new FirebaseAuthService();
             RegisterCommand = new Command(async () => await OnRegister());
-            GoToLoginCommand = new Command(async () =>
-                await App.Current.MainPage.Navigation.PushAsync(new LoginPage()));
         }
 
         private async Task OnRegister()
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "Please enter all fields.", "OK");
-                    return;
-                }
-
-                if (Password != ConfirmPassword)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "Passwords do not match.", "OK");
-                    return;
-                }
-
-                var token = await _authService.RegisterUserAsync(Email, Password, UserRole.User.ToString());
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    await App.Current.MainPage.DisplayAlert("✅ Success", "Account created successfully!", "OK");
-                    await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
-                }
+                var userId = await _authService.RegisterUserAsync(Email, Password);
+                await App.Current.MainPage.DisplayAlert("Registration Successful", $"Your account has been created! User ID: {userId}", "OK");
+                await Shell.Current.GoToAsync("//ProfilePage");
             }
             catch (Exception ex)
             {

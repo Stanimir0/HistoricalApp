@@ -1,17 +1,14 @@
-﻿using HistoricalApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace HistoricalApp.Models
 {
-    internal class User
+    public class User
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
-        public int TotalPoints { get; set; }
-        public Rank Rank => RankHelper.Calculate(TotalPoints);
+        public string Id { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string Role { get; set; } = "User";
+        public int TotalPoints { get; set; } = 0;
+        public string Rank => RankCalculator.GetRankFromPoints(TotalPoints);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+             x:Class="HistoricalApp.Views.ProfilePage"
+             BackgroundColor="#1e1e1e"
+             Title="Profile">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ProfileViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+        <Label Text="Profile"
+               FontSize="28"
+               TextColor="#FFD700"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Frame BackgroundColor="#2a2a2a" Padding="20" CornerRadius="20">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{Binding CurrentUser.Email}" FontSize="18" TextColor="White" />
+                <Label Text="Total Points:" FontSize="14" TextColor="#ccc" />
+                <Label Text="{Binding CurrentUser.TotalPoints}" FontSize="22" FontAttributes="Bold" TextColor="#00FF7F" />
+                <Label Text="Rank:" FontSize="14" TextColor="#ccc" />
+                <Label Text="{Binding CurrentUser.Rank}" FontSize="22" FontAttributes="Bold" TextColor="#FFD700" />
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

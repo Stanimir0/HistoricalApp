@@ -1,137 +1,107 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Maui.Storage;
+using Firebase.Database;
+using Firebase.Database.Query;
+using HistoricalApp.Models;
 
 namespace HistoricalApp.Services
 {
     public class FirebaseAuthService
     {
         private const string ApiKey = "AIzaSyCG9gAuv2a73_mcLwCCJiVP4x6nUbkbnmY";
-        private const string DatabaseUrl = "https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/";
         private readonly HttpClient _httpClient;
+        private readonly FirebaseClient _firebaseClient;
 
         public FirebaseAuthService()
         {
             _httpClient = new HttpClient();
+            _firebaseClient = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
-        public async Task<string> RegisterUserAsync(string email, string password, string role = "User")
+       
+        public async Task<string> RegisterUserAsync(string email, string password)
         {
             var requestUri = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={ApiKey}";
-            var body = new
-            {
-                email,
-                password,
-                returnSecureToken = true
-            };
+            var body = new { email, password, returnSecureToken = true };
 
             var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(requestUri, content);
+            var result = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Registration failed: {error}");
-            }
+                throw new Exception($"Registration failed: {result}");
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JsonDocument.Parse(responseBody).RootElement;
-            var userId = json.GetProperty("localId").GetString();
+            var json = JsonDocument.Parse(result);
+            var userId = json.RootElement.GetProperty("localId").GetString();
+
+            Preferences.Set("UserId", userId);
+            Preferences.Set("UserEmail", email);
 
            
-            var roleData = new { email, role };
-            var roleJson = JsonSerializer.Serialize(roleData);
-            var dbUri = $"{DatabaseUrl}users/{userId}.json";
-            var dbResponse = await _httpClient.PutAsync(dbUri, new StringContent(roleJson, Encoding.UTF8, "application/json"));
-
-            if (!dbResponse.IsSuccessStatusCode)
+            await _firebaseClient.Child("users").Child(userId).PutAsync(new User
             {
-                var dbError = await dbResponse.Content.ReadAsStringAsync();
-                throw new Exception($"Failed to save role in DB: {dbError}");
-            }
+                Id = userId!,
+                Email = email,
+                Role = "User",
+                TotalPoints = 0
+            });
 
-            return responseBody;
+            return userId!;
         }
 
-        public async Task<string> GetUserRoleAsync(string idToken)
-        {
-            try
-            {
-                
-                var requestUri = $"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={ApiKey}";
-                var body = new { idToken };
-                var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync(requestUri, content);
-
-                if (!response.IsSuccessStatusCode)
-                    return "User";
-
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var json = JsonDocument.Parse(responseBody).RootElement;
-                var userId = json.GetProperty("users")[0].GetProperty("localId").GetString();
-
-               
-                var dbUri = $"{DatabaseUrl}users/{userId}/role.json?auth={idToken}";
-                var dbResponse = await _httpClient.GetAsync(dbUri);
-
-                if (!dbResponse.IsSuccessStatusCode)
-                    return "User";
-
-                var roleRaw = await dbResponse.Content.ReadAsStringAsync();
-
-              
-                var role = roleRaw.Trim('"', ' ', '\r', '\n', '\t').Replace("\\", "");
-
-                Console.WriteLine($"[DEBUG] Role fetched from Firebase: '{role}'");
-
-                return string.IsNullOrWhiteSpace(role) ? "User" : role;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Role Fetch Error] {ex.Message}");
-                return "User";
-            }
-        }
-
-
-        public async Task<(string Token, string Role)> LoginUserAsync(string email, string password)
+        
+        public async Task<string> LoginUserAsync(string email, string password)
         {
             var requestUri = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={ApiKey}";
-            var body = new
-            {
-                email,
-                password,
-                returnSecureToken = true
-            };
+            var body = new { email, password, returnSecureToken = true };
 
             var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(requestUri, content);
+            var result = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
+                throw new Exception($"Login failed: {result}");
+
+            var json = JsonDocument.Parse(result);
+            var userId = json.RootElement.GetProperty("localId").GetString();
+
+            Preferences.Set("UserId", userId);
+            Preferences.Set("UserEmail", email);
+
+          
+            var existing = await _firebaseClient.Child("users").Child(userId).OnceSingleAsync<User>();
+            if (existing == null)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Login failed: {error}");
+                await _firebaseClient.Child("users").Child(userId).PutAsync(new User
+                {
+                    Id = userId!,
+                    Email = email,
+                    Role = "User",
+                    TotalPoints = 0
+                });
             }
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JsonDocument.Parse(responseBody).RootElement;
-            var userId = json.GetProperty("localId").GetString();
-            var token = json.GetProperty("idToken").GetString();
+            return userId!;
+        }
 
-           
-            var dbUri = $"{DatabaseUrl}users/{userId}/role.json?auth={token}";
-            var dbResponse = await _httpClient.GetAsync(dbUri);
+      
+        public async Task<string> GetUserRoleAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+                return "User"; 
 
-            string role = "User"; 
-            if (dbResponse.IsSuccessStatusCode)
+            try
             {
-                role = await dbResponse.Content.ReadAsStringAsync();
-                role = role.Trim('"');
+                var user = await _firebaseClient.Child("users").Child(userId).OnceSingleAsync<User>();
+                return user?.Role ?? "User";
             }
-
-            return (token, role);
+            catch
+            {
+                return "User";
+            }
         }
     }
 }

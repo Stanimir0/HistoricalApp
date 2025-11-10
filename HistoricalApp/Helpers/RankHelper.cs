@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HistoricalApp.Helpers
+﻿namespace HistoricalApp.Models
 {
-    
-    public static class RankHelper
+    public static class RankCalculator
     {
-        public static Rank Calculate(int points)
+        public static string GetRankFromPoints(int points)
         {
-            if (points <= 100) return Rank.Bronze;
-            if (points <= 200) return Rank.Silver;
-            if (points <= 400) return Rank.Gold;
-            if (points <= 700) return Rank.Diamond;
-            return Rank.Historian;
+            return points switch
+            {
+                < 100 => "Bronze",
+                < 250 => "Silver",
+                < 500 => "Gold",
+                < 1000 => "Diamond",
+                _ => "Historian"
+            };
         }
     }
-
 }
