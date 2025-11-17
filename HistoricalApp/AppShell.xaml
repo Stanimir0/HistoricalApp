@@ -31,5 +31,10 @@
                 Icon="trophy.png">
         <ShellContent ContentTemplate="{DataTemplate local:LeaderboardPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Categories"
+             Route="CategorySelectionPage"
+             Icon="Quiz.png">
+        <ShellContent ContentTemplate="{DataTemplate local:CategorySelectionPage}" />
+    </FlyoutItem>
 
 </Shell>
