@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HistoricalApp.Models
+﻿namespace HistoricalApp.Models
 {
     public class User
     {
@@ -8,7 +6,14 @@ namespace HistoricalApp.Models
         public string Email { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Role { get; set; } = "User";
+
         public int TotalPoints { get; set; } = 0;
-        public string Rank => RankCalculator.GetRankFromPoints(TotalPoints);
+
+        public string Rank { get; private set; } = "Bronze";
+
+        public void RecalculateRank()
+        {
+            Rank = RankCalculator.GetRankFromPoints(TotalPoints);
+        }
     }
 }

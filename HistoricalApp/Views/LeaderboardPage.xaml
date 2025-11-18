@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
@@ -9,17 +10,42 @@
         <viewmodels:LeaderboardViewModel />
     </ContentPage.BindingContext>
 
-    <CollectionView ItemsSource="{Binding Users}" Margin="15">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Frame BackgroundColor="#2a2a2a" Padding="15" CornerRadius="15" Margin="0,5">
-                    <HorizontalStackLayout>
-                        <Label Text="{Binding Email}" TextColor="White" FontSize="16" HorizontalOptions="StartAndExpand"/>
-                        <Label Text="{Binding Rank}" TextColor="#FFD700" FontSize="14" HorizontalOptions="Center"/>
-                        <Label Text="{Binding TotalPoints}" TextColor="#00FF7F" FontSize="16" HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
-                </Frame>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+
+            <Label Text="Leaderboard"
+                   FontSize="28"
+                   TextColor="#FFD700"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <CollectionView ItemsSource="{Binding Users}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#2d2d2d"
+                               CornerRadius="12"
+                               Padding="15"
+                               Margin="0,5">
+
+                            <VerticalStackLayout>
+                                <Label Text="{Binding UserName}" 
+                                       FontSize="20" 
+                                       TextColor="White" />
+
+                                <Label Text="{Binding TotalPoints, StringFormat='Points: {0}'}"
+                                       FontSize="14"
+                                       TextColor="#ccc" />
+
+                                <Label Text="{Binding Rank, StringFormat='Rank: {0}'}"
+                                       FontSize="14"
+                                       TextColor="#FFD700" />
+                            </VerticalStackLayout>
+
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -10,7 +10,7 @@ namespace HistoricalApp.ViewModels
     public class QuizPlayViewModel : BaseViewModel
     {
         private readonly FirebaseClient _client;
-        private const string DbUrl = "https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/";
+        private readonly string _dbUrl = "https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/";
 
         public Quiz CurrentQuiz { get; private set; }
         public string CurrentQuizTitle => CurrentQuiz?.Title ?? "";
@@ -32,7 +32,7 @@ namespace HistoricalApp.ViewModels
 
         public QuizPlayViewModel()
         {
-            _client = new FirebaseClient(DbUrl);
+            _client = new FirebaseClient(_dbUrl);
             SelectAnswerCommand = new Command<string>(OnAnswerSelected);
             NextQuestionCommand = new Command(OnNextQuestion);
         }
@@ -49,14 +49,10 @@ namespace HistoricalApp.ViewModels
 
         private async void OnAnswerSelected(string selected)
         {
-            if (CurrentQuestion == null || CurrentQuiz == null)
-                return;
-
             var correct = CurrentQuestion.Answers[CurrentQuestion.CorrectAnswerIndex];
+
             if (selected == correct)
-            {
                 _score += CurrentQuiz.Points;
-            }
 
             if (_currentIndex < CurrentQuiz.Questions.Count - 1)
             {
@@ -67,8 +63,12 @@ namespace HistoricalApp.ViewModels
             else
             {
                 await SaveUserProgressAsync();
-                await App.Current.MainPage.DisplayAlert("Quiz Complete",
-                    $"You earned {_score} points!", "OK");
+                await App.Current.MainPage.DisplayAlert(
+                    "Quiz Complete",
+                    $"You earned {_score} points!",
+                    "OK"
+                );
+
                 await App.Current.MainPage.Navigation.PopAsync();
             }
         }
@@ -85,42 +85,42 @@ namespace HistoricalApp.ViewModels
 
         private async Task SaveUserProgressAsync()
         {
+            var userId = Preferences.Get("UserId", string.Empty);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "User ID not found.", "OK");
+                return;
+            }
+
+            User user;
+
             try
             {
-                var userId = Preferences.Get("UserId", string.Empty);
-                if (string.IsNullOrEmpty(userId))
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "User ID not found. Please log in again.", "OK");
-                    return;
-                }
-
-                var userRef = _client.Child("users").Child(userId);
-                var user = await userRef.OnceSingleAsync<User>();
-
-                if (user == null)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "User not found in database.", "OK");
-                    return;
-                }
-
-                user.TotalPoints += _score;
-
-               
-                var newRank = RankCalculator.GetRankFromPoints(user.TotalPoints);
-                typeof(User).GetProperty("Rank")?.SetValue(user, newRank, null);
-
-               
-                await userRef.PutAsync(user);
-
-                await App.Current.MainPage.DisplayAlert("Progress Saved",
-                    $"Your new total: {user.TotalPoints} points ({user.Rank})", "OK");
-
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Updated {user.Email}: {user.TotalPoints} pts, rank {user.Rank}");
+                user = await _client.Child("users").Child(userId).OnceSingleAsync<User>();
             }
-            catch (Exception ex)
+            catch
             {
-                await App.Current.MainPage.DisplayAlert("Error Saving Progress", ex.Message, "OK");
-                System.Diagnostics.Debug.WriteLine($"[ERROR] SaveUserProgressAsync: {ex}");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to load user.", "OK");
+                return;
+            }
+
+            if (user == null)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "User profile missing.", "OK");
+                return;
+            }
+
+            user.TotalPoints += _score;
+            user.RecalculateRank();
+
+            try
+            {
+                await _client.Child("users").Child(userId).PutAsync(user);
+            }
+            catch
+            {
+                await App.Current.MainPage.DisplayAlert("Error Saving Progress", "Could not update Firebase.", "OK");
             }
         }
     }

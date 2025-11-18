@@ -4,14 +4,16 @@
     {
         public static string GetRankFromPoints(int points)
         {
-            return points switch
-            {
-                < 100 => "Bronze",
-                < 250 => "Silver",
-                < 500 => "Gold",
-                < 1000 => "Diamond",
-                _ => "Historian"
-            };
+            if (points < 100)
+                return "Bronze";
+            if (points < 250)
+                return "Silver";
+            if (points < 500)
+                return "Gold";
+            if (points < 1000)
+                return "Diamond";
+
+            return "Historian";
         }
     }
 }

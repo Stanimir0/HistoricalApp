@@ -8,8 +8,7 @@ namespace HistoricalApp.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly FirebaseClient _firebaseClient;
-        private const string DbUrl = "https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/";
+        private readonly FirebaseClient _client;
 
         private User _currentUser;
         public User CurrentUser
@@ -18,20 +17,36 @@ namespace HistoricalApp.ViewModels
             set => SetProperty(ref _currentUser, value);
         }
 
+        public Command LoadUserCommand { get; }
+
         public ProfileViewModel()
         {
-            _firebaseClient = new FirebaseClient(DbUrl);
-            _ = LoadUserAsync();
+            _client = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
+            LoadUserCommand = new Command(async () => await LoadUserAsync());
         }
 
-        private async Task LoadUserAsync()
+        public async Task LoadUserAsync()
         {
             var userId = Preferences.Get("UserId", string.Empty);
             if (string.IsNullOrEmpty(userId))
                 return;
 
-            var user = await _firebaseClient.Child("users").Child(userId).OnceSingleAsync<User>();
-            CurrentUser = user ?? new User { Email = "Unknown", TotalPoints = 0 };
+            try
+            {
+                var user = await _client.Child("users")
+                                        .Child(userId)
+                                        .OnceSingleAsync<User>();
+
+                if (user != null)
+                {
+                    user.RecalculateRank();
+                    CurrentUser = user;
+                }
+            }
+            catch
+            {
+                // ignore for now
+            }
         }
     }
 }

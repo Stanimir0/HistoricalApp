@@ -9,6 +9,7 @@ namespace HistoricalApp.ViewModels
     public class LeaderboardViewModel : BaseViewModel
     {
         private readonly FirebaseClient _client;
+
         public ObservableCollection<User> Users { get; set; } = new();
 
         public LeaderboardViewModel()
@@ -19,15 +20,17 @@ namespace HistoricalApp.ViewModels
 
         private async Task LoadLeaderboardAsync()
         {
-            var usersData = await _client.Child("users").OnceAsync<User>();
-            var sorted = usersData.Select(x => x.Object).OrderByDescending(u => u.TotalPoints);
+            var users = await _client.Child("users").OnceAsync<User>();
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                Users.Clear();
-                foreach (var u in sorted)
-                    Users.Add(u);
-            });
+            var sorted = users
+                .Select(x => x.Object)
+                .OrderByDescending(u => u.TotalPoints)
+                .ToList();
+
+            Users.Clear();
+
+            foreach (var user in sorted)
+                Users.Add(user);
         }
     }
 }
