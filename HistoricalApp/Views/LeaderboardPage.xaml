@@ -10,42 +10,43 @@
         <viewmodels:LeaderboardViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Label Text="Leaderboard"
-                   FontSize="28"
-                   TextColor="#FFD700"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+        <Label Text="Top Players"
+               FontSize="26"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#FFD700" />
 
-            <CollectionView ItemsSource="{Binding Users}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="#2d2d2d"
-                               CornerRadius="12"
-                               Padding="15"
-                               Margin="0,5">
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="12"
+                           BackgroundColor="#252525"
+                           Padding="15"
+                           Margin="0,5">
 
-                            <VerticalStackLayout>
-                                <Label Text="{Binding UserName}" 
-                                       FontSize="20" 
-                                       TextColor="White" />
+                        <VerticalStackLayout Spacing="4">
 
-                                <Label Text="{Binding TotalPoints, StringFormat='Points: {0}'}"
-                                       FontSize="14"
-                                       TextColor="#ccc" />
+                            <Label Text="{Binding UserName}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
 
-                                <Label Text="{Binding Rank, StringFormat='Rank: {0}'}"
-                                       FontSize="14"
-                                       TextColor="#FFD700" />
-                            </VerticalStackLayout>
+                            <Label Text="{Binding Rank}"
+                                   TextColor="#FFD700"
+                                   FontSize="14" />
 
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            <Label Text="{Binding TotalPoints, StringFormat='Points: {0}'}"
+                                   TextColor="#CCCCCC"
+                                   FontSize="14" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+                        </VerticalStackLayout>
+
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
 </ContentPage>

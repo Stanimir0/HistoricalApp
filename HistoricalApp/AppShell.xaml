@@ -7,7 +7,16 @@
     Shell.FlyoutBehavior="Flyout"
     Title="HistoricalApp">
 
-    <FlyoutItem Title="Login/Register" Icon="admin_icon.png">
+    <FlyoutItem Title="Home"
+                Route="HomePage"
+                x:Name="HomeItem"
+                Icon="Quiz.png">
+        <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Login/Register"
+                x:Name="LoginItem"
+                Icon="admin_icon.png">
         <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
     </FlyoutItem>
 
@@ -31,10 +40,23 @@
                 Icon="trophy.png">
         <ShellContent ContentTemplate="{DataTemplate local:LeaderboardPage}" />
     </FlyoutItem>
+
     <FlyoutItem Title="Categories"
-             Route="CategorySelectionPage"
-             Icon="Quiz.png">
+                Route="CategorySelectionPage"
+                Icon="Quiz.png">
         <ShellContent ContentTemplate="{DataTemplate local:CategorySelectionPage}" />
     </FlyoutItem>
+
+    <Shell.FlyoutFooter>
+        <Grid Padding="10">
+            <Button Text="Logout"
+                    x:Name="LogoutButton"
+                    Clicked="OnLogoutClicked"
+                    BackgroundColor="#333333"
+                    TextColor="White"
+                    CornerRadius="18"
+                    HeightRequest="40" />
+        </Grid>
+    </Shell.FlyoutFooter>
 
 </Shell>

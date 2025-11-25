@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
@@ -11,38 +11,49 @@
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Label Text="Profile"
-                   FontSize="28"
-                   TextColor="#FFD700"
+            <Label Text="Your Profile"
+                   FontSize="26"
                    FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+                   HorizontalOptions="Center"
+                   TextColor="#FFD700" />
 
-            <Frame BackgroundColor="#2a2a2a" Padding="20" CornerRadius="20">
+            <Frame BackgroundColor="#252525"
+                   CornerRadius="16"
+                   Padding="20"
+                   HasShadow="True">
+
                 <VerticalStackLayout Spacing="10">
 
-                    <Label Text="{Binding CurrentUser.Email}" 
-                           FontSize="18" 
-                           TextColor="White" />
+                    <Label Text="User Name"
+                           TextColor="#AAAAAA"
+                           FontSize="14" />
 
-                    <Label Text="Total Points:" 
-                           FontSize="14" TextColor="#ccc" />
+                    <Label Text="{Binding CurrentUser.UserName}"
+                           TextColor="White"
+                           FontSize="20"
+                           FontAttributes="Bold" />
 
-                    <Label Text="{Binding CurrentUser.TotalPoints}" 
-                           FontSize="22" 
-                           FontAttributes="Bold" 
-                           TextColor="#00FF7F" />
-
-                    <Label Text="Rank:" 
-                           FontSize="14" TextColor="#ccc" />
+                    <Label Text="Rank"
+                           TextColor="#AAAAAA"
+                           FontSize="14" />
 
                     <Label Text="{Binding CurrentUser.Rank}"
-                           FontSize="22"
-                           FontAttributes="Bold"
-                           TextColor="#FFD700" />
+                           TextColor="#FFD700"
+                           FontSize="20"
+                           FontAttributes="Bold" />
 
+                    <Label Text="Total Points"
+                           TextColor="#AAAAAA"
+                           FontSize="14" />
+
+                    <Label Text="{Binding CurrentUser.TotalPoints}"
+                           TextColor="White"
+                           FontSize="20"
+                           FontAttributes="Bold" />
                 </VerticalStackLayout>
+
             </Frame>
 
         </VerticalStackLayout>

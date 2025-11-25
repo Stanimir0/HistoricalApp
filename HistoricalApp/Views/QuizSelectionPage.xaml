@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
              x:Class="HistoricalApp.Views.QuizSelectionPage"
+             x:Name="QuizSelectionRoot"
              BackgroundColor="#1e1e1e"
              Title="Quizzes">
 
@@ -12,35 +12,45 @@
             <Label Text="{Binding CategoryTitle}"
                    FontSize="26"
                    TextColor="#FFD700"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center" />
+                   HorizontalOptions="Center" />
 
-            <!-- "No quizzes" message -->
-            <Label Text="No quizzes found in this category."
-                   FontSize="16"
-                   TextColor="#888"
-                   HorizontalOptions="Center"
-                   IsVisible="{Binding HasNoQuizzes}" />
-
-            <CollectionView ItemsSource="{Binding Quizzes}"
-                            IsVisible="{Binding HasQuizzes}">
+            <CollectionView ItemsSource="{Binding Quizzes}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="#2d2d2d"
-                               BorderColor="#444"
+                        <Frame BackgroundColor="#252525"
                                CornerRadius="12"
                                Padding="15"
                                Margin="0,5">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Title}" FontSize="20" TextColor="White" />
-                                <Label Text="{Binding Description}" FontSize="14" TextColor="#ccc" />
-                                <Label Text="Points: {Binding Points}" FontSize="12" TextColor="#aaa" />
+
+                            <VerticalStackLayout Spacing="4">
+
+                                <Label Text="{Binding Title}"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+
+                                <Label Text="{Binding Description}"
+                                       FontSize="14"
+                                       TextColor="#CCCCCC" />
+
+                                <HorizontalStackLayout Spacing="10" Margin="0,5,0,0">
+                                    <Label Text="{Binding Category}"
+                                           FontSize="12"
+                                           TextColor="#AAAAAA" />
+                                    <Label Text="{Binding Difficulty, StringFormat='Difficulty: {0}'}"
+                                           FontSize="12"
+                                           TextColor="#AAAAAA" />
+                                </HorizontalStackLayout>
+
                                 <Button Text="View Info"
-                                        BackgroundColor="#007bff"
-                                        TextColor="White"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:QuizSelectionViewModel}}, Path=SelectQuizCommand}"
+                                        BackgroundColor="#FFD700"
+                                        TextColor="#1E1E1E"
+                                        CornerRadius="18"
+                                        Command="{Binding BindingContext.SelectQuizCommand, Source={x:Reference QuizSelectionRoot}}"
                                         CommandParameter="{Binding .}" />
+
                             </VerticalStackLayout>
+
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

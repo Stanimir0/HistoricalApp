@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
              x:Class="HistoricalApp.Views.LoginPage"
-             xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
-             Title="Login"
-             BackgroundColor="#1e1e1e">
+             BackgroundColor="#1e1e1e"
+             Title="Login">
 
     <ContentPage.BindingContext>
-        <vm:LoginViewModel />
+        <viewmodels:LoginViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="30" Spacing="15">
-        <Label Text="Login"
+    <VerticalStackLayout Padding="30" Spacing="20">
+
+        <Label Text="Welcome Back"
                FontSize="28"
                FontAttributes="Bold"
                TextColor="#FFD700"
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center"/>
 
         <Entry Placeholder="Email"
+               Keyboard="Email"
                Text="{Binding Email}"
-               Keyboard="Email" />
+               TextColor="White"
+               PlaceholderColor="#888" />
 
         <Entry Placeholder="Password"
                Text="{Binding Password}"
-               IsPassword="True" />
+               IsPassword="True"
+               TextColor="White"
+               PlaceholderColor="#888" />
 
         <Button Text="Login"
-                BackgroundColor="#007bff"
-                TextColor="White"
+                BackgroundColor="#FFD700"
+                TextColor="#1E1E1E"
+                CornerRadius="20"
                 Command="{Binding LoginCommand}" />
 
-        <Button Text="Go to Register"
-                BackgroundColor="Transparent"
-                TextColor="#ccc"
-                Command="{Binding GoToRegisterCommand}" />
+        <Button Text="Don't have an account? Register"
+                TextColor="White"
+                Command="{Binding GoToRegisterCommand}"
+                BackgroundColor="Transparent" />
+
     </VerticalStackLayout>
 </ContentPage>

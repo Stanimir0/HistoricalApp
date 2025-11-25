@@ -24,7 +24,11 @@ namespace HistoricalApp
             try
             {
                 var userId = Preferences.Get("UserId", string.Empty);
-                if (string.IsNullOrEmpty(userId))
+                bool isLoggedIn = !string.IsNullOrEmpty(userId);
+
+                LoginItem.IsVisible = !isLoggedIn;
+
+                if (!isLoggedIn)
                 {
                     AdminPanelItem.IsVisible = false;
                     return;
@@ -36,7 +40,20 @@ namespace HistoricalApp
             catch
             {
                 AdminPanelItem.IsVisible = false;
+                LoginItem.IsVisible = true;
             }
+        }
+
+        private async void OnLogoutClicked(object sender, EventArgs e)
+        {
+            Preferences.Remove("UserId");
+            Preferences.Remove("Email");
+            Preferences.Remove("IdToken");
+
+            AdminPanelItem.IsVisible = false;
+            LoginItem.IsVisible = true;
+
+            await Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }

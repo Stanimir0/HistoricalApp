@@ -1,19 +1,20 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using HistoricalApp.Models;
+﻿using HistoricalApp.Models;
+using HistoricalApp.Services;
+using HistoricalApp.Views;
 using Microsoft.Maui.Storage;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
 {
     public class QuizPlayViewModel : BaseViewModel
     {
-        private readonly FirebaseClient _client;
-        private readonly string _dbUrl = "https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/";
+        private readonly FirebaseQuizService _quizService;
+        private readonly FirebaseUserService _userService;
+
+        public ICommand SelectAnswerCommand { get; }
+        public ICommand NextQuestionCommand { get; }
 
         public Quiz CurrentQuiz { get; private set; }
-        public string CurrentQuizTitle => CurrentQuiz?.Title ?? "";
 
         private Question _currentQuestion;
         public Question CurrentQuestion
@@ -22,17 +23,41 @@ namespace HistoricalApp.ViewModels
             set => SetProperty(ref _currentQuestion, value);
         }
 
-        private int _currentIndex = 0;
-        private int _score = 0;
+        private int _currentIndex;
+        public int CurrentIndex
+        {
+            get => _currentIndex;
+            set
+            {
+                if (SetProperty(ref _currentIndex, value))
+                    UpdateQuestionUI();
+            }
+        }
 
-        public ICommand SelectAnswerCommand { get; }
-        public ICommand NextQuestionCommand { get; }
+        public string CurrentQuizTitle { get; set; }
 
-        public bool IsNextButtonVisible => _currentIndex < (CurrentQuiz?.Questions.Count ?? 0) - 1;
+        public string QuestionProgress =>
+            CurrentQuiz == null ? "" : $"Question {CurrentIndex + 1} of {CurrentQuiz.Questions.Count}";
+
+        private int _score;
+        public int Score
+        {
+            get => _score;
+            set => SetProperty(ref _score, value);
+        }
+
+        private bool _isNextButtonVisible;
+        public bool IsNextButtonVisible
+        {
+            get => _isNextButtonVisible;
+            set => SetProperty(ref _isNextButtonVisible, value);
+        }
 
         public QuizPlayViewModel()
         {
-            _client = new FirebaseClient(_dbUrl);
+            _quizService = new FirebaseQuizService();
+            _userService = new FirebaseUserService();
+
             SelectAnswerCommand = new Command<string>(OnAnswerSelected);
             NextQuestionCommand = new Command(OnNextQuestion);
         }
@@ -40,88 +65,67 @@ namespace HistoricalApp.ViewModels
         public void LoadQuiz(Quiz quiz)
         {
             CurrentQuiz = quiz;
-            _currentIndex = 0;
-            _score = 0;
 
-            if (quiz.Questions?.Count > 0)
-                CurrentQuestion = quiz.Questions[_currentIndex];
+            CurrentQuizTitle = quiz.Title;
+            Score = 0;
+            CurrentIndex = 0;
+
+            UpdateQuestionUI();
         }
 
-        private async void OnAnswerSelected(string selected)
+        private void UpdateQuestionUI()
         {
-            var correct = CurrentQuestion.Answers[CurrentQuestion.CorrectAnswerIndex];
+            if (CurrentQuiz == null || CurrentQuiz.Questions == null)
+                return;
 
-            if (selected == correct)
-                _score += CurrentQuiz.Points;
-
-            if (_currentIndex < CurrentQuiz.Questions.Count - 1)
+            if (CurrentIndex < CurrentQuiz.Questions.Count)
             {
-                _currentIndex++;
-                CurrentQuestion = CurrentQuiz.Questions[_currentIndex];
-                OnPropertyChanged(nameof(IsNextButtonVisible));
+                CurrentQuestion = CurrentQuiz.Questions[CurrentIndex];
+                OnPropertyChanged(nameof(QuestionProgress));
+                IsNextButtonVisible = false;
             }
-            else
+        }
+
+        private void OnAnswerSelected(string selectedAnswer)
+        {
+            int selectedIndex = Array.IndexOf(CurrentQuestion.Answers, selectedAnswer);
+
+            if (selectedIndex == CurrentQuestion.CorrectAnswerIndex)
+                Score += CurrentQuiz.Points;
+
+            IsNextButtonVisible = true;
+        }
+
+        private async void OnNextQuestion()
+        {
+            CurrentIndex++;
+
+            if (CurrentIndex >= CurrentQuiz.Questions.Count)
             {
                 await SaveUserProgressAsync();
-                await App.Current.MainPage.DisplayAlert(
-                    "Quiz Complete",
-                    $"You earned {_score} points!",
-                    "OK"
-                );
 
-                await App.Current.MainPage.Navigation.PopAsync();
-            }
-        }
+                int totalQuestions = CurrentQuiz.Questions.Count;
 
-        private void OnNextQuestion()
-        {
-            if (_currentIndex < CurrentQuiz.Questions.Count - 1)
-            {
-                _currentIndex++;
-                CurrentQuestion = CurrentQuiz.Questions[_currentIndex];
-                OnPropertyChanged(nameof(IsNextButtonVisible));
+                await Shell.Current.Navigation.PushAsync(new QuizResultPage(Score, totalQuestions));
+                return;
             }
+
+            UpdateQuestionUI();
         }
 
         private async Task SaveUserProgressAsync()
         {
             var userId = Preferences.Get("UserId", string.Empty);
-
             if (string.IsNullOrEmpty(userId))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "User ID not found.", "OK");
                 return;
-            }
 
-            User user;
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null) return;
 
-            try
-            {
-                user = await _client.Child("users").Child(userId).OnceSingleAsync<User>();
-            }
-            catch
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "Failed to load user.", "OK");
-                return;
-            }
-
-            if (user == null)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "User profile missing.", "OK");
-                return;
-            }
-
-            user.TotalPoints += _score;
+            user.TotalPoints += Score;
             user.RecalculateRank();
 
-            try
-            {
-                await _client.Child("users").Child(userId).PutAsync(user);
-            }
-            catch
-            {
-                await App.Current.MainPage.DisplayAlert("Error Saving Progress", "Could not update Firebase.", "OK");
-            }
+            await _userService.UpdateUserAsync(userId, user);
         }
     }
 }

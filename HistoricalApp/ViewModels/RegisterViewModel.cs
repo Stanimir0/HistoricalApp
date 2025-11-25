@@ -1,7 +1,5 @@
 ﻿using HistoricalApp.Services;
-using System;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 
 namespace HistoricalApp.ViewModels
 {
@@ -9,43 +7,51 @@ namespace HistoricalApp.ViewModels
     {
         private readonly FirebaseAuthService _authService;
 
-        private string _email;
-        public string Email
-        {
-            get => _email;
-            set => SetProperty(ref _email, value);
-        }
-
-        private string _password;
-        public string Password
-        {
-            get => _password;
-            set => SetProperty(ref _password, value);
-        }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
 
         public ICommand RegisterCommand { get; }
+        public ICommand GoToLoginCommand { get; }
 
         public RegisterViewModel()
         {
             _authService = new FirebaseAuthService();
+
             RegisterCommand = new Command(async () => await OnRegister());
+            GoToLoginCommand = new Command(async () => await Shell.Current.GoToAsync("//LoginPage"));
         }
 
         private async Task OnRegister()
         {
-            try
+            if (string.IsNullOrWhiteSpace(Email) ||
+                string.IsNullOrWhiteSpace(Password) ||
+                string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                var userId = await _authService.RegisterUserAsync(Email, Password);
-                await App.Current.MainPage.DisplayAlert("Account Created", "Welcome!", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "All fields are required.", "OK");
+                return;
+            }
 
-                await Shell.Current.GoToAsync("//ProfilePage");
-                (Shell.Current as AppShell)?.RefreshUserAccessAsync();
-            }
-            catch (Exception ex)
+            if (Password != ConfirmPassword)
             {
-                await App.Current.MainPage.DisplayAlert("Registration Failed", ex.Message, "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Passwords do not match.", "OK");
+                return;
             }
+
+            // Firebase returns string for success, so check if it's null / empty
+            var result = await _authService.RegisterUserAsync(Email, Password);
+
+            if (string.IsNullOrEmpty(result))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Registration failed.", "OK");
+                return;
+            }
+
+            await App.Current.MainPage.DisplayAlert("Success", "Account created!", "OK");
+
+            await Shell.Current.GoToAsync("//HomePage");
+
+            (Shell.Current as AppShell)?.RefreshUserAccessAsync();
         }
-
     }
 }
