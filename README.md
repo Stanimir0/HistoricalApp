@@ -74,8 +74,8 @@ Easy navigation from login → quiz selection → quiz → results → leaderboa
 Component	Technology
  
 Frontend	.NET MAUI
-Backend	Firebase / Supabase
-Database	Firestore or Supabase Tables
+Backend	Firebase
+Database	RealTime-Database
 Authentication	Firebase Auth
 Platform	Cross-Platform (Android, iOS, Windows, macOS)
 
