@@ -2,7 +2,6 @@
 using HistoricalApp.Services;
 using HistoricalApp.Views;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
@@ -10,57 +9,47 @@ namespace HistoricalApp.ViewModels
     public class QuizSelectionViewModel : BaseViewModel
     {
         private readonly FirebaseQuizService _quizService;
+
         public ObservableCollection<Quiz> Quizzes { get; set; } = new();
+
+        public string CategoryTitle
+        {
+            get => _categoryTitle;
+            set => SetProperty(ref _categoryTitle, value);
+        }
+        private string _categoryTitle;
+
         public ICommand SelectQuizCommand { get; }
-
-        private readonly string _category;
-        public string CategoryTitle { get; }
-
-        private bool _hasNoQuizzes;
-        public bool HasNoQuizzes
-        {
-            get => _hasNoQuizzes;
-            set => SetProperty(ref _hasNoQuizzes, value);
-        }
-
-        private bool _hasQuizzes;
-        public bool HasQuizzes
-        {
-            get => _hasQuizzes;
-            set => SetProperty(ref _hasQuizzes, value);
-        }
 
         public QuizSelectionViewModel(string category)
         {
             _quizService = new FirebaseQuizService();
-            _category = category;
-            CategoryTitle = string.IsNullOrEmpty(category) ? "All Quizzes" : $"{category} Quizzes";
+            SelectQuizCommand = new Command<Quiz>(async (quiz) => await OnQuizSelected(quiz));
 
-            SelectQuizCommand = new Command<Quiz>(async (quiz) => await GoToInfoPage(quiz));
-            _ = LoadQuizzes();
+            LoadQuizzes(category).ConfigureAwait(false);
         }
 
-        private async Task LoadQuizzes()
+        private async Task LoadQuizzes(string category)
         {
-            var allQuizzes = await _quizService.GetAllQuizzesAsync();
-            var filtered = string.IsNullOrEmpty(_category)
-                ? allQuizzes
-                : allQuizzes.Where(q => q.Category?.Equals(_category, StringComparison.OrdinalIgnoreCase) == true);
+            CategoryTitle = $"{category} Quizzes";
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                Quizzes.Clear();
-                foreach (var quiz in filtered)
-                    Quizzes.Add(quiz);
+            var quizzes = await _quizService.GetAllQuizzesAsync();
 
-                HasQuizzes = Quizzes.Any();
-                HasNoQuizzes = !HasQuizzes;
-            });
+            var filtered = quizzes
+                .Where(q => q.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            Quizzes.Clear();
+            foreach (var quiz in filtered)
+                Quizzes.Add(quiz);
         }
 
-        private async Task GoToInfoPage(Quiz quiz)
+        private async Task OnQuizSelected(Quiz quiz)
         {
-            await App.Current.MainPage.Navigation.PushAsync(new QuizInfoPage(quiz));
+            if (quiz == null)
+                return;
+
+            await Shell.Current.Navigation.PushAsync(new QuizInfoPage(quiz));
         }
     }
 }

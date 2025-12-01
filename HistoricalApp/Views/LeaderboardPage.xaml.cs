@@ -1,9 +1,18 @@
-namespace HistoricalApp.Views;
+using HistoricalApp.Helpers;
 
-public partial class LeaderboardPage : ContentPage
+namespace HistoricalApp.Views
 {
-	public LeaderboardPage()
-	{
-		InitializeComponent();
-	}
+    public partial class LeaderboardPage : ContentPage
+    {
+        public LeaderboardPage()
+        {
+            InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await AnimationHelper.SlideUpFadeIn(RootLayout);
+        }
+    }
 }

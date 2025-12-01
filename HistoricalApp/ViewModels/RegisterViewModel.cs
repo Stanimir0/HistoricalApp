@@ -38,7 +38,7 @@ namespace HistoricalApp.ViewModels
                 return;
             }
 
-            // Firebase returns string for success, so check if it's null / empty
+            // Firebase returns userId on success — EMPTY string on failure
             var result = await _authService.RegisterUserAsync(Email, Password);
 
             if (string.IsNullOrEmpty(result))
@@ -46,6 +46,9 @@ namespace HistoricalApp.ViewModels
                 await App.Current.MainPage.DisplayAlert("Error", "Registration failed.", "OK");
                 return;
             }
+
+            // Save userId on device
+            Preferences.Set("UserId", result);
 
             await App.Current.MainPage.DisplayAlert("Success", "Account created!", "OK");
 

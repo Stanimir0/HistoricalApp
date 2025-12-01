@@ -1,6 +1,5 @@
 ﻿using HistoricalApp.Services;
 using System.Windows.Input;
-using Microsoft.Maui.Storage;
 
 namespace HistoricalApp.ViewModels
 {
@@ -8,11 +7,11 @@ namespace HistoricalApp.ViewModels
     {
         private readonly FirebaseAuthService _authService;
 
-        public ICommand LoginCommand { get; }
-        public ICommand GoToRegisterCommand { get; }
-
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public ICommand LoginCommand { get; }
+        public ICommand GoToRegisterCommand { get; }
 
         public LoginViewModel()
         {
@@ -26,30 +25,24 @@ namespace HistoricalApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please enter both email and password.", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Email and password are required.", "OK");
                 return;
             }
 
-            try
+            var userId = await _authService.LoginUserAsync(Email, Password);
+
+            if (string.IsNullOrEmpty(userId))
             {
-                var userId = await _authService.LoginUserAsync(Email, Password);
-
-                if (string.IsNullOrEmpty(userId))
-                {
-                    await App.Current.MainPage.DisplayAlert("Login Failed", "Invalid email or password.", "OK");
-                    return;
-                }
-
-                await App.Current.MainPage.DisplayAlert("Success", "Logged in successfully!", "OK");
-
-                await Shell.Current.GoToAsync("//HomePage");
-
-                (Shell.Current as AppShell)?.RefreshUserAccessAsync();
+                await App.Current.MainPage.DisplayAlert("Error", "Invalid email or password.", "OK");
+                return;
             }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-            }
+
+            // Save user ID on device
+            Preferences.Set("UserId", userId);
+
+            await Shell.Current.GoToAsync("//HomePage");
+
+            await ((Shell.Current as AppShell)?.RefreshUserAccessAsync());
         }
     }
 }

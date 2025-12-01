@@ -1,59 +1,47 @@
 ﻿using HistoricalApp.Services;
+using HistoricalApp.Views;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 
 namespace HistoricalApp
 {
     public partial class AppShell : Shell
     {
-        private readonly FirebaseAuthService _authService;
-
         public AppShell()
         {
             InitializeComponent();
-            _authService = new FirebaseAuthService();
-
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await Task.Delay(800);
-                await RefreshUserAccessAsync();
-            });
         }
 
         public async Task RefreshUserAccessAsync()
         {
-            try
-            {
-                var userId = Preferences.Get("UserId", string.Empty);
-                bool isLoggedIn = !string.IsNullOrEmpty(userId);
+            var userId = Preferences.Get("UserId", string.Empty);
+            if (string.IsNullOrEmpty(userId))
+                return;
 
-                LoginItem.IsVisible = !isLoggedIn;
+            var userService = new FirebaseUserService();
+            var user = await userService.GetUserByIdAsync(userId);
 
-                if (!isLoggedIn)
-                {
-                    AdminPanelItem.IsVisible = false;
-                    return;
-                }
+            if (user == null)
+                return;
 
-                var role = await _authService.GetUserRoleAsync(userId);
-                AdminPanelItem.IsVisible = role.Equals("Admin", StringComparison.OrdinalIgnoreCase);
-            }
-            catch
-            {
-                AdminPanelItem.IsVisible = false;
-                LoginItem.IsVisible = true;
-            }
-        }
+            //// Add admin tab only if user is Admin
+            //if (user.Role == "Admin")
+            //{
+            //    bool exists = MainTabBar.Items.Any(x => x.Route == "AdminPage");
 
-        private async void OnLogoutClicked(object sender, EventArgs e)
-        {
-            Preferences.Remove("UserId");
-            Preferences.Remove("Email");
-            Preferences.Remove("IdToken");
+            //    if (!exists)
+            //    {
+            //        var adminTab = new ShellContent()
+            //        {
+            //            Title = "Admin",
+            //            Route = "AdminPage",
+            //            Icon = "icon_admin.png",
+            //            ContentTemplate = new DataTemplate(typeof(AdminPage))
+            //        };
 
-            AdminPanelItem.IsVisible = false;
-            LoginItem.IsVisible = true;
-
-            await Shell.Current.GoToAsync("//LoginPage");
+            //        MainTabBar.Items.Add(adminTab);
+            //    }
+            //}
         }
     }
 }

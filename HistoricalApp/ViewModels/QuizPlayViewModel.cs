@@ -34,17 +34,17 @@ namespace HistoricalApp.ViewModels
             }
         }
 
-        public string CurrentQuizTitle { get; set; }
-
-        public string QuestionProgress =>
-            CurrentQuiz == null ? "" : $"Question {CurrentIndex + 1} of {CurrentQuiz.Questions.Count}";
-
         private int _score;
         public int Score
         {
             get => _score;
             set => SetProperty(ref _score, value);
         }
+
+        public string CurrentQuizTitle { get; set; }
+
+        public string QuestionProgress =>
+            CurrentQuiz == null ? "" : $"Question {CurrentIndex + 1} of {CurrentQuiz.Questions.Count}";
 
         private bool _isNextButtonVisible;
         public bool IsNextButtonVisible
@@ -61,7 +61,15 @@ namespace HistoricalApp.ViewModels
             SelectAnswerCommand = new Command<string>(OnAnswerSelected);
             NextQuestionCommand = new Command(OnNextQuestion);
         }
+        public bool IsCorrectAnswer(string chosenAnswer)
+        {
+            if (CurrentQuestion == null)
+                return false;
 
+            int index = Array.IndexOf(CurrentQuestion.Answers, chosenAnswer);
+
+            return index == CurrentQuestion.CorrectAnswerIndex;
+        }
         public void LoadQuiz(Quiz quiz)
         {
             CurrentQuiz = quiz;
@@ -82,16 +90,23 @@ namespace HistoricalApp.ViewModels
             {
                 CurrentQuestion = CurrentQuiz.Questions[CurrentIndex];
                 OnPropertyChanged(nameof(QuestionProgress));
+
                 IsNextButtonVisible = false;
             }
         }
 
         private void OnAnswerSelected(string selectedAnswer)
         {
+            if (CurrentQuestion == null)
+                return;
+
+            // Convert selected answer string to index
             int selectedIndex = Array.IndexOf(CurrentQuestion.Answers, selectedAnswer);
 
             if (selectedIndex == CurrentQuestion.CorrectAnswerIndex)
+            {
                 Score += CurrentQuiz.Points;
+            }
 
             IsNextButtonVisible = true;
         }
@@ -116,16 +131,19 @@ namespace HistoricalApp.ViewModels
         private async Task SaveUserProgressAsync()
         {
             var userId = Preferences.Get("UserId", string.Empty);
+
             if (string.IsNullOrEmpty(userId))
                 return;
 
             var user = await _userService.GetUserByIdAsync(userId);
-            if (user == null) return;
 
-            user.TotalPoints += Score;
-            user.RecalculateRank();
+            if (user != null)
+            {
+                user.TotalPoints += Score;
+                user.RecalculateRank();
 
-            await _userService.UpdateUserAsync(userId, user);
+                await _userService.UpdateUserAsync(userId, user);
+            }
         }
     }
 }

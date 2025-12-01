@@ -47,7 +47,8 @@
         <ShellContent ContentTemplate="{DataTemplate local:CategorySelectionPage}" />
     </FlyoutItem>
 
-    <Shell.FlyoutFooter>
+    <!--//NEEDS TO BE FIXED-->
+    <!--<Shell.FlyoutFooter>
         <Grid Padding="10">
             <Button Text="Logout"
                     x:Name="LogoutButton"
@@ -57,6 +58,6 @@
                     CornerRadius="18"
                     HeightRequest="40" />
         </Grid>
-    </Shell.FlyoutFooter>
+    </Shell.FlyoutFooter>-->
 
 </Shell>

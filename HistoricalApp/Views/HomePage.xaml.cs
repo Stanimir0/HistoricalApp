@@ -1,4 +1,4 @@
-using HistoricalApp.ViewModels;
+using HistoricalApp.Helpers;
 
 namespace HistoricalApp.Views
 {
@@ -9,32 +9,22 @@ namespace HistoricalApp.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            if (BindingContext is ProfileViewModel vm)
-                vm.LoadUserCommand.Execute(null);
+            await AnimationHelper.SlideUpFadeIn(HomeRoot);
         }
 
-        private async void OnBattlesClicked(object sender, EventArgs e)
+        private async void OnCategoryClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new QuizSelectionPage("Battles"));
-        }
-
-        private async void OnEventsClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new QuizSelectionPage("Events"));
-        }
-
-        private async void OnCharactersClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new QuizSelectionPage("Characters"));
+            if (sender is View v)
+                await AnimationHelper.AnimateButtonPress(v);
         }
 
         private async void OnLeaderboardClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new LeaderboardPage());
+            if (sender is View v)
+                await AnimationHelper.AnimateButtonPress(v);
         }
     }
 }

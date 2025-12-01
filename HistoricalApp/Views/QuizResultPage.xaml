@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HistoricalApp.Views.QuizResultPage"
-             BackgroundColor="#1e1e1e"
-             Title="Results">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="HistoricalApp.Views.QuizResultPage"
+    BackgroundColor="#0E0E0E">
 
-    <VerticalStackLayout Padding="20"
-                         Spacing="15"
-                         HorizontalOptions="Center"
+    <VerticalStackLayout x:Name="RootLayout"
+                         Padding="25"
+                         Spacing="20"
                          VerticalOptions="Center">
 
-        <Label Text="Quiz Complete!"
-               FontSize="26"
-               FontAttributes="Bold"
-               TextColor="#FFD700"
-               HorizontalOptions="Center" />
+        <Label Text="Quiz Completed!"
+               FontSize="32"
+               TextColor="#f1c40f"
+               HorizontalOptions="Center"
+               FontAttributes="Bold"/>
 
         <Label Text="{Binding ScoreText}"
-               FontSize="18"
+               FontSize="26"
                TextColor="White"
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center"/>
 
         <Label Text="{Binding PointsInfo}"
-               FontSize="14"
-               TextColor="#CCCCCC"
-               HorizontalOptions="Center" />
+               FontSize="20"
+               TextColor="#aaaaaa"
+               HorizontalOptions="Center"/>
 
         <Button Text="Back to Home"
-                BackgroundColor="#FFD700"
-                TextColor="#1E1E1E"
-                CornerRadius="20"
                 Clicked="OnBackHomeClicked"
-                Margin="0,20,0,0"/>
+                BackgroundColor="#f1c40f"
+                TextColor="Black"
+                CornerRadius="15"
+                HeightRequest="55"/>
 
         <Button Text="Play Another Quiz"
-                BackgroundColor="#333333"
-                TextColor="White"
-                CornerRadius="20"
-                Clicked="OnPlayAnotherClicked"/>
+                Clicked="OnPlayAnotherClicked"
+                BackgroundColor="#1A1A1A"
+                TextColor="#f1c40f"
+                CornerRadius="15"
+                HeightRequest="55"/>
 
     </VerticalStackLayout>
 </ContentPage>

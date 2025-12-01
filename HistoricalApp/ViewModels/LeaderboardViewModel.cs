@@ -1,35 +1,39 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using HistoricalApp.Models;
+﻿using HistoricalApp.Models;
+using HistoricalApp.Services;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace HistoricalApp.ViewModels
 {
     public class LeaderboardViewModel : BaseViewModel
     {
-        private readonly FirebaseClient _client;
+        private readonly FirebaseUserService _userService;
 
         public ObservableCollection<User> Users { get; set; } = new();
 
         public LeaderboardViewModel()
         {
-            _client = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
-            _ = LoadLeaderboardAsync();
+            _userService = new FirebaseUserService();
+            LoadLeaderboard().ConfigureAwait(false);
         }
 
-        private async Task LoadLeaderboardAsync()
+        private async Task LoadLeaderboard()
         {
-            var users = await _client.Child("users").OnceAsync<User>();
+            var allUsers = await _userService.GetAllUsersAsync();
 
-            var sorted = users
-                .Select(x => x.Object)
+            if (allUsers == null || allUsers.Count == 0)
+                return;
+
+            // Recalculate ranks (if points changed)
+            foreach (var user in allUsers)
+                user.RecalculateRank();
+
+            var sortedUsers = allUsers
                 .OrderByDescending(u => u.TotalPoints)
                 .ToList();
 
             Users.Clear();
 
-            foreach (var user in sorted)
+            foreach (var user in sortedUsers)
                 Users.Add(user);
         }
     }

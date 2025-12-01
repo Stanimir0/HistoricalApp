@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
-             x:Class="HistoricalApp.Views.LeaderboardPage"
-             BackgroundColor="#1e1e1e"
-             Title="Leaderboard">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:models="clr-namespace:HistoricalApp.Models"
+    x:Class="HistoricalApp.Views.LeaderboardPage"
+    BackgroundColor="#0E0E0E">
 
     <ContentPage.BindingContext>
         <viewmodels:LeaderboardViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="20" Spacing="20">
+    <VerticalStackLayout x:Name="RootLayout"
+                         Padding="25"
+                         Spacing="15">
 
-        <Label Text="Top Players"
-               FontSize="26"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="#FFD700" />
+        <Label Text="Leaderboard"
+               FontSize="32"
+               TextColor="#f1c40f"
+               FontAttributes="Bold"/>
 
-        <CollectionView ItemsSource="{Binding Users}">
+        <CollectionView ItemsSource="{Binding Users}"
+                        SelectionMode="None">
+
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame CornerRadius="12"
-                           BackgroundColor="#252525"
-                           Padding="15"
-                           Margin="0,5">
+                <DataTemplate x:DataType="models:User">
+                    <Frame BackgroundColor="#1A1A1A"
+                           CornerRadius="15"
+                           Padding="15">
 
-                        <VerticalStackLayout Spacing="4">
-
+                        <VerticalStackLayout>
                             <Label Text="{Binding UserName}"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="White" />
+                                   FontSize="22"
+                                   TextColor="White"
+                                   FontAttributes="Bold"/>
 
+                            <Label Text="Rank:"
+                                   TextColor="#f1c40f"
+                                   FontSize="14"/>
                             <Label Text="{Binding Rank}"
-                                   TextColor="#FFD700"
-                                   FontSize="14" />
+                                   TextColor="White"
+                                   FontSize="18"/>
 
-                            <Label Text="{Binding TotalPoints, StringFormat='Points: {0}'}"
-                                   TextColor="#CCCCCC"
-                                   FontSize="14" />
-
+                            <Label Text="Points:"
+                                   TextColor="#f1c40f"
+                                   FontSize="14"/>
+                            <Label Text="{Binding TotalPoints}"
+                                   TextColor="White"
+                                   FontSize="18"/>
                         </VerticalStackLayout>
 
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
 
     </VerticalStackLayout>

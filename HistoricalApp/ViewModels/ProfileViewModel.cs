@@ -1,51 +1,46 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using HistoricalApp.Models;
+﻿using HistoricalApp.Models;
+using HistoricalApp.Services;
 using Microsoft.Maui.Storage;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly FirebaseClient _client;
+        private readonly FirebaseUserService _userService;
+        public ICommand LoadUserCommand { get; }
 
-        private User _currentUser;
         public User CurrentUser
         {
             get => _currentUser;
             set => SetProperty(ref _currentUser, value);
         }
+        private User _currentUser;
 
-        public Command LoadUserCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         public ProfileViewModel()
         {
-            _client = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
-            LoadUserCommand = new Command(async () => await LoadUserAsync());
+            _userService = new FirebaseUserService();
+            LoadUserCommand = new Command(async () => await LoadCurrentUser());
+
+            RefreshCommand = new Command(async () => await LoadCurrentUser());
+            LoadCurrentUser().ConfigureAwait(false);
         }
 
-        public async Task LoadUserAsync()
+        public async Task LoadCurrentUser()
         {
             var userId = Preferences.Get("UserId", string.Empty);
+
             if (string.IsNullOrEmpty(userId))
                 return;
 
-            try
-            {
-                var user = await _client.Child("users")
-                                        .Child(userId)
-                                        .OnceSingleAsync<User>();
+            var user = await _userService.GetUserByIdAsync(userId);
 
-                if (user != null)
-                {
-                    user.RecalculateRank();
-                    CurrentUser = user;
-                }
-            }
-            catch
+            if (user != null)
             {
-                // ignore for now
+                user.RecalculateRank();
+                CurrentUser = user;
             }
         }
     }

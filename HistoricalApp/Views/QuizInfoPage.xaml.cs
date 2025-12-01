@@ -22,11 +22,8 @@ namespace HistoricalApp.Views
         {
             await DisplayAlert("Quiz Starting", $"Good luck with '{Quiz.Title}'!", "Let's go!");
 
-            var quizPage = new QuizPage();
-            if (quizPage.BindingContext is QuizPlayViewModel vm)
-                vm.LoadQuiz(Quiz);
-
-            await Navigation.PushAsync(quizPage);
+           
+            await Navigation.PushAsync(new QuizPage(Quiz));
         }
     }
 }

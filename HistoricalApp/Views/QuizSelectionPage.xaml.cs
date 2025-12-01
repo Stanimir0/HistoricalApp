@@ -1,4 +1,4 @@
-using HistoricalApp.ViewModels;
+using HistoricalApp.Helpers;
 
 namespace HistoricalApp.Views
 {
@@ -7,11 +7,13 @@ namespace HistoricalApp.Views
         public QuizSelectionPage(string category)
         {
             InitializeComponent();
-            BindingContext = new QuizSelectionViewModel(category);
+            BindingContext = new ViewModels.QuizSelectionViewModel(category);
         }
 
-        public QuizSelectionPage() : this(string.Empty)
+        protected override async void OnAppearing()
         {
+            base.OnAppearing();
+            await AnimationHelper.SlideUpFadeIn(RootLayout);
         }
     }
 }

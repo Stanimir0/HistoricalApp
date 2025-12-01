@@ -1,51 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
-             x:Class="HistoricalApp.Views.RegisterPage"
-             BackgroundColor="#1e1e1e"
-             Title="Register">
+<ContentPage  
+   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+   xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"  
+   x:Class="HistoricalApp.Views.RegisterPage"  
+   BackgroundColor="#0E0E0E">  
 
-    <ContentPage.BindingContext>
-        <viewmodels:RegisterViewModel />
-    </ContentPage.BindingContext>
+   <ContentPage.BindingContext>  
+       <viewmodels:RegisterViewModel />  
+   </ContentPage.BindingContext>  
 
-    <VerticalStackLayout Padding="30" Spacing="20">
+   <VerticalStackLayout x:Name="RootLayout"  
+                        Padding="35"  
+                        Spacing="25"  
+                        VerticalOptions="Center">  
 
-        <Label Text="Create Account"
-               FontSize="28"
-               FontAttributes="Bold"
-               TextColor="#FFD700"
-               HorizontalOptions="Center"/>
+       <Label Text="Create Account"  
+              FontSize="30"  
+              TextColor="#f1c40f"  
+              FontAttributes="Bold"  
+              HorizontalOptions="Center" />  
 
-        <Entry Placeholder="Email"
-               Keyboard="Email"
-               Text="{Binding Email}"
-               TextColor="White"
-               PlaceholderColor="#888" />
+       <Frame CornerRadius="12"  
+              BackgroundColor="#1A1A1A"  
+              Padding="0">  
+           <Entry Placeholder="Email"  
+                  Text="{Binding Email}"  
+                  PlaceholderColor="#777"  
+                  TextColor="White"  
+                  HeightRequest="48" />  
+       </Frame>  
 
-        <Entry Placeholder="Password"
-               Text="{Binding Password}"
-               IsPassword="True"
-               TextColor="White"
-               PlaceholderColor="#888" />
+       <Frame CornerRadius="12"  
+              BackgroundColor="#1A1A1A"  
+              Padding="0">  
+           <Entry Placeholder="Password"  
+                  Text="{Binding Password}"  
+                  IsPassword="True"  
+                  PlaceholderColor="#777"  
+                  TextColor="White"  
+                  HeightRequest="48" />  
+       </Frame>  
 
-        <Entry Placeholder="Confirm Password"
-               Text="{Binding ConfirmPassword}"
-               IsPassword="True"
-               TextColor="White"
-               PlaceholderColor="#888" />
+       <Frame CornerRadius="12"  
+              BackgroundColor="#1A1A1A"  
+              Padding="0">  
+           <Entry Placeholder="Confirm Password"  
+                  Text="{Binding ConfirmPassword}"  
+                  IsPassword="True"  
+                  PlaceholderColor="#777"  
+                  TextColor="White"  
+                  HeightRequest="48" />  
+       </Frame>  
 
-        <Button Text="Register"
-                BackgroundColor="#FFD700"
-                TextColor="#1E1E1E"
-                CornerRadius="20"
-                Command="{Binding RegisterCommand}" />
+       <Button Text="Register"  
+               Clicked="OnRegisterClicked"  
+               Command="{Binding RegisterCommand}"  
+               CornerRadius="15"  
+               BackgroundColor="#f1c40f"  
+               TextColor="Black"  
+               HeightRequest="50" />  
 
-        <Button Text="Back to Login"
-                TextColor="White"
-                BackgroundColor="Transparent"
-                Command="{Binding GoToLoginCommand}" />
+       <Button Text="Back to Login"  
+               Clicked="OnBackToLoginClicked"  
+               Command="{Binding GoToLoginCommand}"  
+               BackgroundColor="Transparent"  
+               TextColor="#f1c40f" />  
 
-    </VerticalStackLayout>
+   </VerticalStackLayout>  
 </ContentPage>

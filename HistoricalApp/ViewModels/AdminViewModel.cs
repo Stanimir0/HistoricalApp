@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
 using Firebase.Database;
 using Firebase.Database.Query;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
-using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
@@ -38,11 +35,12 @@ namespace HistoricalApp.ViewModels
         private async Task LoadQuizzes()
         {
             var quizzes = await _quizService.GetAllQuizzesAsync();
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 Quizzes.Clear();
-                foreach (var quiz in quizzes)
-                    Quizzes.Add(quiz);
+                foreach (var q in quizzes)
+                    Quizzes.Add(q);
             });
         }
 
@@ -50,17 +48,16 @@ namespace HistoricalApp.ViewModels
         {
             var popup = new QuizEditorPopup();
 
-            // ✅ Subscribe to the popup's close event
-            popup.OnPopupClosed += async (quiz) =>
+            popup.OnPopupClosed += async (newQuiz) =>
             {
-                if (quiz == null)
-                    return;
+                if (newQuiz == null) return;
 
-                if (quiz.Questions == null)
-                    quiz.Questions = new List<Question>();
+                if (newQuiz.Questions == null)
+                    newQuiz.Questions = new List<Question>();
 
-                await _quizService.AddQuizAsync(quiz);
-                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz added successfully!", "OK");
+                await _quizService.AddQuizAsync(newQuiz);
+                await App.Current.MainPage.DisplayAlert("Success", "Quiz added!", "OK");
+
                 await LoadQuizzes();
             };
 
@@ -71,22 +68,18 @@ namespace HistoricalApp.ViewModels
         {
             var popup = new QuizEditorPopup(quiz);
 
-            // ✅ Subscribe to the popup's close event
             popup.OnPopupClosed += async (updatedQuiz) =>
             {
-                if (updatedQuiz == null)
-                    return;
+                if (updatedQuiz == null) return;
 
                 updatedQuiz.Id = quiz.Id;
 
                 if (updatedQuiz.Questions == null)
-                    updatedQuiz.Questions = new List<Question>();
-
-                if (quiz.Questions != null && quiz.Questions.Count > 0 && updatedQuiz.Questions.Count == 0)
                     updatedQuiz.Questions = quiz.Questions;
 
                 await _quizService.UpdateQuizAsync(updatedQuiz);
-                await App.Current.MainPage.DisplayAlert("✅ Success", "Quiz updated successfully!", "OK");
+                await App.Current.MainPage.DisplayAlert("Success", "Quiz updated!", "OK");
+
                 await LoadQuizzes();
             };
 
@@ -97,14 +90,13 @@ namespace HistoricalApp.ViewModels
         {
             bool confirm = await App.Current.MainPage.DisplayAlert(
                 "Confirm Delete",
-                $"Are you sure you want to delete the quiz '{quiz.Title}'?",
+                $"Delete quiz: {quiz.Title}?",
                 "Yes", "No");
 
-            if (confirm)
-            {
-                await _quizService.DeleteQuizAsync(quiz.Id);
-                await LoadQuizzes();
-            }
+            if (!confirm) return;
+
+            await _quizService.DeleteQuizAsync(quiz.Id);
+            await LoadQuizzes();
         }
 
         private async Task TestFirebaseConnection()
@@ -118,11 +110,11 @@ namespace HistoricalApp.ViewModels
                     timestamp = DateTime.UtcNow.ToString("O")
                 });
 
-                await App.Current.MainPage.DisplayAlert("✅ Firebase", "Connection successful!", "OK");
+                await App.Current.MainPage.DisplayAlert("Firebase", "Connection OK!", "OK");
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("❌ Firebase Error", ex.Message, "OK");
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
         }
     }
