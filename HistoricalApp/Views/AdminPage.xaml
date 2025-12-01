@@ -1,73 +1,85 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
-             x:Class="HistoricalApp.Views.AdminPage"
-             x:Name="AdminRoot"
-             BackgroundColor="#1e1e1e"
-             Title="Admin Panel">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:controls="clr-namespace:HistoricalApp.Controls"
+    x:Class="HistoricalApp.Views.AdminPage"
+    x:Name="AdminRoot"
+    BackgroundColor="#1e1e1e"
+    Title="Admin Panel">
 
     <ContentPage.BindingContext>
         <vm:AdminViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="20" Spacing="15">
+    <Grid RowDefinitions="*,Auto">
 
-        <Label Text="Admin Panel"
-               FontSize="26"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="#FFD700" />
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Button Text="Add New Quiz"
-                BackgroundColor="#FFD700"
-                TextColor="#1E1E1E"
-                CornerRadius="20"
-                Command="{Binding AddQuizCommand}" />
+                <Label Text="Admin Panel"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#FFD700" />
 
-        <CollectionView ItemsSource="{Binding Quizzes}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BackgroundColor="#252525"
-                           CornerRadius="12"
-                           Padding="12"
-                           Margin="0,5">
+                <Button Text="Add New Quiz"
+                        BackgroundColor="#FFD700"
+                        TextColor="#1E1E1E"
+                        CornerRadius="20"
+                        Command="{Binding AddQuizCommand}" />
 
-                        <VerticalStackLayout Spacing="3">
+                <CollectionView ItemsSource="{Binding Quizzes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#252525"
+                                   CornerRadius="12"
+                                   Padding="12"
+                                   Margin="0,5">
 
-                            <Label Text="{Binding Title}"
-                                   FontAttributes="Bold"
-                                   FontSize="18"
-                                   TextColor="White" />
+                                <VerticalStackLayout Spacing="3">
 
-                            <Label Text="{Binding Description}"
-                                   FontSize="13"
-                                   TextColor="#CCCCCC" />
+                                    <Label Text="{Binding Title}"
+                                           FontAttributes="Bold"
+                                           FontSize="18"
+                                           TextColor="White" />
 
-                            <HorizontalStackLayout Spacing="12"
-                                                   Margin="0,5,0,0">
+                                    <Label Text="{Binding Description}"
+                                           FontSize="13"
+                                           TextColor="#CCCCCC" />
 
-                                <Button Text="Edit"
-                                        BackgroundColor="#FFD700"
-                                        TextColor="#1E1E1E"
-                                        CornerRadius="16"
-                                        Command="{Binding BindingContext.EditQuizCommand, Source={x:Reference AdminRoot}}"
-                                        CommandParameter="{Binding .}" />
+                                    <HorizontalStackLayout Spacing="12"
+                                                           Margin="0,5,0,0">
 
-                                <Button Text="Delete"
-                                        BackgroundColor="#FF4C4C"
-                                        TextColor="White"
-                                        CornerRadius="16"
-                                        Command="{Binding BindingContext.DeleteQuizCommand, Source={x:Reference AdminRoot}}"
-                                        CommandParameter="{Binding .}" />
+                                        <Button Text="Edit"
+                                                BackgroundColor="#FFD700"
+                                                TextColor="#1E1E1E"
+                                                CornerRadius="16"
+                                                Command="{Binding BindingContext.EditQuizCommand, Source={x:Reference AdminRoot}}"
+                                                CommandParameter="{Binding .}" />
 
-                            </HorizontalStackLayout>
+                                        <Button Text="Delete"
+                                                BackgroundColor="#FF4C4C"
+                                                TextColor="White"
+                                                CornerRadius="16"
+                                                Command="{Binding BindingContext.DeleteQuizCommand, Source={x:Reference AdminRoot}}"
+                                                CommandParameter="{Binding .}" />
 
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                    </HorizontalStackLayout>
 
-    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- BOTTOM NAV BAR -->
+        <controls:BottomNavBar Grid.Row="1"/>
+
+    </Grid>
 </ContentPage>

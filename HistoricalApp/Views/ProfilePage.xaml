@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
-             x:Class="HistoricalApp.Views.ProfilePage"
-             BackgroundColor="#1e1e1e"
-             Title="Profile">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:controls="clr-namespace:HistoricalApp.Controls"
+    x:Class="HistoricalApp.Views.ProfilePage"
+    BackgroundColor="#1e1e1e"
+    Title="Profile">
 
     <ContentPage.BindingContext>
         <viewmodels:ProfileViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
+    <Grid RowDefinitions="*,Auto">
 
-            <Label Text="Your Profile"
-                   FontSize="26"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#FFD700" />
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Frame BackgroundColor="#252525"
-                   CornerRadius="16"
-                   Padding="20"
-                   HasShadow="True">
+                <Label Text="Your Profile"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#FFD700" />
 
-                <VerticalStackLayout Spacing="10">
+                <Frame BackgroundColor="#252525"
+                       CornerRadius="16"
+                       Padding="20"
+                       HasShadow="True">
 
-                    <Label Text="User Name"
-                           TextColor="#AAAAAA"
-                           FontSize="14" />
+                    <VerticalStackLayout Spacing="10">
 
-                    <Label Text="{Binding CurrentUser.UserName}"
-                           TextColor="White"
-                           FontSize="20"
-                           FontAttributes="Bold" />
+                        <Label Text="User Name"
+                               TextColor="#AAAAAA"
+                               FontSize="14" />
 
-                    <Label Text="Rank"
-                           TextColor="#AAAAAA"
-                           FontSize="14" />
+                        <Label Text="{Binding CurrentUser.UserName}"
+                               TextColor="White"
+                               FontSize="20"
+                               FontAttributes="Bold" />
 
-                    <Label Text="{Binding CurrentUser.Rank}"
-                           TextColor="#FFD700"
-                           FontSize="20"
-                           FontAttributes="Bold" />
+                        <Label Text="Rank"
+                               TextColor="#AAAAAA"
+                               FontSize="14" />
 
-                    <Label Text="Total Points"
-                           TextColor="#AAAAAA"
-                           FontSize="14" />
+                        <Label Text="{Binding CurrentUser.Rank}"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontAttributes="Bold" />
 
-                    <Label Text="{Binding CurrentUser.TotalPoints}"
-                           TextColor="White"
-                           FontSize="20"
-                           FontAttributes="Bold" />
-                </VerticalStackLayout>
+                        <Label Text="Total Points"
+                               TextColor="#AAAAAA"
+                               FontSize="14" />
 
-            </Frame>
+                        <Label Text="{Binding CurrentUser.TotalPoints}"
+                               TextColor="White"
+                               FontSize="20"
+                               FontAttributes="Bold" />
+                    </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- BOTTOM NAV BAR -->
+        <controls:BottomNavBar Grid.Row="1"/>
+
+    </Grid>
 </ContentPage>

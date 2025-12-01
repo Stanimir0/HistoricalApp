@@ -1,63 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="HistoricalApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:HistoricalApp.Views"
-    Shell.FlyoutBehavior="Flyout"
-    Title="HistoricalApp">
+    xmlns:views="clr-namespace:HistoricalApp.Views"
+    x:Class="HistoricalApp.AppShell"
+    FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
 
-    <FlyoutItem Title="Home"
-                Route="HomePage"
-                x:Name="HomeItem"
-                Icon="Quiz.png">
-        <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
-    </FlyoutItem>
+    <!-- TOP LEVEL ROUTES -->
+    <ShellContent Route="HomePage"
+                  ContentTemplate="{DataTemplate views:HomePage}" />
 
-    <FlyoutItem Title="Login/Register"
-                x:Name="LoginItem"
-                Icon="admin_icon.png">
-        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
-    </FlyoutItem>
+    <ShellContent Route="ProfilePage"
+                  ContentTemplate="{DataTemplate views:ProfilePage}" />
 
-    <FlyoutItem Title="Admin Panel"
-                Route="AdminPage"
-                x:Name="AdminPanelItem"
-                FlyoutDisplayOptions="AsSingleItem"
-                Icon="admin.png"
-                IsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate local:AdminPage}" />
-    </FlyoutItem>
+    <ShellContent Route="LeaderboardPage"
+                  ContentTemplate="{DataTemplate views:LeaderboardPage}" />
 
-    <FlyoutItem Title="Profile"
-                Route="ProfilePage"
-                Icon="user.png">
-        <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Leaderboard"
-                Route="LeaderboardPage"
-                Icon="trophy.png">
-        <ShellContent ContentTemplate="{DataTemplate local:LeaderboardPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Categories"
-                Route="CategorySelectionPage"
-                Icon="Quiz.png">
-        <ShellContent ContentTemplate="{DataTemplate local:CategorySelectionPage}" />
-    </FlyoutItem>
-
-    <!--//NEEDS TO BE FIXED-->
-    <!--<Shell.FlyoutFooter>
-        <Grid Padding="10">
-            <Button Text="Logout"
-                    x:Name="LogoutButton"
-                    Clicked="OnLogoutClicked"
-                    BackgroundColor="#333333"
-                    TextColor="White"
-                    CornerRadius="18"
-                    HeightRequest="40" />
-        </Grid>
-    </Shell.FlyoutFooter>-->
+    <ShellContent Route="AdminPage"
+                  ContentTemplate="{DataTemplate views:AdminPage}" />
 
 </Shell>

@@ -1,6 +1,5 @@
 ﻿using HistoricalApp.Services;
 using HistoricalApp.Views;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 
 namespace HistoricalApp
@@ -10,38 +9,29 @@ namespace HistoricalApp
         public AppShell()
         {
             InitializeComponent();
+
+            // Optional: explicit route registrations (extra safety)
+            Routing.RegisterRoute("HomePage", typeof(HomePage));
+            Routing.RegisterRoute("ProfilePage", typeof(ProfilePage));
+            Routing.RegisterRoute("LeaderboardPage", typeof(LeaderboardPage));
+            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+
         }
 
         public async Task RefreshUserAccessAsync()
         {
             var userId = Preferences.Get("UserId", string.Empty);
             if (string.IsNullOrEmpty(userId))
+            {
+                Preferences.Set("IsAdmin", false);
                 return;
+            }
 
             var userService = new FirebaseUserService();
             var user = await userService.GetUserByIdAsync(userId);
 
-            if (user == null)
-                return;
-
-            //// Add admin tab only if user is Admin
-            //if (user.Role == "Admin")
-            //{
-            //    bool exists = MainTabBar.Items.Any(x => x.Route == "AdminPage");
-
-            //    if (!exists)
-            //    {
-            //        var adminTab = new ShellContent()
-            //        {
-            //            Title = "Admin",
-            //            Route = "AdminPage",
-            //            Icon = "icon_admin.png",
-            //            ContentTemplate = new DataTemplate(typeof(AdminPage))
-            //        };
-
-            //        MainTabBar.Items.Add(adminTab);
-            //    }
-            //}
+            bool isAdmin = user?.Role == "Admin";
+            Preferences.Set("IsAdmin", isAdmin);
         }
     }
 }

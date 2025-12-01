@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:controls="clr-namespace:HistoricalApp.Controls"
     x:Class="HistoricalApp.Views.HomePage"
     BackgroundColor="#0E0E0E">
 
@@ -10,74 +11,84 @@
         <viewmodels:ProfileViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout x:Name="HomeRoot"
-                         Padding="25"
-                         Spacing="20">
+    <Grid RowDefinitions="*,Auto">
 
-        <Label Text="HistoricalApp"
-               FontSize="32"
-               TextColor="#f1c40f"
-               HorizontalOptions="Center"
-               FontAttributes="Bold"/>
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout x:Name="HomeRoot"
+                                 Padding="25"
+                                 Spacing="20">
 
-        <Frame BackgroundColor="#1A1A1A"
-               CornerRadius="18"
-               Padding="20">
-
-            <VerticalStackLayout>
-                <Label Text="{Binding CurrentUser.UserName}"
-                       TextColor="White"
-                       FontSize="24"/>
-
-                <Label Text="Rank:"
+                <Label Text="HistoricalApp"
+                       FontSize="32"
                        TextColor="#f1c40f"
-                       FontSize="14"/>
-                <Label Text="{Binding CurrentUser.Rank}"
-                       TextColor="White"
-                       FontSize="20"
+                       HorizontalOptions="Center"
                        FontAttributes="Bold"/>
 
-                <Label Text="Total Points:"
-                       TextColor="#f1c40f"
-                       FontSize="14"/>
-                <Label Text="{Binding CurrentUser.TotalPoints}"
-                       TextColor="White"
-                       FontSize="20"
-                       FontAttributes="Bold"/>
+                <Frame BackgroundColor="#1A1A1A"
+                       CornerRadius="18"
+                       Padding="20">
+
+                    <VerticalStackLayout>
+                        <Label Text="{Binding CurrentUser.UserName}"
+                               TextColor="White"
+                               FontSize="24"/>
+
+                        <Label Text="Rank:"
+                               TextColor="#f1c40f"
+                               FontSize="14"/>
+                        <Label Text="{Binding CurrentUser.Rank}"
+                               TextColor="White"
+                               FontSize="20"
+                               FontAttributes="Bold"/>
+
+                        <Label Text="Total Points:"
+                               TextColor="#f1c40f"
+                               FontSize="14"/>
+                        <Label Text="{Binding CurrentUser.TotalPoints}"
+                               TextColor="White"
+                               FontSize="20"
+                               FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+
+                </Frame>
+
+                <Button Text="Battles"
+                        Clicked="OnCategoryClicked"
+                        Command="{Binding NavigateBattles}"
+                        BackgroundColor="#f1c40f"
+                        HeightRequest="55"
+                        CornerRadius="15"
+                        TextColor="Black"/>
+
+                <Button Text="Events"
+                        Clicked="OnCategoryClicked"
+                        Command="{Binding NavigateEvents}"
+                        BackgroundColor="#f1c40f"
+                        HeightRequest="55"
+                        CornerRadius="15"
+                        TextColor="Black"/>
+
+                <Button Text="Characters"
+                        Clicked="OnCategoryClicked"
+                        Command="{Binding NavigateCharacters}"
+                        BackgroundColor="#f1c40f"
+                        HeightRequest="55"
+                        CornerRadius="15"
+                        TextColor="Black"/>
+
+                <Button Text="Leaderboard"
+                        Clicked="OnLeaderboardClicked"
+                        BackgroundColor="#1A1A1A"
+                        HeightRequest="55"
+                        CornerRadius="15"
+                        TextColor="#f1c40f"/>
+
             </VerticalStackLayout>
+        </ScrollView>
 
-        </Frame>
+        <!-- BOTTOM NAV BAR -->
+        <controls:BottomNavBar Grid.Row="1"/>
 
-        <Button Text="Battles"
-                Clicked="OnCategoryClicked"
-                Command="{Binding NavigateBattles}"
-                BackgroundColor="#f1c40f"
-                HeightRequest="55"
-                CornerRadius="15"
-                TextColor="Black"/>
-
-        <Button Text="Events"
-                Clicked="OnCategoryClicked"
-                Command="{Binding NavigateEvents}"
-                BackgroundColor="#f1c40f"
-                HeightRequest="55"
-                CornerRadius="15"
-                TextColor="Black"/>
-
-        <Button Text="Characters"
-                Clicked="OnCategoryClicked"
-                Command="{Binding NavigateCharacters}"
-                BackgroundColor="#f1c40f"
-                HeightRequest="55"
-                CornerRadius="15"
-                TextColor="Black"/>
-
-        <Button Text="Leaderboard"
-                Clicked="OnLeaderboardClicked"
-                BackgroundColor="#1A1A1A"
-                HeightRequest="55"
-                CornerRadius="15"
-                TextColor="#f1c40f"/>
-
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

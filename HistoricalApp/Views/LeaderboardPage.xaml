@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:controls="clr-namespace:HistoricalApp.Controls"
     xmlns:models="clr-namespace:HistoricalApp.Models"
     x:Class="HistoricalApp.Views.LeaderboardPage"
     BackgroundColor="#0E0E0E">
@@ -11,50 +12,60 @@
         <viewmodels:LeaderboardViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout x:Name="RootLayout"
-                         Padding="25"
-                         Spacing="15">
+    <Grid RowDefinitions="*,Auto">
 
-        <Label Text="Leaderboard"
-               FontSize="32"
-               TextColor="#f1c40f"
-               FontAttributes="Bold"/>
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout x:Name="RootLayout"
+                                 Padding="25"
+                                 Spacing="15">
 
-        <CollectionView ItemsSource="{Binding Users}"
-                        SelectionMode="None">
+                <Label Text="Leaderboard"
+                       FontSize="32"
+                       TextColor="#f1c40f"
+                       FontAttributes="Bold"/>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:User">
-                    <Frame BackgroundColor="#1A1A1A"
-                           CornerRadius="15"
-                           Padding="15">
+                <CollectionView ItemsSource="{Binding Users}"
+                                SelectionMode="None">
 
-                        <VerticalStackLayout>
-                            <Label Text="{Binding UserName}"
-                                   FontSize="22"
-                                   TextColor="White"
-                                   FontAttributes="Bold"/>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:User">
+                            <Frame BackgroundColor="#1A1A1A"
+                                   CornerRadius="15"
+                                   Padding="15">
 
-                            <Label Text="Rank:"
-                                   TextColor="#f1c40f"
-                                   FontSize="14"/>
-                            <Label Text="{Binding Rank}"
-                                   TextColor="White"
-                                   FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding UserName}"
+                                           FontSize="22"
+                                           TextColor="White"
+                                           FontAttributes="Bold"/>
 
-                            <Label Text="Points:"
-                                   TextColor="#f1c40f"
-                                   FontSize="14"/>
-                            <Label Text="{Binding TotalPoints}"
-                                   TextColor="White"
-                                   FontSize="18"/>
-                        </VerticalStackLayout>
+                                    <Label Text="Rank:"
+                                           TextColor="#f1c40f"
+                                           FontSize="14"/>
+                                    <Label Text="{Binding Rank}"
+                                           TextColor="White"
+                                           FontSize="18"/>
 
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                                    <Label Text="Points:"
+                                           TextColor="#f1c40f"
+                                           FontSize="14"/>
+                                    <Label Text="{Binding TotalPoints}"
+                                           TextColor="White"
+                                           FontSize="18"/>
+                                </VerticalStackLayout>
 
-        </CollectionView>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-    </VerticalStackLayout>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- BOTTOM NAV BAR -->
+        <controls:BottomNavBar Grid.Row="1"/>
+
+    </Grid>
 </ContentPage>
