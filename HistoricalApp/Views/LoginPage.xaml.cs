@@ -1,4 +1,3 @@
-using HistoricalApp.ViewModels;
 using HistoricalApp.Helpers;
 
 namespace HistoricalApp.Views
@@ -13,6 +12,8 @@ namespace HistoricalApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // RootLayout will now be found
             await AnimationHelper.SlideUpFadeIn(RootLayout);
         }
 
@@ -20,12 +21,16 @@ namespace HistoricalApp.Views
         {
             if (sender is View v)
                 await AnimationHelper.AnimateButtonPress(v);
+
+            // Your login logic here
         }
 
         private async void OnGoToRegisterClicked(object sender, EventArgs e)
         {
             if (sender is View v)
                 await AnimationHelper.AnimateButtonPress(v);
+
+            // Your navigation logic here
         }
     }
 }
