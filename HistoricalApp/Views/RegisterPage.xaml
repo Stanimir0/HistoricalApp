@@ -1,71 +1,80 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage  
-   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
-   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-   xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"  
-   x:Class="HistoricalApp.Views.RegisterPage"  
-   BackgroundColor="#0E0E0E">  
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
+             x:Class="HistoricalApp.Views.RegisterPage"
+             NavigationPage.HasNavigationBar="False">
 
-   <ContentPage.BindingContext>  
-       <viewmodels:RegisterViewModel />  
-   </ContentPage.BindingContext>  
+    <ContentPage.BindingContext>
+        <vm:RegisterViewModel />
+    </ContentPage.BindingContext>
 
-   <VerticalStackLayout x:Name="RootLayout"  
-                        Padding="35"  
-                        Spacing="25"  
-                        VerticalOptions="Center">  
+    <Grid>
+        <BoxView Color="{StaticResource BackgroundMain}" />
 
-       <Label Text="Create Account"  
-              FontSize="30"  
-              TextColor="#f1c40f"  
-              FontAttributes="Bold"  
-              HorizontalOptions="Center" />  
+        <ScrollView>
+            <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center" 
+                                 x:Name="RootLayout" Opacity="0" TranslationY="100">
 
-       <Frame CornerRadius="12"  
-              BackgroundColor="#1A1A1A"  
-              Padding="0">  
-           <Entry Placeholder="Email"  
-                  Text="{Binding Email}"  
-                  PlaceholderColor="#777"  
-                  TextColor="White"  
-                  HeightRequest="48" />  
-       </Frame>  
+                <Label Text="Join Us" 
+                       Style="{StaticResource Headline}" 
+                       TextColor="{StaticResource Primary}"
+                       Margin="0,0,0,10"/>
+                
+                <Label Text="Create your account" 
+                       Style="{StaticResource SubHeadline}" 
+                       Margin="0,0,0,30"/>
 
-       <Frame CornerRadius="12"  
-              BackgroundColor="#1A1A1A"  
-              Padding="0">  
-           <Entry Placeholder="Password"  
-                  Text="{Binding Password}"  
-                  IsPassword="True"  
-                  PlaceholderColor="#777"  
-                  TextColor="White"  
-                  HeightRequest="48" />  
-       </Frame>  
+                <!-- Register Form Card -->
+                <Frame Style="{StaticResource Frame}" Padding="20,30">
+                    <VerticalStackLayout Spacing="15">
+                        
+                        <Label Text="Email" TextColor="{StaticResource TextSecondary}"/>
+                        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
+                            <Entry Placeholder="Enter your email" 
+                                   Text="{Binding Email}" 
+                                   Keyboard="Email"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   PlaceholderColor="{StaticResource TextSecondary}"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
 
-       <Frame CornerRadius="12"  
-              BackgroundColor="#1A1A1A"  
-              Padding="0">  
-           <Entry Placeholder="Confirm Password"  
-                  Text="{Binding ConfirmPassword}"  
-                  IsPassword="True"  
-                  PlaceholderColor="#777"  
-                  TextColor="White"  
-                  HeightRequest="48" />  
-       </Frame>  
+                        <Label Text="Password" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
+                        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
+                            <Entry Placeholder="Choose a password" 
+                                   Text="{Binding Password}" 
+                                   IsPassword="True"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   PlaceholderColor="{StaticResource TextSecondary}"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                        
+                        <Label Text="Confirm Password" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
+                        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
+                            <Entry Placeholder="Confirm your password" 
+                                   Text="{Binding ConfirmPassword}" 
+                                   IsPassword="True"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   PlaceholderColor="{StaticResource TextSecondary}"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
 
-       <Button Text="Register"  
-               Clicked="OnRegisterClicked"  
-               Command="{Binding RegisterCommand}"  
-               CornerRadius="15"  
-               BackgroundColor="#f1c40f"  
-               TextColor="Black"  
-               HeightRequest="50" />  
+                        <Button Text="REGISTER" 
+                                Command="{Binding RegisterCommand}" 
+                                Clicked="OnRegisterClicked"
+                                Margin="0,20,0,0"/>
 
-       <Button Text="Back to Login"  
-               Clicked="OnBackToLoginClicked"  
-               Command="{Binding GoToLoginCommand}"  
-               BackgroundColor="Transparent"  
-               TextColor="#f1c40f" />  
+                    </VerticalStackLayout>
+                </Frame>
 
-   </VerticalStackLayout>  
+                <Button Text="Back to Login" 
+                        Style="{StaticResource SecondaryButton}" 
+                        Command="{Binding GoToLoginCommand}" 
+                        Clicked="OnBackToLoginClicked"
+                        Margin="0,10,0,0"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
 </ContentPage>

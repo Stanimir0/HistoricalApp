@@ -1,6 +1,7 @@
 ﻿using HistoricalApp.Models;
 using HistoricalApp.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
 {
@@ -10,13 +11,15 @@ namespace HistoricalApp.ViewModels
 
         public ObservableCollection<User> Users { get; set; } = new();
 
+        public ICommand LoadLeaderboardCommand { get; }
+
         public LeaderboardViewModel()
         {
             _userService = new FirebaseUserService();
-            LoadLeaderboard().ConfigureAwait(false);
+            LoadLeaderboardCommand = new Command(async () => await LoadLeaderboard());
         }
 
-        private async Task LoadLeaderboard()
+        public async Task LoadLeaderboard()
         {
             var allUsers = await _userService.GetAllUsersAsync();
 
@@ -31,10 +34,12 @@ namespace HistoricalApp.ViewModels
                 .OrderByDescending(u => u.TotalPoints)
                 .ToList();
 
-            Users.Clear();
-
-            foreach (var user in sortedUsers)
-                Users.Add(user);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Users.Clear();
+                foreach (var user in sortedUsers)
+                    Users.Add(user);
+            });
         }
     }
 }

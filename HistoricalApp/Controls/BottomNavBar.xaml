@@ -1,79 +1,107 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentView
     x:Class="HistoricalApp.Controls.BottomNavBar"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="Root"
-    HeightRequest="70"
-    BackgroundColor="#111111">
+    HeightRequest="80"
+    BackgroundColor="Transparent">
 
-    <Grid ColumnDefinitions="*,*,*,*"
-          Padding="10,5"
-          VerticalOptions="End">
+    <Border StrokeShape="RoundRectangle 20,20,0,0"
+            BackgroundColor="{StaticResource Surface}"
+            Stroke="{StaticResource PrimaryDark}"
+            StrokeThickness="1"
+            Padding="10,5"
+            VerticalOptions="End"
+            Shadow="{StaticResource Shadow}">
+        
+        <Grid ColumnDefinitions="*,*,*,*">
 
-        <!-- HOME -->
-        <VerticalStackLayout Grid.Column="0"
-                             HorizontalOptions="Center">
-            <Image Source="icon_home.png"
-                   WidthRequest="24"
-                   HeightRequest="24">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnHomeTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-            <Label Text="Home"
-                   FontSize="11"
-                   TextColor="White"
-                   HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- HOME -->
+            <VerticalStackLayout Grid.Column="0"
+                                 Spacing="0"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                
+                <ImageButton Source="icon_home.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             CornerRadius="20"
+                             BackgroundColor="Transparent"
+                             Clicked="OnHomeClicked">
+                    <ImageButton.Behaviors>
+                         <Toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    </ImageButton.Behaviors>
+                </ImageButton>
+                    
+                <Label Text="Home"
+                       FontSize="10"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"
+                       InputTransparent="True"/>
+            </VerticalStackLayout>
 
-        <!-- PROFILE -->
-        <VerticalStackLayout Grid.Column="1"
-                             HorizontalOptions="Center">
-            <Image Source="icon_profile.png"
-                   WidthRequest="24"
-                   HeightRequest="24">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnProfileTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-            <Label Text="Profile"
-                   FontSize="11"
-                   TextColor="White"
-                   HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- PROFILE -->
+            <VerticalStackLayout Grid.Column="1"
+                                 Spacing="0"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                
+                <ImageButton Source="icon_profile.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             CornerRadius="20"
+                             BackgroundColor="Transparent"
+                             Clicked="OnProfileClicked">
+                    <!-- Be safer with images that might not exist or need tinting -->
+                </ImageButton>
 
-        <!-- LEADERBOARD -->
-        <VerticalStackLayout Grid.Column="2"
-                             HorizontalOptions="Center">
-            <Image Source="icon_trophy.png"
-                   WidthRequest="24"
-                   HeightRequest="24">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnLeaderboardTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-            <Label Text="Ranking"
-                   FontSize="11"
-                   TextColor="White"
-                   HorizontalOptions="Center" />
-        </VerticalStackLayout>
+                <Label Text="Profile"
+                       FontSize="10"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Center"
+                       InputTransparent="True"/>
+            </VerticalStackLayout>
 
-        <!-- ADMIN (always shown for now) -->
-        <VerticalStackLayout Grid.Column="3"
-                             HorizontalOptions="Center">
-            <Image Source="icon_admin.png"
-                   WidthRequest="24"
-                   HeightRequest="24">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnAdminTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-            <Label Text="Admin"
-                   FontSize="11"
-                   TextColor="White"
-                   HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- LEADERBOARD -->
+            <VerticalStackLayout Grid.Column="2"
+                                 Spacing="0"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                
+                <ImageButton Source="icon_trophy.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             CornerRadius="20"
+                             BackgroundColor="Transparent"
+                             Clicked="OnLeaderboardClicked"/>
 
-    </Grid>
+                <Label Text="Ranking"
+                       FontSize="10"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Center"
+                       InputTransparent="True"/>
+            </VerticalStackLayout>
+
+            <!-- ADMIN -->
+            <VerticalStackLayout Grid.Column="3"
+                                 Spacing="0"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                
+                <ImageButton Source="icon_admin.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             CornerRadius="20"
+                             BackgroundColor="Transparent"
+                             Clicked="OnAdminClicked"/>
+
+                <Label Text="Admin"
+                       FontSize="10"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Center"
+                       InputTransparent="True"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
 </ContentView>

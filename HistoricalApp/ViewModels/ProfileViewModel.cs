@@ -25,7 +25,9 @@ namespace HistoricalApp.ViewModels
             LoadUserCommand = new Command(async () => await LoadCurrentUser());
 
             RefreshCommand = new Command(async () => await LoadCurrentUser());
-            LoadCurrentUser().ConfigureAwait(false);
+            
+            // Initialize with empty user to prevent null binding crashes
+            _currentUser = new User();
         }
 
         public async Task LoadCurrentUser()
@@ -40,7 +42,10 @@ namespace HistoricalApp.ViewModels
             if (user != null)
             {
                 user.RecalculateRank();
-                CurrentUser = user;
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    CurrentUser = user;
+                });
             }
         }
     }

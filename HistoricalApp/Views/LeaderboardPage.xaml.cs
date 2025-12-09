@@ -1,4 +1,5 @@
 using HistoricalApp.Helpers;
+using HistoricalApp.ViewModels;
 
 namespace HistoricalApp.Views
 {
@@ -13,6 +14,9 @@ namespace HistoricalApp.Views
         {
             base.OnAppearing();
             await AnimationHelper.SlideUpFadeIn(RootLayout);
+
+            if (BindingContext is LeaderboardViewModel vm)
+                vm.LoadLeaderboardCommand.Execute(null);
         }
     }
 }
