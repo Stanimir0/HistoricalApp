@@ -12,17 +12,22 @@ namespace HistoricalApp.Views
 
         private async void OnBattlesClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new QuizSelectionPage("Battles"));
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Battles");
         }
 
         private async void OnEventsClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new QuizSelectionPage("Events"));
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Events");
         }
 
         private async void OnCharactersClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new QuizSelectionPage("Characters"));
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Characters");
+        }
+
+        private async void OnBackClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//HomePage");
         }
     }
 }

@@ -21,4 +21,16 @@
     <ShellContent Route="AdminPage"
                   ContentTemplate="{DataTemplate views:AdminPage}" />
 
+    <ShellContent Route="LoginPage"
+                  ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <ShellContent Route="RegisterPage"
+                  ContentTemplate="{DataTemplate views:RegisterPage}" />
+
+    <ShellContent Route="QuizSelectionPage"
+                  ContentTemplate="{DataTemplate views:QuizSelectionPage}" />
+
+    <ShellContent Route="CategorySelectionPage"
+                  ContentTemplate="{DataTemplate views:CategorySelectionPage}" />
+
 </Shell>

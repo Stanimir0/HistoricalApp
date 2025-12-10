@@ -12,6 +12,14 @@
                              Padding="25"
                              Spacing="15">
 
+            <Button Text="← Back"
+                    BackgroundColor="#333"
+                    TextColor="White"
+                    Clicked="OnBackClicked"
+                    HorizontalOptions="Start"
+                    WidthRequest="100"
+                    Margin="0,0,0,10" />
+
             <Label Text="{Binding CategoryTitle}"
                    FontSize="28"
                    TextColor="#f1c40f"

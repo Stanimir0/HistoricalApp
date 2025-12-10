@@ -44,6 +44,11 @@ namespace HistoricalApp.ViewModels
                 Quizzes.Add(quiz);
         }
 
+        public async void UpdateCategory(string category)
+        {
+            await LoadQuizzes(category);
+        }
+
         private async Task OnQuizSelected(Quiz quiz)
         {
             if (quiz == null)

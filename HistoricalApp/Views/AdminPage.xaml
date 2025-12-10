@@ -17,13 +17,21 @@
 
         <!-- MAIN CONTENT -->
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="20" Spacing="15">
+            <VerticalStackLayout Padding="20" Spacing="20">
 
-                <Label Text="Admin Panel"
-                       FontSize="26"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       TextColor="#FFD700" />
+            <Button Text="← Back"
+                    BackgroundColor="#333"
+                    TextColor="White"
+                    Clicked="OnBackClicked"
+                    HorizontalOptions="Start"
+                    WidthRequest="100"
+                    Margin="0,0,0,10" />
+
+            <Label Text="Admin Panel"
+                   FontSize="28"
+                   TextColor="#FFD700"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
 
                 <Button Text="Add New Quiz"
                         BackgroundColor="#FFD700"

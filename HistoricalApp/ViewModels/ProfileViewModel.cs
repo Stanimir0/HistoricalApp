@@ -9,6 +9,8 @@ namespace HistoricalApp.ViewModels
     {
         private readonly FirebaseUserService _userService;
         public ICommand LoadUserCommand { get; }
+        public ICommand LogoutCommand { get; }
+        public ICommand AdminPanelCommand { get; }
 
         public User CurrentUser
         {
@@ -17,14 +19,22 @@ namespace HistoricalApp.ViewModels
         }
         private User _currentUser;
 
+        public bool IsAdmin
+        {
+            get => _isAdmin;
+            set => SetProperty(ref _isAdmin, value);
+        }
+        private bool _isAdmin;
+
         public ICommand RefreshCommand { get; }
 
         public ProfileViewModel()
         {
             _userService = new FirebaseUserService();
             LoadUserCommand = new Command(async () => await LoadCurrentUser());
-
             RefreshCommand = new Command(async () => await LoadCurrentUser());
+            LogoutCommand = new Command(async () => await Logout());
+            AdminPanelCommand = new Command(async () => await GoToAdminPanel());
             
             // Initialize with empty user to prevent null binding crashes
             _currentUser = new User();
@@ -42,11 +52,33 @@ namespace HistoricalApp.ViewModels
             if (user != null)
             {
                 user.RecalculateRank();
+                
+                // Check if user is admin
+                var userRole = Preferences.Get("UserRole", string.Empty);
+                var isAdmin = userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+                
+                Console.WriteLine($"[ProfileViewModel] UserRole from Preferences: '{userRole}'");
+                Console.WriteLine($"[ProfileViewModel] User.Role from DB: '{user.Role}'");
+                Console.WriteLine($"[ProfileViewModel] IsAdmin calculated: {isAdmin}");
+                
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     CurrentUser = user;
+                    IsAdmin = isAdmin;
+                    Console.WriteLine($"[ProfileViewModel] IsAdmin property set to: {IsAdmin}");
                 });
             }
+        }
+
+        private async Task Logout()
+        {
+            Preferences.Clear();
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
+
+        private async Task GoToAdminPanel()
+        {
+            await Shell.Current.GoToAsync("//AdminPage");
         }
     }
 }

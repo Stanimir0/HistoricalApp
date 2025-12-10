@@ -58,6 +58,12 @@
                TextColor="White"  
                Command="{Binding AddQuestionCommand}" />
 
+            <Label Text="💡 After adding questions, close this popup and click Save in the quiz editor to persist to Firebase"
+                   FontSize="12"
+                   TextColor="#FFD700"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,10,0,0" />
+
             <Button Text="Close"  
                BackgroundColor="#555"  
                TextColor="White"  

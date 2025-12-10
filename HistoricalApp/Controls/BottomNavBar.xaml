@@ -15,7 +15,7 @@
             VerticalOptions="End"
             Shadow="{StaticResource Shadow}">
         
-        <Grid ColumnDefinitions="*,*,*,*">
+        <Grid ColumnDefinitions="*,*,*">
 
             <!-- HOME -->
             <VerticalStackLayout Grid.Column="0"
@@ -77,26 +77,6 @@
                              Clicked="OnLeaderboardClicked"/>
 
                 <Label Text="Ranking"
-                       FontSize="10"
-                       TextColor="{StaticResource TextSecondary}"
-                       HorizontalOptions="Center"
-                       InputTransparent="True"/>
-            </VerticalStackLayout>
-
-            <!-- ADMIN -->
-            <VerticalStackLayout Grid.Column="3"
-                                 Spacing="0"
-                                 VerticalOptions="Center"
-                                 HorizontalOptions="Center">
-                
-                <ImageButton Source="icon_admin.png"
-                             WidthRequest="40"
-                             HeightRequest="40"
-                             CornerRadius="20"
-                             BackgroundColor="Transparent"
-                             Clicked="OnAdminClicked"/>
-
-                <Label Text="Admin"
                        FontSize="10"
                        TextColor="{StaticResource TextSecondary}"
                        HorizontalOptions="Center"

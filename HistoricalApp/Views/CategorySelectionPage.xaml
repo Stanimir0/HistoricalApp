@@ -7,6 +7,14 @@
 
     <VerticalStackLayout Padding="20" Spacing="20">
 
+        <Button Text="← Back"
+                BackgroundColor="#333"
+                TextColor="White"
+                Clicked="OnBackClicked"
+                HorizontalOptions="Start"
+                WidthRequest="100"
+                Margin="0,0,0,10" />
+
         <Label Text="Choose a Category"
                FontSize="26"
                FontAttributes="Bold"

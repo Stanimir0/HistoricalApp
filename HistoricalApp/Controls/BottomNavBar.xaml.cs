@@ -33,13 +33,5 @@ namespace HistoricalApp.Controls
 
             await Shell.Current.GoToAsync("//LeaderboardPage");
         }
-
-        private async void OnAdminClicked(object sender, EventArgs e)
-        {
-            if (sender is View v)
-                await AnimationHelper.AnimateButtonPress(v);
-
-            await Shell.Current.GoToAsync("//AdminPage");
-        }
     }
 }

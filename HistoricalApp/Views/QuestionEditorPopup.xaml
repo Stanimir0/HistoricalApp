@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="HistoricalApp.Views.QuestionEditorPopup"
+    CanBeDismissedByTappingOutsideOfPopup="True"
     BackgroundColor="#1e1e1e">
 
     <VerticalStackLayout Padding="20" Spacing="10"
@@ -32,7 +33,7 @@
                 TextColor="White"
                 Clicked="OnSaveClicked" />
 
-        <Button Text="Cancel"
+        <Button Text="Close"
                 BackgroundColor="#555"
                 TextColor="White"
                 Clicked="OnCancelClicked" />

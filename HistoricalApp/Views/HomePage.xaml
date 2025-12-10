@@ -17,37 +17,14 @@
             <Grid RowDefinitions="Auto, Auto, *" RowSpacing="20" Padding="20,40,20,20">
                 
                 <!-- Header -->
-                <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-                    <VerticalStackLayout>
-                        <Label Text="Welcome Back," Style="{StaticResource SubHeadline}" HorizontalOptions="Start"/>
-                        <Label Text="{Binding CurrentUser.UserName, TargetNullValue='Explorer'}" 
-                               Style="{StaticResource Headline}" 
-                               HorizontalOptions="Start"
-                               FontSize="24"/>
-                    </VerticalStackLayout>
-                    <!-- User Avatar or Icon could go here -->
-                </Grid>
+                <Label Grid.Row="0" 
+                       Text="{Binding CurrentUser.UserName, StringFormat='Welcome back, {0}', TargetNullValue='Welcome back, Explorer'}"
+                       Style="{StaticResource Headline}" 
+                       HorizontalOptions="Start"
+                       FontSize="28"
+                       Margin="0,0,0,20"/>
 
-                <!-- Stats Card -->
-                <Frame Grid.Row="1">
-                    <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-                        <VerticalStackLayout>
-                            <Label Text="RANK" TextColor="{StaticResource TextSecondary}" FontSize="12"/>
-                            <Label Text="{Binding CurrentUser.Rank, TargetNullValue='Novice'}" 
-                                   TextColor="{StaticResource Primary}" 
-                                   FontAttributes="Bold" 
-                                   FontSize="20"/>
-                        </VerticalStackLayout>
-                        
-                        <VerticalStackLayout Grid.Column="1">
-                            <Label Text="POINTS" TextColor="{StaticResource TextSecondary}" FontSize="12"/>
-                            <Label Text="{Binding CurrentUser.TotalPoints, TargetNullValue='0'}" 
-                                   TextColor="{StaticResource Primary}" 
-                                   FontAttributes="Bold" 
-                                   FontSize="20"/>
-                        </VerticalStackLayout>
-                    </Grid>
-                </Frame>
+
 
                 <!-- Game Modes Dashboard -->
                 <Grid Grid.Row="2" ColumnDefinitions="*,*" RowDefinitions="140, 140" ColumnSpacing="15" RowSpacing="15">
@@ -57,7 +34,7 @@
                            BorderColor="{StaticResource PrimaryDark}"
                            BackgroundColor="{StaticResource SurfaceHighlight}">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateBattles}"/>
+                            <TapGestureRecognizer Tapped="OnBattlesClicked"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                             <Label Text="⚔️" FontSize="40" HorizontalOptions="Center"/>
@@ -70,7 +47,7 @@
                            BorderColor="{StaticResource PrimaryDark}"
                            BackgroundColor="{StaticResource SurfaceHighlight}">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateEvents}"/>
+                            <TapGestureRecognizer Tapped="OnEventsClicked"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                             <Label Text="📅" FontSize="40" HorizontalOptions="Center"/>
@@ -83,7 +60,7 @@
                            BorderColor="{StaticResource PrimaryDark}"
                            BackgroundColor="{StaticResource SurfaceHighlight}">
                          <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateCharacters}"/>
+                            <TapGestureRecognizer Tapped="OnCharactersClicked"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                             <Label Text="👤" FontSize="40" HorizontalOptions="Center"/>

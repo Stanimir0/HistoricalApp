@@ -34,69 +34,154 @@ namespace HistoricalApp.ViewModels
 
         private async Task LoadQuizzes()
         {
-            var quizzes = await _quizService.GetAllQuizzesAsync();
-
-            MainThread.BeginInvokeOnMainThread(() =>
+            try
             {
-                Quizzes.Clear();
-                foreach (var q in quizzes)
-                    Quizzes.Add(q);
-            });
+                var quizzes = await _quizService.GetAllQuizzesAsync();
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Quizzes.Clear();
+                    foreach (var q in quizzes)
+                        Quizzes.Add(q);
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] LoadQuizzes failed: {ex.Message}");
+                if (App.Current?.MainPage != null)
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.DisplayAlert("Error", "Failed to load quizzes. Please check your internet connection.", "OK");
+                    });
+                }
+            }
         }
 
         private async Task AddQuiz()
         {
-            var popup = new QuizEditorPopup();
-
-            popup.OnPopupClosed += async (newQuiz) =>
+            try
             {
-                if (newQuiz == null) return;
+                var popup = new QuizEditorPopup();
 
-                if (newQuiz.Questions == null)
-                    newQuiz.Questions = new List<Question>();
+                popup.OnPopupClosed += async (newQuiz) =>
+                {
+                    if (newQuiz == null) return;
 
-                await _quizService.AddQuizAsync(newQuiz);
-                await App.Current.MainPage.DisplayAlert("Success", "Quiz added!", "OK");
+                    try
+                    {
+                        if (newQuiz.Questions == null)
+                            newQuiz.Questions = new List<Question>();
 
-                await LoadQuizzes();
-            };
+                        await _quizService.AddQuizAsync(newQuiz);
+                        
+                        if (App.Current?.MainPage != null)
+                            await App.Current.MainPage.DisplayAlert("Success", "Quiz added successfully!", "OK");
 
-            await App.Current.MainPage.ShowPopupAsync(popup);
+                        await LoadQuizzes();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Error] AddQuiz failed: {ex.Message}");
+                        if (App.Current?.MainPage != null)
+                            await App.Current.MainPage.DisplayAlert("Error", $"Failed to add quiz: {ex.Message}", "OK");
+                    }
+                };
+
+                if (App.Current?.MainPage != null)
+                    await App.Current.MainPage.ShowPopupAsync(popup);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Failed to show popup: {ex.Message}");
+                if (App.Current?.MainPage != null)
+                    await App.Current.MainPage.DisplayAlert("Error", "Failed to open quiz editor.", "OK");
+            }
         }
 
         private async Task EditQuiz(Quiz quiz)
         {
-            var popup = new QuizEditorPopup(quiz);
-
-            popup.OnPopupClosed += async (updatedQuiz) =>
+            if (quiz == null)
             {
-                if (updatedQuiz == null) return;
+                Console.WriteLine("[Error] Cannot edit null quiz");
+                return;
+            }
 
-                updatedQuiz.Id = quiz.Id;
+            try
+            {
+                var popup = new QuizEditorPopup(quiz);
 
-                if (updatedQuiz.Questions == null)
-                    updatedQuiz.Questions = quiz.Questions;
+                popup.OnPopupClosed += async (updatedQuiz) =>
+                {
+                    if (updatedQuiz == null) return;
 
-                await _quizService.UpdateQuizAsync(updatedQuiz);
-                await App.Current.MainPage.DisplayAlert("Success", "Quiz updated!", "OK");
+                    try
+                    {
+                        updatedQuiz.Id = quiz.Id;
 
-                await LoadQuizzes();
-            };
+                        if (updatedQuiz.Questions == null)
+                            updatedQuiz.Questions = quiz.Questions ?? new List<Question>();
 
-            await App.Current.MainPage.ShowPopupAsync(popup);
+                        await _quizService.UpdateQuizAsync(updatedQuiz);
+                        
+                        if (App.Current?.MainPage != null)
+                            await App.Current.MainPage.DisplayAlert("Success", "Quiz updated successfully!", "OK");
+
+                        await LoadQuizzes();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Error] EditQuiz failed: {ex.Message}");
+                        if (App.Current?.MainPage != null)
+                            await App.Current.MainPage.DisplayAlert("Error", $"Failed to update quiz: {ex.Message}", "OK");
+                    }
+                };
+
+                if (App.Current?.MainPage != null)
+                    await App.Current.MainPage.ShowPopupAsync(popup);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Failed to show edit popup: {ex.Message}");
+                if (App.Current?.MainPage != null)
+                    await App.Current.MainPage.DisplayAlert("Error", "Failed to open quiz editor.", "OK");
+            }
         }
 
         private async Task DeleteQuiz(Quiz quiz)
         {
-            bool confirm = await App.Current.MainPage.DisplayAlert(
-                "Confirm Delete",
-                $"Delete quiz: {quiz.Title}?",
-                "Yes", "No");
+            if (quiz == null)
+            {
+                Console.WriteLine("[Error] Cannot delete null quiz");
+                return;
+            }
 
-            if (!confirm) return;
+            try
+            {
+                if (App.Current?.MainPage == null)
+                {
+                    Console.WriteLine("[Error] MainPage is null, cannot show alert");
+                    return;
+                }
 
-            await _quizService.DeleteQuizAsync(quiz.Id);
-            await LoadQuizzes();
+                bool confirm = await App.Current.MainPage.DisplayAlert(
+                    "Confirm Delete",
+                    $"Delete quiz: {quiz.Title}?",
+                    "Yes", "No");
+
+                if (!confirm) return;
+
+                await _quizService.DeleteQuizAsync(quiz.Id);
+                await LoadQuizzes();
+                
+                await App.Current.MainPage.DisplayAlert("Success", "Quiz deleted successfully!", "OK");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] DeleteQuiz failed: {ex.Message}");
+                if (App.Current?.MainPage != null)
+                    await App.Current.MainPage.DisplayAlert("Error", $"Failed to delete quiz: {ex.Message}", "OK");
+            }
         }
 
         private async Task TestFirebaseConnection()

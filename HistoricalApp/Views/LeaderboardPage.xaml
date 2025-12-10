@@ -29,33 +29,62 @@
                                 SelectionMode="None">
 
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:User">
-                            <Frame BackgroundColor="#1A1A1A"
-                                   CornerRadius="15"
-                                   Padding="15">
+                        <DataTemplate x:DataType="viewmodels:LeaderboardItem">
+                            <Border StrokeShape="RoundRectangle 15"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#1A1A1A"
+                                    Margin="0,0,0,10"
+                                    Padding="15,10">
+                                
+                                <Grid ColumnDefinitions="40, 50, *, Auto" ColumnSpacing="15" VerticalOptions="Center">
+                                    
+                                    <!-- Position/Rank -->
+                                    <Label Grid.Column="0" 
+                                           Text="{Binding Position}"
+                                           TextColor="{Binding RankColor}"
+                                           FontSize="28"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <!-- Avatar Placeholder -->
+                                    <Frame Grid.Column="1"
+                                           HeightRequest="40"
+                                           WidthRequest="40"
+                                           CornerRadius="20"
+                                           Padding="0"
+                                           IsClippedToBounds="True"
+                                           BackgroundColor="#333"
+                                           BorderColor="{Binding RankColor}"
+                                           HasShadow="False">
+                                        <Image Source="icon_profile.png" Aspect="AspectFill" Margin="8"/>
+                                    </Frame>
 
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding UserName}"
-                                           FontSize="22"
-                                           TextColor="White"
-                                           FontAttributes="Bold"/>
+                                    <!-- User Info -->
+                                    <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding User.UserName}"
+                                               TextColor="White"
+                                               FontSize="18"
+                                               FontAttributes="Bold"/>
+                                        <Label Text="{Binding User.Rank}"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               FontSize="12"/>
+                                    </VerticalStackLayout>
 
-                                    <Label Text="Rank:"
-                                           TextColor="#f1c40f"
-                                           FontSize="14"/>
-                                    <Label Text="{Binding Rank}"
-                                           TextColor="White"
-                                           FontSize="18"/>
-
-                                    <Label Text="Points:"
-                                           TextColor="#f1c40f"
-                                           FontSize="14"/>
-                                    <Label Text="{Binding TotalPoints}"
-                                           TextColor="White"
-                                           FontSize="18"/>
-                                </VerticalStackLayout>
-
-                            </Frame>
+                                    <!-- Points -->
+                                    <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" HorizontalOptions="End">
+                                        <Label Text="{Binding User.TotalPoints}"
+                                               TextColor="#FFD700"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="End"/>
+                                        <Label Text="PTS"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               FontSize="10"
+                                               HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 

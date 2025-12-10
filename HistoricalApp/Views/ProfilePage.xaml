@@ -61,6 +61,19 @@
 
                 </Frame>
 
+                <Button Text="Admin Panel"
+                        BackgroundColor="#FFD700"
+                        TextColor="#1E1E1E"
+                        Command="{Binding AdminPanelCommand}"
+                        IsVisible="{Binding IsAdmin}"
+                        Margin="0,20,0,0" />
+
+                <Button Text="Logout"
+                        BackgroundColor="#e53935"
+                        TextColor="White"
+                        Command="{Binding LogoutCommand}"
+                        Margin="0,20,0,0" />
+
             </VerticalStackLayout>
         </ScrollView>
 

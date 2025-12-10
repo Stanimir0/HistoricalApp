@@ -21,10 +21,32 @@ namespace HistoricalApp.Views
                 await AnimationHelper.AnimateButtonPress(v);
         }
 
+
         private async void OnLeaderboardClicked(object sender, EventArgs e)
         {
             if (sender is View v)
                 await AnimationHelper.AnimateButtonPress(v);
+        }
+
+        private async void OnBattlesClicked(object sender, EventArgs e)
+        {
+            if (sender is View v)
+                await AnimationHelper.AnimateButtonPress(v);
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Battles");
+        }
+
+        private async void OnEventsClicked(object sender, EventArgs e)
+        {
+            if (sender is View v)
+                await AnimationHelper.AnimateButtonPress(v);
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Events");
+        }
+
+        private async void OnCharactersClicked(object sender, EventArgs e)
+        {
+            if (sender is View v)
+                await AnimationHelper.AnimateButtonPress(v);
+            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Characters");
         }
     }
 }

@@ -10,6 +10,7 @@ namespace HistoricalApp.Views
         public event Action<Quiz?> OnPopupClosed;
 
         private readonly Quiz _quiz;
+        private bool _isClosing = false;
 
         public QuizEditorPopup(Quiz quiz = null)
         {
@@ -40,19 +41,37 @@ namespace HistoricalApp.Views
             await App.Current.MainPage.ShowPopupAsync(popup);
         }
 
-        // ✅ Custom Close Method (replacement for Close/DismissAsync)
+        // ✅ Close popup with delay to prevent ArgumentException
         private void ClosePopup(Quiz? result)
         {
+            if (_isClosing) return;
+            _isClosing = true;
+
             try
             {
+                Console.WriteLine($"[DEBUG] Closing popup with result: {result?.Title ?? "null"}");
+                
+                // Invoke callback
                 OnPopupClosed?.Invoke(result);
-                this.Handler?.DisconnectHandler(); // Forcefully closes popup safely
-                this.IsVisible = false;
-                Console.WriteLine("[DEBUG] Popup closed manually.");
+                
+                // Schedule close on main thread after a tiny delay
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(50);
+                    try
+                    {
+                        await CloseAsync();
+                    }
+                    catch (Exception closeEx)
+                    {
+                        Console.WriteLine($"[Close Error] {closeEx.Message}");
+                    }
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Popup Close Error] {ex.Message}");
+                Console.WriteLine($"[Popup Error] {ex.Message}");
+                _isClosing = false;
             }
         }
     }

@@ -6,6 +6,7 @@ namespace HistoricalApp.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly FirebaseAuthService _authService;
+        private readonly FirebaseUserService _userService;
 
         public string Email { get; set; }
         public string Password { get; set; }
@@ -16,6 +17,7 @@ namespace HistoricalApp.ViewModels
         public LoginViewModel()
         {
             _authService = new FirebaseAuthService();
+            _userService = new FirebaseUserService();
 
             LoginCommand = new Command(async () => await OnLogin());
             GoToRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//RegisterPage"));
@@ -39,6 +41,13 @@ namespace HistoricalApp.ViewModels
 
             // Save user ID on device
             Preferences.Set("UserId", userId);
+
+            // Fetch user data to get role
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user != null && !string.IsNullOrEmpty(user.Role))
+            {
+                Preferences.Set("UserRole", user.Role);
+            }
 
             await Shell.Current.GoToAsync("//HomePage");
 

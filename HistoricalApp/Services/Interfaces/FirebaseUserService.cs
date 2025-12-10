@@ -10,7 +10,7 @@ namespace HistoricalApp.Services
 
         public FirebaseUserService()
         {
-            _client = new FirebaseClient("YOUR_FIREBASE_DB_URL_HERE");
+            _client = new FirebaseClient("https://historical-f19c6-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
         public async Task<User?> GetUserByIdAsync(string userId)

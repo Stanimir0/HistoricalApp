@@ -9,6 +9,7 @@ namespace HistoricalApp.Views
     {
         public event Action OnPopupClosed;
         private readonly Quiz _quiz;
+        private bool _isClosing = false;
 
         public QuestionManagerPopup(Quiz quiz)
         {
@@ -22,19 +23,37 @@ namespace HistoricalApp.Views
             ClosePopup();
         }
 
-        // ✅ Custom Close
+        // ✅ Close popup with delay to prevent ArgumentException
         private void ClosePopup()
         {
+            if (_isClosing) return;
+            _isClosing = true;
+
             try
             {
+                Console.WriteLine("[DEBUG] Closing QuestionManagerPopup");
+                
+                // Invoke callback
                 OnPopupClosed?.Invoke();
-                this.Handler?.DisconnectHandler();
-                this.IsVisible = false;
-                Console.WriteLine("[DEBUG] QuestionManagerPopup closed manually.");
+                
+                // Schedule close on main thread after a tiny delay
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(50);
+                    try
+                    {
+                        await CloseAsync();
+                    }
+                    catch (Exception closeEx)
+                    {
+                        Console.WriteLine($"[Close Error] {closeEx.Message}");
+                    }
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Popup Close Error] {ex.Message}");
+                Console.WriteLine($"[Popup Error] {ex.Message}");
+                _isClosing = false;
             }
         }
     }

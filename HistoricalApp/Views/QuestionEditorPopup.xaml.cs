@@ -21,27 +21,29 @@ namespace HistoricalApp.Views
 
         private void OnSaveClicked(object sender, EventArgs e)
         {
-            ClosePopup(_question);
+            // Just invoke callback and let popup dismiss naturally
+            try
+            {
+                Console.WriteLine("[DEBUG] Question saved, invoking callback");
+                OnPopupClosed?.Invoke(_question);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Save Error] {ex.Message}");
+            }
         }
 
         private void OnCancelClicked(object sender, EventArgs e)
         {
-            ClosePopup(null);
-        }
-
-        // ✅ Custom close for your .NET version
-        private void ClosePopup(Question? result)
-        {
+            // Just invoke callback with null
             try
             {
-                OnPopupClosed?.Invoke(result);
-                this.Handler?.DisconnectHandler();
-                this.IsVisible = false;
-                Console.WriteLine("[DEBUG] QuestionEditorPopup closed manually.");
+                Console.WriteLine("[DEBUG] Question canceled, invoking callback");
+                OnPopupClosed?.Invoke(null);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Popup Close Error] {ex.Message}");
+                Console.WriteLine($"[Cancel Error] {ex.Message}");
             }
         }
     }

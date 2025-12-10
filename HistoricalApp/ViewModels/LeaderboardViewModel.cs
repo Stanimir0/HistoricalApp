@@ -5,11 +5,19 @@ using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
 {
+    public class LeaderboardItem
+    {
+        public User User { get; set; }
+        public int Position { get; set; }
+        public Color RankColor { get; set; }
+        public bool IsTopThree => Position <= 3;
+    }
+
     public class LeaderboardViewModel : BaseViewModel
     {
         private readonly FirebaseUserService _userService;
 
-        public ObservableCollection<User> Users { get; set; } = new();
+        public ObservableCollection<LeaderboardItem> Users { get; set; } = new();
 
         public ICommand LoadLeaderboardCommand { get; }
 
@@ -37,8 +45,22 @@ namespace HistoricalApp.ViewModels
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 Users.Clear();
+                int rank = 1;
                 foreach (var user in sortedUsers)
-                    Users.Add(user);
+                {
+                    Color rankColor = Colors.White; // Default
+                    if (rank == 1) rankColor = Color.FromArgb("#FFD700"); // Gold
+                    else if (rank == 2) rankColor = Color.FromArgb("#C0C0C0"); // Silver
+                    else if (rank == 3) rankColor = Color.FromArgb("#CD7F32"); // Bronze
+
+                    Users.Add(new LeaderboardItem 
+                    { 
+                        User = user, 
+                        Position = rank,
+                        RankColor = rankColor
+                    });
+                    rank++;
+                }
             });
         }
     }
