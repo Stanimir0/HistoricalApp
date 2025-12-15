@@ -41,6 +41,21 @@ namespace HistoricalApp.Services
                 if (quiz.Questions == null)
                     quiz.Questions = new List<Question>(); // ✅ Always safe
 
+                // ✅ Sanitize Questions (Fix for IndexOutOfRange in UI)
+                foreach (var q in quiz.Questions)
+                {
+                    if (q.Answers == null || q.Answers.Length < 4)
+                    {
+                        var newAnswers = new string[4];
+                        if (q.Answers != null)
+                        {
+                            for (int i = 0; i < Math.Min(q.Answers.Length, 4); i++)
+                                newAnswers[i] = q.Answers[i];
+                        }
+                        q.Answers = newAnswers;
+                    }
+                }
+
                 quizzes.Add(quiz);
             }
             return quizzes;

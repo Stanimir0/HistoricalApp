@@ -6,43 +6,66 @@
     x:Class="HistoricalApp.Views.QuizEditorPopup"
     BackgroundColor="Black">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20"
-                             Spacing="10"
-                             WidthRequest="400"
-                             HeightRequest="500">
-            <Label Text="Quiz Editor"
-                   FontSize="24"
-                   HorizontalOptions="Center" />
+    <Grid RowDefinitions="*">
+        <!-- Main Quiz Editor (Layer 0) -->
+        <ScrollView Grid.Row="0" MaximumHeightRequest="600" IsVisible="{Binding IsMainVisible}">
+            <VerticalStackLayout Padding="20" Spacing="10" WidthRequest="400">
+                <Label Text="Quiz Editor" FontSize="24" HorizontalOptions="Center" />
 
-            <Entry Placeholder="Title"
-                   Text="{Binding Title}" />
-            <Entry Placeholder="Description"
-                   Text="{Binding Description}" />
-            <Entry Placeholder="Category (Battles, Events, Characters)"
-                   Text="{Binding Category}" />
-            <Entry Placeholder="Difficulty (Easy, Medium, Hard)"
-                   Text="{Binding Difficulty}" />
-            <Entry Placeholder="Points"
-                   Keyboard="Numeric"
-                   Text="{Binding Points}" />
+                <Entry Placeholder="Title" Text="{Binding Title}" />
+                <Entry Placeholder="Description" Text="{Binding Description}" />
+                <Entry Placeholder="Category (Battles, Events, Characters)" Text="{Binding Category}" />
+                <Entry Placeholder="Difficulty (Easy, Medium, Hard)" Text="{Binding Difficulty}" />
+                <Entry Placeholder="Points" Keyboard="Numeric" Text="{Binding Points}" />
 
-            <HorizontalStackLayout HorizontalOptions="Center"
-                                   Spacing="15"
-                                   Margin="0,15,0,0">
-                <Button Text="Save"
-                        BackgroundColor="Green"
-                        TextColor="White"
-                        Clicked="OnSaveClicked" />
-                <Button Text="Cancel"
-                        BackgroundColor="Gray"
-                        TextColor="White"
-                        Clicked="OnCancelClicked" />
-                <Button Text="Manage Questions"
-                     BackgroundColor="#444"
-                      TextColor="White"
-                     Clicked="OnManageQuestionsClicked" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
+                <!-- Inline Question List -->
+                <Label Text="Questions" FontSize="18" FontAttributes="Bold" Margin="0,10,0,5" />
+                
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Questions}" Spacing="5">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#333" Padding="10">
+                                <Grid ColumnDefinitions="*, Auto, Auto">
+                                    <Label Grid.Column="0" Text="{Binding Text}" TextColor="White" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                                    <Button Grid.Column="1" Text="Edit" TextColor="White" BackgroundColor="#007bff" FontSize="12" Margin="5,0" Clicked="OnEditQuestionClicked" CommandParameter="{Binding .}" />
+                                    <Button Grid.Column="2" Text="X" TextColor="White" BackgroundColor="#e53935" FontSize="12" Clicked="OnDeleteQuestionClicked" CommandParameter="{Binding .}" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                    <BindableLayout.EmptyView>
+                        <Label Text="No questions added yet." TextColor="Gray" HorizontalOptions="Center" />
+                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+
+                <Button Text="+ Add Question" BackgroundColor="#444" TextColor="White" Clicked="OnAddQuestionClicked" Margin="0,0,0,10" />
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Margin="0,15,0,0">
+                    <Button Text="Save" BackgroundColor="Green" TextColor="White" Clicked="OnSaveClicked" />
+                    <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" Clicked="OnCancelClicked" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Question Editor Overlay (Layer 1) -->
+        <Grid Grid.Row="0" BackgroundColor="#1e1e1e" IsVisible="{Binding IsOverlayVisible}" Padding="20">
+            <VerticalStackLayout Spacing="10" VerticalOptions="Center">
+                <Label Text="Edit Question" FontSize="22" TextColor="#FFD700" HorizontalOptions="Center" />
+
+                <Entry Placeholder="Question text" Text="{Binding CurrentQuestion.Text}" />
+
+                <Entry Placeholder="Answer 1" Text="{Binding CurrentQuestion.Answers[0]}" />
+                <Entry Placeholder="Answer 2" Text="{Binding CurrentQuestion.Answers[1]}" />
+                <Entry Placeholder="Answer 3" Text="{Binding CurrentQuestion.Answers[2]}" />
+                <Entry Placeholder="Answer 4" Text="{Binding CurrentQuestion.Answers[3]}" />
+
+                <Entry Placeholder="Correct Answer Index (0-3)" Keyboard="Numeric" Text="{Binding CurrentQuestion.CorrectAnswerIndex}" />
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Margin="0,15,0,0">
+                    <Button Text="Save Question" BackgroundColor="#28a745" TextColor="White" Clicked="OnOverlaySaveClicked" />
+                    <Button Text="Cancel" BackgroundColor="#555" TextColor="White" Clicked="OnOverlayCancelClicked" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
 </toolkit:Popup>
