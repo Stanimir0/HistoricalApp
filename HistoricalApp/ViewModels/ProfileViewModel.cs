@@ -1,5 +1,6 @@
 ﻿using HistoricalApp.Models;
 using HistoricalApp.Services;
+using HistoricalApp.Views;
 using Microsoft.Maui.Storage;
 using System.Windows.Input;
 
@@ -11,6 +12,7 @@ namespace HistoricalApp.ViewModels
         public ICommand LoadUserCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand AdminPanelCommand { get; }
+        public ICommand EditProfileCommand { get; }
 
         public User CurrentUser
         {
@@ -35,6 +37,7 @@ namespace HistoricalApp.ViewModels
             RefreshCommand = new Command(async () => await LoadCurrentUser());
             LogoutCommand = new Command(async () => await Logout());
             AdminPanelCommand = new Command(async () => await GoToAdminPanel());
+            EditProfileCommand = new Command(async () => await EditProfile());
             
             // Initialize with empty user to prevent null binding crashes
             _currentUser = new User();
@@ -65,10 +68,36 @@ namespace HistoricalApp.ViewModels
                 {
                     CurrentUser = user;
                     IsAdmin = isAdmin;
+                    
+                    if (!string.IsNullOrEmpty(user.ProfileImage))
+                    {
+                        var imageBytes = Convert.FromBase64String(user.ProfileImage);
+                        UserProfileImageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+                    }
+                    else
+                    {
+                        UserProfileImageSource = "dotnet_bot.png"; // Default image
+                    }
+
                     Console.WriteLine($"[ProfileViewModel] IsAdmin property set to: {IsAdmin}");
                 });
             }
         }
+
+        private async Task EditProfile()
+        {
+            if (CurrentUser != null)
+            {
+                await Shell.Current.Navigation.PushAsync(new EditProfilePage(CurrentUser));
+            }
+        }
+
+        public ImageSource UserProfileImageSource
+        {
+            get => _userProfileImageSource;
+            set => SetProperty(ref _userProfileImageSource, value);
+        }
+        private ImageSource _userProfileImageSource;
 
         private async Task Logout()
         {

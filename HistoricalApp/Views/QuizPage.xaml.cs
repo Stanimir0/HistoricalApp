@@ -9,8 +9,10 @@ namespace HistoricalApp.Views
         public QuizPage(Quiz quiz)
         {
             InitializeComponent();
-            if (BindingContext is QuizPlayViewModel vm)
-                vm.LoadQuiz(quiz);
+
+            var viewModel = new QuizPlayViewModel();
+            BindingContext = viewModel;
+            viewModel.LoadQuiz(quiz);
         }
 
         protected override async void OnAppearing()

@@ -31,6 +31,37 @@
 
                     <VerticalStackLayout Spacing="10">
 
+                        <!-- Profile Image Section -->
+                        <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Center" WidthRequest="200">
+                             <Frame CornerRadius="50"
+                                    HeightRequest="100"
+                                    WidthRequest="100"
+                                    Padding="0"
+                                    IsClippedToBounds="True"
+                                    HorizontalOptions="Center"
+                                    BorderColor="#FFD700"
+                                    BackgroundColor="#1E1E1E">
+                                    
+                                <Image Source="{Binding UserProfileImageSource}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="100"
+                                       WidthRequest="100"/>
+                            </Frame>
+
+                            <Button Text="Edit Profile"
+                                    Grid.Column="1"
+                                    VerticalOptions="End"
+                                    FontSize="10"
+                                    HeightRequest="30"
+                                    Padding="5,0"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="Black"
+                                    Command="{Binding EditProfileCommand}"
+                                    Margin="-30,0,0,0"/> 
+                        </Grid>
+
+                        <BoxView Color="#444" HeightRequest="1" Margin="0,10" />
+
                         <Label Text="User Name"
                                TextColor="#AAAAAA"
                                FontSize="14" />

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+             x:Class="HistoricalApp.Views.EditProfilePage"
+             Title="Edit Profile"
+             BackgroundColor="#1e1e1e">
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="PlaceholderColor" Value="#888" />
+            <Setter Property="BackgroundColor" Value="#252525" />
+        </Style>
+        <Style TargetType="Editor">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="PlaceholderColor" Value="#888" />
+            <Setter Property="BackgroundColor" Value="#252525" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Profile Image Section -->
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Frame CornerRadius="60"
+                       HeightRequest="120"
+                       WidthRequest="120"
+                       Padding="0"
+                       IsClippedToBounds="True"
+                       BorderColor="#FFD700"
+                       BackgroundColor="#1E1E1E">
+                    
+                    <Image Source="{Binding ProfileImageSource}"
+                           Aspect="AspectFill"
+                           HeightRequest="120"
+                           WidthRequest="120"/>
+                </Frame>
+
+                <Button Text="Change Photo"
+                        FontSize="12"
+                        HeightRequest="35"
+                        BackgroundColor="#333"
+                        TextColor="#FFD700"
+                        Command="{Binding PickImageCommand}"
+                        HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+
+            <!-- Form Fields -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Username" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Entry Text="{Binding UserName}" Placeholder="Enter username" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Bio / Description" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Editor Text="{Binding Description}" 
+                        Placeholder="Tell us about yourself..." 
+                        HeightRequest="100" />
+            </VerticalStackLayout>
+
+            <!-- Action Buttons -->
+            <Button Text="Save Changes"
+                    BackgroundColor="#FFD700"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    Margin="0,20,0,0"
+                    Command="{Binding SaveCommand}"/>
+
+            <Button Text="Cancel"
+                    BackgroundColor="Transparent"
+                    TextColor="#FF4444"
+                    Command="{Binding CancelCommand}"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
