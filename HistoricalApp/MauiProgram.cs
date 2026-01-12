@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using HistoricalApp.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace HistoricalApp;
@@ -21,6 +22,9 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		// Initialize localization
+		LocalizationHelper.InitializeLanguage();
 
 		return builder.Build();
 	}

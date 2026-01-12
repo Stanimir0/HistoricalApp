@@ -1,4 +1,5 @@
-﻿using HistoricalApp.Models;
+﻿using HistoricalApp.Helpers;
+using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
 using Microsoft.Maui.Storage;
@@ -13,6 +14,9 @@ namespace HistoricalApp.ViewModels
         public ICommand LogoutCommand { get; }
         public ICommand AdminPanelCommand { get; }
         public ICommand EditProfileCommand { get; }
+
+        // Translation service for live language updates
+        public TranslationService Translations => TranslationService.Instance;
 
         public User CurrentUser
         {
@@ -29,6 +33,20 @@ namespace HistoricalApp.ViewModels
         private bool _isAdmin;
 
         public ICommand RefreshCommand { get; }
+        public ICommand ChangeLanguageCommand { get; }
+
+        public string SelectedLanguage
+        {
+            get => _selectedLanguage;
+            set
+            {
+                if (SetProperty(ref _selectedLanguage, value))
+                {
+                    ChangeLanguageCommand.Execute(value);
+                }
+            }
+        }
+        private string _selectedLanguage = "English";
 
         public ProfileViewModel()
         {
@@ -38,9 +56,14 @@ namespace HistoricalApp.ViewModels
             LogoutCommand = new Command(async () => await Logout());
             AdminPanelCommand = new Command(async () => await GoToAdminPanel());
             EditProfileCommand = new Command(async () => await EditProfile());
+            ChangeLanguageCommand = new Command<string>(ChangeLanguage);
             
             // Initialize with empty user to prevent null binding crashes
             _currentUser = new User();
+            
+            // Load current language preference
+            var currentLang = LocalizationHelper.GetCurrentLanguage();
+            _selectedLanguage = currentLang == "bg" ? "Български" : "English";
         }
 
         public async Task LoadCurrentUser()
@@ -56,11 +79,16 @@ namespace HistoricalApp.ViewModels
             {
                 user.RecalculateRank();
                 
-                // Check if user is admin
-                var userRole = Preferences.Get("UserRole", string.Empty);
-                var isAdmin = userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+                // IMPORTANT: Use role from DATABASE, not Preferences
+                // This ensures admin panel appears if role was changed in Firebase
+                var isAdmin = user.Role?.Equals("Admin", StringComparison.OrdinalIgnoreCase) ?? false;
                 
-                Console.WriteLine($"[ProfileViewModel] UserRole from Preferences: '{userRole}'");
+                // Update Preferences to stay in sync
+                if (!string.IsNullOrEmpty(user.Role))
+                {
+                    Preferences.Set("UserRole", user.Role);
+                }
+                
                 Console.WriteLine($"[ProfileViewModel] User.Role from DB: '{user.Role}'");
                 Console.WriteLine($"[ProfileViewModel] IsAdmin calculated: {isAdmin}");
                 
@@ -112,6 +140,24 @@ namespace HistoricalApp.ViewModels
         private async Task GoToAdminPanel()
         {
             await Shell.Current.GoToAsync("//AdminPage");
+        }
+
+        private void ChangeLanguage(string language)
+        {
+            var languageCode = language == "Български" ? "bg" : "en";
+            LocalizationHelper.SetLanguage(languageCode);
+            
+            // Update translation service to refresh UI immediately
+            TranslationService.Instance.SetLanguage(languageCode);
+            
+            // Notify UI is updated
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Shell.Current.DisplayAlert(
+                    languageCode == "bg" ? "Езикът е променен" : "Language Changed",
+                    languageCode == "bg" ? "UI е актуализиран!" : "UI has been updated!",
+                    "OK");
+            });
         }
     }
 }

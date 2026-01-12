@@ -18,7 +18,7 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="20" Spacing="20">
 
-                <Label Text="Your Profile"
+                <Label Text="{Binding Translations.YourProfile}"
                        FontSize="26"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
@@ -29,77 +29,105 @@
                        Padding="20"
                        HasShadow="True">
 
-                    <VerticalStackLayout Spacing="10">
+                    <Grid RowDefinitions="Auto,*">
+                        <!-- Edit Button - Top Right Corner -->
+                        <Button Text="✏️ Edit"
+                                Grid.Row="0"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                FontSize="12"
+                                HeightRequest="32"
+                                WidthRequest="70"
+                                Padding="8,0"
+                                CornerRadius="8"
+                                BackgroundColor="#FFD700"
+                                TextColor="Black"
+                                Command="{Binding EditProfileCommand}"
+                                Margin="0,0,0,10" />
 
-                        <!-- Profile Image Section -->
-                        <Grid ColumnDefinitions="*,Auto" HorizontalOptions="Center" WidthRequest="200">
-                             <Frame CornerRadius="50"
-                                    HeightRequest="100"
-                                    WidthRequest="100"
-                                    Padding="0"
-                                    IsClippedToBounds="True"
-                                    HorizontalOptions="Center"
-                                    BorderColor="#FFD700"
-                                    BackgroundColor="#1E1E1E">
-                                    
+                        <!-- Profile Content -->
+                        <VerticalStackLayout Grid.Row="1" Spacing="10">
+
+                            <!-- Profile Image Section -->
+                            <Frame CornerRadius="50"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                                   Padding="0"
+                                   IsClippedToBounds="True"
+                                   HorizontalOptions="Center"
+                                   BorderColor="#FFD700"
+                                   BackgroundColor="#1E1E1E">
+                                
                                 <Image Source="{Binding UserProfileImageSource}"
                                        Aspect="AspectFill"
                                        HeightRequest="100"
                                        WidthRequest="100"/>
                             </Frame>
 
-                            <Button Text="Edit Profile"
-                                    Grid.Column="1"
-                                    VerticalOptions="End"
-                                    FontSize="10"
-                                    HeightRequest="30"
-                                    Padding="5,0"
-                                    BackgroundColor="#FFD700"
-                                    TextColor="Black"
-                                    Command="{Binding EditProfileCommand}"
-                                    Margin="-30,0,0,0"/> 
-                        </Grid>
+                            <BoxView Color="#444" HeightRequest="1" Margin="0,10" />
 
-                        <BoxView Color="#444" HeightRequest="1" Margin="0,10" />
+                            <Label Text="{Binding Translations.UserName}"
+                                   TextColor="#AAAAAA"
+                                   FontSize="14" />
 
-                        <Label Text="User Name"
-                               TextColor="#AAAAAA"
-                               FontSize="14" />
+                            <Label Text="{Binding CurrentUser.UserName, FallbackValue='Loading...', TargetNullValue='Guest'}"
+                                   TextColor="White"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
 
-                        <Label Text="{Binding CurrentUser.UserName, FallbackValue='Loading...', TargetNullValue='Guest'}"
-                               TextColor="White"
-                               FontSize="20"
-                               FontAttributes="Bold" />
+                            <Label Text="{Binding Translations.Rank}"
+                                   TextColor="#AAAAAA"
+                                   FontSize="14" />
 
-                        <Label Text="Rank"
-                               TextColor="#AAAAAA"
-                               FontSize="14" />
+                            <Label Text="{Binding CurrentUser.Rank, FallbackValue='Loading...', TargetNullValue='Novice'}"
+                                   TextColor="#FFD700"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
 
-                        <Label Text="{Binding CurrentUser.Rank, FallbackValue='Loading...', TargetNullValue='Novice'}"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontAttributes="Bold" />
+                            <Label Text="{Binding Translations.TotalPoints}"
+                                   TextColor="#AAAAAA"
+                                   FontSize="14" />
 
-                        <Label Text="Total Points"
-                               TextColor="#AAAAAA"
-                               FontSize="14" />
-
-                        <Label Text="{Binding CurrentUser.TotalPoints, FallbackValue='Loading...', TargetNullValue='0'}"
-                               TextColor="White"
-                               FontSize="20"
-                               FontAttributes="Bold" />
-                    </VerticalStackLayout>
+                            <Label Text="{Binding CurrentUser.TotalPoints, FallbackValue='Loading...', TargetNullValue='0'}"
+                                   TextColor="White"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Grid>
 
                 </Frame>
 
-                <Button Text="Admin Panel"
+                <Button Text="{Binding Translations.AdminPanel}"
                         BackgroundColor="#FFD700"
                         TextColor="#1E1E1E"
                         Command="{Binding AdminPanelCommand}"
                         IsVisible="{Binding IsAdmin}"
                         Margin="0,20,0,0" />
 
-                <Button Text="Logout"
+                <!-- Language Selector -->
+                <Frame BackgroundColor="#252525"
+                       CornerRadius="12"
+                       Padding="15"
+                       HasShadow="True"
+                       Margin="0,20,0,0">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Language / Език"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#FFD700" />
+                        
+                        <Picker SelectedItem="{Binding SelectedLanguage}"
+                                TextColor="White"
+                                BackgroundColor="#1E1E1E">
+                            <Picker.Items>
+                                <x:String>English</x:String>
+                                <x:String>Български</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button Text="{Binding Translations.Logout}"
                         BackgroundColor="#e53935"
                         TextColor="White"
                         Command="{Binding LogoutCommand}"
