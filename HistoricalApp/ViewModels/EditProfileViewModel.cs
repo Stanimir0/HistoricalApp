@@ -115,6 +115,12 @@ namespace HistoricalApp.ViewModels
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(_editingUser.Id))
+            {
+                await Shell.Current.DisplayAlert("Error", "Invalid user data. Please try again.", "OK");
+                return;
+            }
+
             _editingUser.UserName = UserName;
             _editingUser.Description = Description;
             _editingUser.ProfileImage = _base64Image;

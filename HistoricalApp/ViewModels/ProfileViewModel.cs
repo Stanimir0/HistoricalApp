@@ -86,9 +86,13 @@ namespace HistoricalApp.ViewModels
 
         private async Task EditProfile()
         {
-            if (CurrentUser != null)
+            if (CurrentUser != null && !string.IsNullOrWhiteSpace(CurrentUser.Id))
             {
                 await Shell.Current.Navigation.PushAsync(new EditProfilePage(CurrentUser));
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Error", "Please wait for your profile to load before editing.", "OK");
             }
         }
 

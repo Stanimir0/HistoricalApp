@@ -25,6 +25,11 @@ namespace HistoricalApp.Services
 
         public async Task UpdateUserAsync(string userId, User updatedUser)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.", nameof(userId));
+            }
+
             await _client
                 .Child("users")
                 .Child(userId)
