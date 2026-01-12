@@ -75,7 +75,7 @@ Component	Technology
  
 Frontend	.NET MAUI
 
-Backend	Firebase
+Backend	C#
 
 Database	RealTime-Database
 
