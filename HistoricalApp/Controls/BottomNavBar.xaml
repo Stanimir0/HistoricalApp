@@ -34,7 +34,7 @@
                     </ImageButton.Behaviors>
                 </ImageButton>
                     
-                <Label Text="Home"
+                <Label Text="{Binding Home}"
                        FontSize="10"
                        TextColor="{StaticResource Primary}"
                        HorizontalOptions="Center"
@@ -56,7 +56,7 @@
                     <!-- Be safer with images that might not exist or need tinting -->
                 </ImageButton>
 
-                <Label Text="Profile"
+                <Label Text="{Binding Profile}"
                        FontSize="10"
                        TextColor="{StaticResource TextSecondary}"
                        HorizontalOptions="Center"
@@ -76,7 +76,7 @@
                              BackgroundColor="Transparent"
                              Clicked="OnLeaderboardClicked"/>
 
-                <Label Text="Ranking"
+                <Label Text="{Binding Ranking}"
                        FontSize="10"
                        TextColor="{StaticResource TextSecondary}"
                        HorizontalOptions="Center"

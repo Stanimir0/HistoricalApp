@@ -1,4 +1,5 @@
-﻿using HistoricalApp.Services;
+﻿using HistoricalApp.Helpers;
+using HistoricalApp.Services;
 using System.Windows.Input;
 
 namespace HistoricalApp.ViewModels
@@ -10,6 +11,8 @@ namespace HistoricalApp.ViewModels
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+
+        public TranslationService Translations => TranslationService.Instance;
 
         public ICommand RegisterCommand { get; }
         public ICommand GoToLoginCommand { get; }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using Firebase.Database;
 using Firebase.Database.Query;
+using HistoricalApp.Helpers;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
@@ -14,6 +15,9 @@ namespace HistoricalApp.ViewModels
         private readonly FirebaseQuizService _quizService;
 
         public ObservableCollection<Quiz> Quizzes { get; set; } = new();
+
+        // Translation service for live language updates
+        public TranslationService Translations => TranslationService.Instance;
 
         public ICommand AddQuizCommand { get; }
         public ICommand EditQuizCommand { get; }

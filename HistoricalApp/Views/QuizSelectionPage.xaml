@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
     xmlns:models="clr-namespace:HistoricalApp.Models"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.QuizSelectionPage"
     BackgroundColor="#0E0E0E">
 
@@ -12,7 +13,7 @@
                              Padding="25"
                              Spacing="15">
 
-            <Button Text="← Back"
+            <Button Text="{Binding Translations.Back}"
                     BackgroundColor="#333"
                     TextColor="White"
                     Clicked="OnBackClicked"
@@ -45,7 +46,7 @@
                                        FontSize="14"
                                        TextColor="#999" />
 
-                                <Button Text="View Quiz"
+                                <Button Text="{Binding Source={x:Static helpers:TranslationService.Instance}, Path=ViewQuiz}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:QuizSelectionViewModel}}, Path=SelectQuizCommand}"
                                         CommandParameter="{Binding .}"
                                         BackgroundColor="#f1c40f"
@@ -63,3 +64,4 @@
     </ScrollView>
 
 </ContentPage>
+

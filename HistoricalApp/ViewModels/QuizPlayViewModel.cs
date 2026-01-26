@@ -1,4 +1,5 @@
-﻿using HistoricalApp.Models;
+﻿using HistoricalApp.Helpers;
+using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
 using Microsoft.Maui.Storage;
@@ -15,6 +16,8 @@ namespace HistoricalApp.ViewModels
         public ICommand NextQuestionCommand { get; }
 
         public Quiz CurrentQuiz { get; private set; }
+
+        public TranslationService Translations => TranslationService.Instance;
 
         private Question _currentQuestion;
         public Question CurrentQuestion

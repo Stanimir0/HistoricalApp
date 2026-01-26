@@ -1,4 +1,5 @@
-﻿using HistoricalApp.Models;
+﻿using HistoricalApp.Helpers;
+using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
 using System.Collections.ObjectModel;
@@ -18,6 +19,8 @@ namespace HistoricalApp.ViewModels
             set => SetProperty(ref _categoryTitle, value);
         }
         private string _categoryTitle;
+
+        public TranslationService Translations => TranslationService.Instance;
 
         public ICommand SelectQuizCommand { get; }
 

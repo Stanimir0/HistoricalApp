@@ -15,6 +15,7 @@ namespace HistoricalApp
             Routing.RegisterRoute("ProfilePage", typeof(ProfilePage));
             Routing.RegisterRoute("LeaderboardPage", typeof(LeaderboardPage));
             Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+            Routing.RegisterRoute("EditProfilePage", typeof(EditProfilePage));
 
         }
 

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
     xmlns:models="clr-namespace:HistoricalApp.Models"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.QuizPage"
     BackgroundColor="#0E0E0E">
 
@@ -50,7 +51,7 @@
 
             </CollectionView>
 
-            <Button Text="Next Question"
+            <Button Text="{Binding Translations.NextQuestion}"
                     IsVisible="{Binding IsNextButtonVisible}"
                     Command="{Binding NextQuestionCommand}"
                     BackgroundColor="#f1c40f"
@@ -61,3 +62,4 @@
     </ScrollView>
 
 </ContentPage>
+

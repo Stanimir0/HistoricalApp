@@ -5,6 +5,7 @@
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
     xmlns:controls="clr-namespace:HistoricalApp.Controls"
     xmlns:models="clr-namespace:HistoricalApp.Models"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.LeaderboardPage"
     BackgroundColor="#0E0E0E">
 
@@ -20,7 +21,7 @@
                                  Padding="25"
                                  Spacing="15">
 
-                <Label Text="Leaderboard"
+                <Label Text="{Binding Translations.Leaderboard}"
                        FontSize="32"
                        TextColor="#f1c40f"
                        FontAttributes="Bold"/>
@@ -78,7 +79,7 @@
                                                FontSize="20"
                                                FontAttributes="Bold"
                                                HorizontalOptions="End"/>
-                                        <Label Text="PTS"
+                                        <Label Text="{Binding Source={x:Static helpers:TranslationService.Instance}, Path=Points}"
                                                TextColor="{StaticResource TextSecondary}"
                                                FontSize="10"
                                                HorizontalOptions="End"/>
@@ -98,3 +99,4 @@
 
     </Grid>
 </ContentPage>
+

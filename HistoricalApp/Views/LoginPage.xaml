@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
+             xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
              x:Class="HistoricalApp.Views.LoginPage"
              NavigationPage.HasNavigationBar="False">
 
@@ -18,54 +19,68 @@
                                  x:Name="RootLayout" Opacity="0" TranslationY="100">
 
                 <!-- Logo / Header -->
-                <Label Text="Historical App" 
+                <Label Text="{Binding Translations.HistoricalApp}" 
                        Style="{StaticResource Headline}" 
                        TextColor="{StaticResource Primary}"
                        Margin="0,0,0,10"/>
                 
-                <Label Text="Welcome Back" 
+                <Label Text="{Binding Translations.WelcomeBackTitle}" 
                        Style="{StaticResource SubHeadline}" 
                        Margin="0,0,0,30"/>
 
                 <!-- Login Form Card -->
-                <Frame Style="{StaticResource Frame}" Padding="20,30">
-                    <VerticalStackLayout Spacing="15">
+                <Frame Style="{StaticResource Frame}" Padding="25,35" CornerRadius="24">
+                    <Frame.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
+                            <GradientStop Color="#1AFFFFFF" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Frame.Background>
+                    
+                    <VerticalStackLayout Spacing="20">
                         
-                        <Label Text="Email" TextColor="{StaticResource TextSecondary}"/>
-                        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
-                            <Entry Placeholder="Enter your email" 
-                                   Text="{Binding Email}" 
-                                   Keyboard="Email"
-                                   TextColor="{StaticResource TextPrimary}"
-                                   PlaceholderColor="{StaticResource TextSecondary}"
-                                   BackgroundColor="Transparent"/>
-                        </Border>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding Translations.Email}" 
+                                   TextColor="{StaticResource TextSecondary}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"/>
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="Transparent">
+                                <Entry Placeholder="{Binding Translations.EmailPlaceholder}" 
+                                       Text="{Binding Email}" 
+                                       Keyboard="Email"
+                                       Style="{StaticResource Entry}"/>
+                            </Border>
+                        </VerticalStackLayout>
 
-                        <Label Text="Password" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
-                        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
-                            <Entry Placeholder="Enter your password" 
-                                   Text="{Binding Password}" 
-                                   IsPassword="True"
-                                   TextColor="{StaticResource TextPrimary}"
-                                   PlaceholderColor="{StaticResource TextSecondary}"
-                                   BackgroundColor="Transparent"/>
-                        </Border>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding Translations.Password}" 
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   FontSize="14"
+                                   FontAttributes="Bold"/>
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="Transparent">
+                                <Entry Placeholder="{Binding Translations.PasswordPlaceholder}" 
+                                       Text="{Binding Password}" 
+                                       IsPassword="True" 
+                                       Style="{StaticResource Entry}"/>
+                            </Border>
+                        </VerticalStackLayout>
 
-                        <Button Text="LOGIN" 
+
+                        <Button Text="{Binding Translations.Login}" 
                                 Command="{Binding LoginCommand}" 
                                 Clicked="OnLoginClicked"
-                                Margin="0,20,0,0"/>
+                                Margin="0,10,0,0"/>
 
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Footer -->
-                <Label Text="Don't have an account?" 
+                <Label Text="{Binding Translations.DontHaveAccount}" 
                        TextColor="{StaticResource TextSecondary}" 
                        HorizontalOptions="Center"
                        Margin="0,20,0,0"/>
 
-                <Button Text="Create Account" 
+                <Button Text="{Binding Translations.CreateAccount}" 
                         Style="{StaticResource SecondaryButton}" 
                         Command="{Binding GoToRegisterCommand}" 
                         Clicked="OnGoToRegisterClicked"/>
@@ -75,3 +90,4 @@
     </Grid>
 
 </ContentPage>
+

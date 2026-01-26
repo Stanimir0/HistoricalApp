@@ -1,4 +1,5 @@
-﻿using HistoricalApp.Models;
+﻿using HistoricalApp.Helpers;
+using HistoricalApp.Models;
 using HistoricalApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -18,6 +19,9 @@ namespace HistoricalApp.ViewModels
         private readonly FirebaseUserService _userService;
 
         public ObservableCollection<LeaderboardItem> Users { get; set; } = new();
+
+        // Translation service for live language updates
+        public TranslationService Translations => TranslationService.Instance;
 
         public ICommand LoadLeaderboardCommand { get; }
 

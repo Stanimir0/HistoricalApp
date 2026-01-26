@@ -7,6 +7,7 @@ namespace HistoricalApp.Controls
         public BottomNavBar()
         {
             InitializeComponent();
+            BindingContext = TranslationService.Instance;
         }
 
         private async void OnHomeClicked(object sender, EventArgs e)

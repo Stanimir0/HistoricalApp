@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
     xmlns:controls="clr-namespace:HistoricalApp.Controls"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.AdminPage"
     x:Name="AdminRoot"
     BackgroundColor="#1e1e1e"
@@ -19,7 +20,7 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Button Text="← Back"
+            <Button Text="{Binding Translations.Back}"
                     BackgroundColor="#333"
                     TextColor="White"
                     Clicked="OnBackClicked"
@@ -27,13 +28,13 @@
                     WidthRequest="100"
                     Margin="0,0,0,10" />
 
-            <Label Text="Admin Panel"
+            <Label Text="{Binding Translations.AdminPanel}"
                    FontSize="28"
                    TextColor="#FFD700"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
 
-                <Button Text="Add New Quiz"
+                <Button Text="{Binding Translations.AddNewQuiz}"
                         BackgroundColor="#FFD700"
                         TextColor="#1E1E1E"
                         CornerRadius="20"
@@ -61,14 +62,14 @@
                                     <HorizontalStackLayout Spacing="12"
                                                            Margin="0,5,0,0">
 
-                                        <Button Text="Edit"
+                                        <Button Text="{Binding Source={x:Static helpers:TranslationService.Instance}, Path=Edit}"
                                                 BackgroundColor="#FFD700"
                                                 TextColor="#1E1E1E"
                                                 CornerRadius="16"
                                                 Command="{Binding BindingContext.EditQuizCommand, Source={x:Reference AdminRoot}}"
                                                 CommandParameter="{Binding .}" />
 
-                                        <Button Text="Delete"
+                                        <Button Text="{Binding Source={x:Static helpers:TranslationService.Instance}, Path=Delete}"
                                                 BackgroundColor="#FF4C4C"
                                                 TextColor="White"
                                                 CornerRadius="16"
@@ -91,3 +92,4 @@
 
     </Grid>
 </ContentPage>
+

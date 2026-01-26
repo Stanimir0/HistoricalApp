@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+             xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
              x:Class="HistoricalApp.Views.EditProfilePage"
-             Title="Edit Profile"
+             Title="{Binding Translations.EditProfileTitle}"
              BackgroundColor="#1e1e1e">
 
     <ContentPage.Resources>
@@ -38,7 +39,7 @@
                            WidthRequest="120"/>
                 </Frame>
 
-                <Button Text="Change Photo"
+                <Button Text="{Binding Translations.ChangePhoto}"
                         FontSize="12"
                         HeightRequest="35"
                         BackgroundColor="#333"
@@ -50,19 +51,19 @@
 
             <!-- Form Fields -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Username" TextColor="#FFD700" FontAttributes="Bold"/>
-                <Entry Text="{Binding UserName}" Placeholder="Enter username" />
+                <Label Text="{Binding Translations.Username}" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Entry Text="{Binding UserName}" Placeholder="{Binding Translations.UsernamePlaceholder}" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Spacing="5">
-                <Label Text="Bio / Description" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Label Text="{Binding Translations.BioDescription}" TextColor="#FFD700" FontAttributes="Bold"/>
                 <Editor Text="{Binding Description}" 
-                        Placeholder="Tell us about yourself..." 
+                        Placeholder="{Binding Translations.BioPlaceholder}" 
                         HeightRequest="100" />
             </VerticalStackLayout>
 
             <!-- Action Buttons -->
-            <Button Text="Save Changes"
+            <Button Text="{Binding Translations.SaveChanges}"
                     BackgroundColor="#FFD700"
                     TextColor="Black"
                     FontAttributes="Bold"
@@ -70,7 +71,7 @@
                     Margin="0,20,0,0"
                     Command="{Binding SaveCommand}"/>
 
-            <Button Text="Cancel"
+            <Button Text="{Binding Translations.Cancel}"
                     BackgroundColor="Transparent"
                     TextColor="#FF4444"
                     Command="{Binding CancelCommand}"/>
@@ -79,3 +80,4 @@
     </ScrollView>
 
 </ContentPage>
+

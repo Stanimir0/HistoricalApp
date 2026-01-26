@@ -1,3 +1,4 @@
+using HistoricalApp.Helpers;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using Microsoft.Maui.Storage;
@@ -13,6 +14,8 @@ namespace HistoricalApp.ViewModels
         public ICommand PickImageCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
+
+        public TranslationService Translations => TranslationService.Instance;
 
         public string UserName
         {

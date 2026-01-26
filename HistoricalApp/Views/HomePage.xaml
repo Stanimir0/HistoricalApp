@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
     xmlns:controls="clr-namespace:HistoricalApp.Controls"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.HomePage"
     NavigationPage.HasNavigationBar="False">
 
@@ -16,68 +17,111 @@
         <ScrollView Grid.Row="0" Grid.RowSpan="2" Padding="0,0,0,80" x:Name="HomeRoot" Opacity="0" TranslationY="100">
             <Grid RowDefinitions="Auto, Auto, *" RowSpacing="20" Padding="20,40,20,20">
                 
-                <!-- Header -->
-                <Label Grid.Row="0" 
-                       Text="{Binding CurrentUser.UserName, StringFormat='Welcome back, {0}', TargetNullValue='Welcome back, Explorer'}"
-                       Style="{StaticResource Headline}" 
-                       HorizontalOptions="Start"
-                       FontSize="28"
-                       Margin="0,0,0,20"/>
-
+                <!-- Hero Section -->
+                <VerticalStackLayout Grid.Row="0" Spacing="5" Margin="0,10,0,30">
+                    <Label Text="{Binding Translations.WelcomeBack}"
+                           Style="{StaticResource SubHeadline}" 
+                           HorizontalOptions="Start"
+                           FontSize="18"
+                           TextColor="{StaticResource Primary}"/>
+                    
+                    <Label Text="{Binding CurrentUser.UserName, TargetNullValue='Explorer'}"
+                           Style="{StaticResource Headline}" 
+                           HorizontalOptions="Start"
+                           FontSize="36"
+                           TextColor="{StaticResource TextPrimary}"/>
+                </VerticalStackLayout>
 
 
                 <!-- Game Modes Dashboard -->
-                <Grid Grid.Row="2" ColumnDefinitions="*,*" RowDefinitions="140, 140" ColumnSpacing="15" RowSpacing="15">
+                <Grid Grid.Row="2" ColumnDefinitions="*,*" RowDefinitions="160, 160" ColumnSpacing="15" RowSpacing="15">
                     
-                    <!-- Battles -->
+                    <!-- Battles Card -->
                     <Frame Grid.Row="0" Grid.Column="0" 
-                           BorderColor="{StaticResource PrimaryDark}"
-                           BackgroundColor="{StaticResource SurfaceHighlight}">
+                           Style="{StaticResource Frame}">
+                        <Frame.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
+                                <GradientStop Color="#2AFFFFFF" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Frame.Background>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnBattlesClicked"/>
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="⚔️" FontSize="40" HorizontalOptions="Center"/>
-                            <Label Text="Battles" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,10,0,0"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="⚔️" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.Battles}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}" 
+                                   HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Frame>
 
-                    <!-- Events -->
+                    <!-- Events Card -->
                     <Frame Grid.Row="0" Grid.Column="1"
-                           BorderColor="{StaticResource PrimaryDark}"
-                           BackgroundColor="{StaticResource SurfaceHighlight}">
+                           Style="{StaticResource Frame}">
+                         <Frame.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
+                                <GradientStop Color="#2AFFFFFF" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Frame.Background>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnEventsClicked"/>
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="📅" FontSize="40" HorizontalOptions="Center"/>
-                            <Label Text="Events" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,10,0,0"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="📅" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.Events}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}" 
+                                   HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Frame>
 
-                    <!-- Characters -->
+                    <!-- Characters Card -->
                     <Frame Grid.Row="1" Grid.Column="0"
-                           BorderColor="{StaticResource PrimaryDark}"
-                           BackgroundColor="{StaticResource SurfaceHighlight}">
+                           Style="{StaticResource Frame}">
+                         <Frame.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
+                                <GradientStop Color="#2AFFFFFF" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Frame.Background>
                          <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnCharactersClicked"/>
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="👤" FontSize="40" HorizontalOptions="Center"/>
-                            <Label Text="People" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,10,0,0"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="👤" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.People}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}" 
+                                   HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Frame>
 
                     <!-- Leaderboard Shortcut -->
                     <Frame Grid.Row="1" Grid.Column="1"
-                           BorderColor="{StaticResource PrimaryDark}"
-                           BackgroundColor="{StaticResource SurfaceHighlight}">
+                           Style="{StaticResource Frame}"
+                           BorderColor="{StaticResource Primary}">
+                         <Frame.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#4D D4AF37" Offset="0.0" />
+                                <GradientStop Color="{StaticResource GlassSurface}" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Frame.Background>
                          <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnLeaderboardClicked"/>
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="🏆" FontSize="40" HorizontalOptions="Center"/>
-                            <Label Text="Top 10" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,10,0,0"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="🏆" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.Top10}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextGold}" 
+                                   HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Frame>
 
@@ -90,3 +134,4 @@
         <controls:BottomNavBar Grid.Row="1"/>
     </Grid>
 </ContentPage>
+

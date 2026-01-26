@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:HistoricalApp.ViewModels"
+             xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
              x:Class="HistoricalApp.Views.RegisterPage"
              NavigationPage.HasNavigationBar="False">
 
@@ -16,12 +17,12 @@
             <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center" 
                                  x:Name="RootLayout" Opacity="0" TranslationY="100">
 
-                <Label Text="Join Us" 
+                <Label Text="{Binding Translations.JoinUs}" 
                        Style="{StaticResource Headline}" 
                        TextColor="{StaticResource Primary}"
                        Margin="0,0,0,10"/>
                 
-                <Label Text="Create your account" 
+                <Label Text="{Binding Translations.CreateYourAccount}" 
                        Style="{StaticResource SubHeadline}" 
                        Margin="0,0,0,30"/>
 
@@ -29,9 +30,9 @@
                 <Frame Style="{StaticResource Frame}" Padding="20,30">
                     <VerticalStackLayout Spacing="15">
                         
-                        <Label Text="Email" TextColor="{StaticResource TextSecondary}"/>
+                        <Label Text="{Binding Translations.Email}" TextColor="{StaticResource TextSecondary}"/>
                         <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
-                            <Entry Placeholder="Enter your email" 
+                            <Entry Placeholder="{Binding Translations.EmailPlaceholder}" 
                                    Text="{Binding Email}" 
                                    Keyboard="Email"
                                    TextColor="{StaticResource TextPrimary}"
@@ -39,9 +40,9 @@
                                    BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Password" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
+                        <Label Text="{Binding Translations.Password}" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
                         <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
-                            <Entry Placeholder="Choose a password" 
+                            <Entry Placeholder="{Binding Translations.ChoosePasswordPlaceholder}" 
                                    Text="{Binding Password}" 
                                    IsPassword="True"
                                    TextColor="{StaticResource TextPrimary}"
@@ -49,9 +50,9 @@
                                    BackgroundColor="Transparent"/>
                         </Border>
                         
-                        <Label Text="Confirm Password" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
+                        <Label Text="{Binding Translations.ConfirmPassword}" TextColor="{StaticResource TextSecondary}" Margin="0,10,0,0"/>
                         <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource PrimaryDark}" StrokeThickness="1" BackgroundColor="{StaticResource Surface}">
-                            <Entry Placeholder="Confirm your password" 
+                            <Entry Placeholder="{Binding Translations.ConfirmPasswordPlaceholder}" 
                                    Text="{Binding ConfirmPassword}" 
                                    IsPassword="True"
                                    TextColor="{StaticResource TextPrimary}"
@@ -59,7 +60,7 @@
                                    BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Button Text="REGISTER" 
+                        <Button Text="{Binding Translations.Register}" 
                                 Command="{Binding RegisterCommand}" 
                                 Clicked="OnRegisterClicked"
                                 Margin="0,20,0,0"/>
@@ -67,7 +68,7 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Button Text="Back to Login" 
+                <Button Text="{Binding Translations.BackToLogin}" 
                         Style="{StaticResource SecondaryButton}" 
                         Command="{Binding GoToLoginCommand}" 
                         Clicked="OnBackToLoginClicked"
@@ -78,3 +79,4 @@
     </Grid>
 
 </ContentPage>
+
