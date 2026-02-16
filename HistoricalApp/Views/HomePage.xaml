@@ -102,7 +102,7 @@
                         </VerticalStackLayout>
                     </Frame>
 
-                    <!-- Leaderboard Shortcut -->
+                    <!-- Shop Shortcut -->
                     <Frame Grid.Row="1" Grid.Column="1"
                            Style="{StaticResource Frame}"
                            BorderColor="{StaticResource Primary}">
@@ -113,11 +113,11 @@
                             </LinearGradientBrush>
                         </Frame.Background>
                          <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnLeaderboardClicked"/>
+                            <TapGestureRecognizer Tapped="OnShopClicked"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                            <Label Text="🏆" FontSize="48" HorizontalOptions="Center"/>
-                            <Label Text="{Binding Translations.Top10}" 
+                            <Label Text="🛒" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.Shop}" 
                                    FontAttributes="Bold" 
                                    FontSize="16"
                                    TextColor="{StaticResource TextGold}" 

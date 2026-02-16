@@ -11,6 +11,15 @@
 
         public int TotalPoints { get; set; } = 0;
 
+        // Currency system for shop
+        public int Currency { get; set; } = 0;
+
+        // Time-based leaderboard tracking
+        public int DailyPoints { get; set; } = 0;
+        public int WeeklyPoints { get; set; } = 0;
+        public int MonthlyPoints { get; set; } = 0;
+        public DateTime LastPointsReset { get; set; } = DateTime.UtcNow;
+
         public string Rank { get; private set; } = "Bronze";
 
         public void RecalculateRank()

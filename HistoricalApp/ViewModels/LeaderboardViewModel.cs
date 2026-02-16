@@ -12,39 +12,60 @@ namespace HistoricalApp.ViewModels
         public int Position { get; set; }
         public Color RankColor { get; set; }
         public bool IsTopThree => Position <= 3;
+        public int PotentialReward { get; set; }
     }
 
     public class LeaderboardViewModel : BaseViewModel
     {
         private readonly FirebaseUserService _userService;
+        private readonly LeaderboardResetService _resetService;
+        private string _selectedPeriod = "Daily";
 
         public ObservableCollection<LeaderboardItem> Users { get; set; } = new();
+
+        public string SelectedPeriod
+        {
+            get => _selectedPeriod;
+            set
+            {
+                _selectedPeriod = value;
+                OnPropertyChanged();
+                _ = LoadLeaderboard();
+            }
+        }
 
         // Translation service for live language updates
         public TranslationService Translations => TranslationService.Instance;
 
         public ICommand LoadLeaderboardCommand { get; }
+        public ICommand SwitchPeriodCommand { get; }
 
         public LeaderboardViewModel()
         {
             _userService = new FirebaseUserService();
+            _resetService = new LeaderboardResetService();
             LoadLeaderboardCommand = new Command(async () => await LoadLeaderboard());
+            SwitchPeriodCommand = new Command<string>(async (period) => await SwitchPeriod(period));
+        }
+
+        private async Task SwitchPeriod(string period)
+        {
+            SelectedPeriod = period;
         }
 
         public async Task LoadLeaderboard()
         {
-            var allUsers = await _userService.GetAllUsersAsync();
+            // Check if any periods need to be reset first
+            await _resetService.CheckAndResetPeriodsAsync();
 
-            if (allUsers == null || allUsers.Count == 0)
+            var sortedUsers = await _userService.GetLeaderboardByPeriodAsync(SelectedPeriod);
+
+            if (sortedUsers == null || sortedUsers.Count == 0)
                 return;
 
             // Recalculate ranks (if points changed)
-            foreach (var user in allUsers)
+            foreach (var user in sortedUsers)
                 user.RecalculateRank();
-
-            var sortedUsers = allUsers
-                .OrderByDescending(u => u.TotalPoints)
-                .ToList();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -57,15 +78,51 @@ namespace HistoricalApp.ViewModels
                     else if (rank == 2) rankColor = Color.FromArgb("#C0C0C0"); // Silver
                     else if (rank == 3) rankColor = Color.FromArgb("#CD7F32"); // Bronze
 
+                    // Calculate potential reward based on period and position
+                    int reward = CalculateReward(rank, SelectedPeriod);
+
                     Users.Add(new LeaderboardItem 
                     { 
                         User = user, 
                         Position = rank,
-                        RankColor = rankColor
+                        RankColor = rankColor,
+                        PotentialReward = reward
                     });
                     rank++;
                 }
             });
+        }
+
+        private int CalculateReward(int position, string period)
+        {
+            return period.ToLower() switch
+            {
+                "daily" => position switch
+                {
+                    1 => 100,
+                    2 => 75,
+                    3 => 50,
+                    >= 4 and <= 10 => 25,
+                    _ => 0
+                },
+                "weekly" => position switch
+                {
+                    1 => 500,
+                    2 => 350,
+                    3 => 250,
+                    >= 4 and <= 10 => 100,
+                    _ => 0
+                },
+                "monthly" => position switch
+                {
+                    1 => 2000,
+                    2 => 1500,
+                    3 => 1000,
+                    >= 4 and <= 10 => 500,
+                    _ => 0
+                },
+                _ => 0
+            };
         }
     }
 }

@@ -37,9 +37,22 @@ namespace HistoricalApp.Helpers
         public string Events => LocalizationStrings.Get("Events", _currentLanguage);
         public string People => LocalizationStrings.Get("People", _currentLanguage);
         public string Top10 => LocalizationStrings.Get("Top10", _currentLanguage);
+        public string Shop => LocalizationStrings.Get("Shop", _currentLanguage);
         
         // Leaderboard Page
         public string Points => LocalizationStrings.Get("Points", _currentLanguage);
+        public string Daily => LocalizationStrings.Get("Daily", _currentLanguage);
+        public string Weekly => LocalizationStrings.Get("Weekly", _currentLanguage);
+        public string Monthly => LocalizationStrings.Get("Monthly", _currentLanguage);
+        public string Reward => LocalizationStrings.Get("Reward", _currentLanguage);
+        public string YourRank => LocalizationStrings.Get("YourRank", _currentLanguage);
+        
+        // Shop Page
+        public string Currency => LocalizationStrings.Get("Currency", _currentLanguage);
+        public string Coins => LocalizationStrings.Get("Coins", _currentLanguage);
+        public string Purchase => LocalizationStrings.Get("Purchase", _currentLanguage);
+        public string Purchased => LocalizationStrings.Get("Purchased", _currentLanguage);
+        public string InsufficientFunds => LocalizationStrings.Get("InsufficientFunds", _currentLanguage);
         
         // Login Page
         public string HistoricalApp => LocalizationStrings.Get("HistoricalApp", _currentLanguage);

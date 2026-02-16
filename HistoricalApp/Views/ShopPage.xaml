@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:controls="clr-namespace:HistoricalApp.Controls"
+    xmlns:models="clr-namespace:HistoricalApp.Models"
+    xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
+    x:Class="HistoricalApp.Views.ShopPage"
+    BackgroundColor="#0E0E0E">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ShopViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="25" Spacing="20">
+
+                <!-- Header with Currency -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                    <Label Grid.Column="0"
+                           Text="{Binding Translations.Shop}"
+                           FontSize="32"
+                           TextColor="#f1c40f"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                    
+                    <!-- Currency Display -->
+                    <Border Grid.Column="1"
+                            StrokeShape="RoundRectangle 20"
+                            StrokeThickness="2"
+                            Stroke="#FFD700"
+                            BackgroundColor="#1A1A1A"
+                            Padding="15,10"
+                            VerticalOptions="Center">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="💰"
+                                   FontSize="20"
+                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding UserCurrency}"
+                                   TextColor="#FFD700"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Shop Items Grid -->
+                <CollectionView ItemsSource="{Binding FilteredItems}"
+                                SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" 
+                                        Span="2" 
+                                        HorizontalItemSpacing="12"
+                                        VerticalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ShopItem">
+                            <Border StrokeShape="RoundRectangle 15"
+                                    StrokeThickness="2"
+                                    Stroke="{Binding Rarity, Converter={helpers:RarityToColorConverter}}"
+                                    BackgroundColor="#1A1A1A"
+                                    Padding="15">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ShopViewModel}}, Path=PurchaseItemCommand}"
+                                                         CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                
+                                <VerticalStackLayout Spacing="10">
+                                    <!-- Rarity Badge -->
+                                    <Border StrokeShape="RoundRectangle 8"
+                                            StrokeThickness="0"
+                                            BackgroundColor="{Binding Rarity, Converter={helpers:RarityToColorConverter}}"
+                                            Padding="8,3"
+                                            HorizontalOptions="Center">
+                                        <Label Text="{Binding Rarity}"
+                                               TextColor="White"
+                                               FontSize="9"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"/>
+                                    </Border>
+                                    
+                                    <!-- Icon -->
+                                    <Label Text="{Binding IconEmoji}"
+                                           FontSize="48"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <!-- Name -->
+                                    <Label Text="{Binding Name}"
+                                           TextColor="White"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"/>
+                                    
+                                    <!-- Description -->
+                                    <Label Text="{Binding Description}"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           FontSize="11"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <!-- Price / Purchased -->
+                                    <Border StrokeShape="RoundRectangle 10"
+                                            StrokeThickness="0"
+                                            Padding="10,6"
+                                            HorizontalOptions="Center"
+                                            Margin="0,5,0,0">
+                                        <Border.BackgroundColor>
+                                            <Binding Path="IsPurchased">
+                                                <Binding.Converter>
+                                                    <helpers:BoolToColorConverter TrueColor="#4CAF50" FalseColor="#33f1c40f"/>
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </Border.BackgroundColor>
+                                        
+                                        <!-- Show Owned if purchased, otherwise show price -->
+                                        <HorizontalStackLayout HorizontalOptions="Center">
+                                            <Label Text="✓ Owned" 
+                                                   TextColor="#FFD700"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   IsVisible="{Binding IsPurchased}"/>
+                                            <Label TextColor="#FFD700"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   IsVisible="{Binding IsPurchased, Converter={helpers:InverseBoolConverter}}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="💰 "/>
+                                                        <Span Text="{Binding Price}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- BOTTOM NAV BAR -->
+        <controls:BottomNavBar Grid.Row="1"/>
+
+    </Grid>
+</ContentPage>

@@ -19,6 +19,21 @@ namespace HistoricalApp
         {
             base.OnStart();
             await ValidateUserSession();
+            // Check and reset leaderboard periods if needed
+            _ = CheckLeaderboardResets();
+        }
+
+        private async Task CheckLeaderboardResets()
+        {
+            try
+            {
+                var resetService = new Helpers.LeaderboardResetService();
+                await resetService.CheckAndResetPeriodsAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[App] Error checking leaderboard resets: {ex.Message}");
+            }
         }
 
         private async Task ValidateUserSession()

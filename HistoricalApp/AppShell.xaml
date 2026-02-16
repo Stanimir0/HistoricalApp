@@ -30,6 +30,9 @@
     <ShellContent Route="QuizSelectionPage"
                   ContentTemplate="{DataTemplate views:QuizSelectionPage}" />
 
+    <ShellContent Route="ShopPage"
+                  ContentTemplate="{DataTemplate views:ShopPage}" />
+
     <ShellContent Route="CategorySelectionPage"
                   ContentTemplate="{DataTemplate views:CategorySelectionPage}" />
 

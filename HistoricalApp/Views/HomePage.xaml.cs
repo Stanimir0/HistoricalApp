@@ -22,10 +22,12 @@ namespace HistoricalApp.Views
         }
 
 
-        private async void OnLeaderboardClicked(object sender, EventArgs e)
+
+        private async void OnShopClicked(object sender, EventArgs e)
         {
             if (sender is View v)
                 await AnimationHelper.AnimateButtonPress(v);
+            await Shell.Current.GoToAsync("//ShopPage");
         }
 
         private async void OnBattlesClicked(object sender, EventArgs e)

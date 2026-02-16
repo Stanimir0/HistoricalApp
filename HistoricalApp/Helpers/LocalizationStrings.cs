@@ -34,9 +34,22 @@ namespace HistoricalApp.Helpers
                 ["Events"] = "Events",
                 ["People"] = "People",
                 ["Top10"] = "Top 10",
+                ["Shop"] = "Shop",
                 
                 // Leaderboard Page
                 ["Points"] = "PTS",
+                ["Daily"] = "Daily",
+                ["Weekly"] = "Weekly",
+                ["Monthly"] = "Monthly",
+                ["Reward"] = "Reward",
+                ["YourRank"] = "Your Rank",
+                
+                // Shop Page
+                ["Currency"] = "Currency",
+                ["Coins"] = "Coins",
+                ["Purchase"] = "Purchase",
+                ["Purchased"] = "Purchased",
+                ["InsufficientFunds"] = "Insufficient Funds",
                 
                 // Login Page
                 ["HistoricalApp"] = "Historical App",
@@ -107,9 +120,22 @@ namespace HistoricalApp.Helpers
                 ["Events"] = "Събития",
                 ["People"] = "Личности",
                 ["Top10"] = "Топ 10",
+                ["Shop"] = "Магазин",
                 
                 // Leaderboard Page
                 ["Points"] = "ТЧК",
+                ["Daily"] = "Дневен",
+                ["Weekly"] = "Седмичен",
+                ["Monthly"] = "Месечен",
+                ["Reward"] = "Награда",
+                ["YourRank"] = "Твоето място",
+                
+                // Shop Page
+                ["Currency"] = "Валута",
+                ["Coins"] = "Монети",
+                ["Purchase"] = "Купи",
+                ["Purchased"] = "Закупен",
+                ["InsufficientFunds"] = "Недостатъчно средства",
                 
                 // Login Page
                 ["HistoricalApp"] = "Исторично",
