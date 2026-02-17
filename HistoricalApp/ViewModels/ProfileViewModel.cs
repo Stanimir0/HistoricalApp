@@ -48,6 +48,29 @@ namespace HistoricalApp.ViewModels
         }
         private string _selectedLanguage = "English";
 
+        public string BadgeEmoji
+        {
+            get => _badgeEmoji;
+            set => SetProperty(ref _badgeEmoji, value);
+        }
+        private string _badgeEmoji = string.Empty;
+
+        public bool HasBadge => !string.IsNullOrEmpty(BadgeEmoji);
+
+        public Color ProfileBorderColor
+        {
+            get => _profileBorderColor;
+            set => SetProperty(ref _profileBorderColor, value);
+        }
+        private Color _profileBorderColor = Color.FromArgb("#FFD700");
+
+        public int ProfileBorderWidth
+        {
+            get => _profileBorderWidth;
+            set => SetProperty(ref _profileBorderWidth, value);
+        }
+        private int _profileBorderWidth = 1;
+
         public ProfileViewModel()
         {
             _userService = new FirebaseUserService();
@@ -108,8 +131,70 @@ namespace HistoricalApp.ViewModels
                     }
 
                     Console.WriteLine($"[ProfileViewModel] IsAdmin property set to: {IsAdmin}");
+                    
+                    // Load equipped badge
+                    LoadEquippedBadge();
+                    // Load equipped border
+                    LoadEquippedBorder();
                 });
             }
+        }
+
+        private void LoadEquippedBadge()
+        {
+            if (!string.IsNullOrEmpty(CurrentUser.EquippedBadge))
+            {
+                var allItems = ShopService.GetShopItems();
+                var badgeItem = allItems.FirstOrDefault(i => i.Id == CurrentUser.EquippedBadge);
+                if (badgeItem != null)
+                {
+                    BadgeEmoji = badgeItem.IconEmoji;
+                    OnPropertyChanged(nameof(HasBadge));
+                }
+            }
+            else
+            {
+                BadgeEmoji = string.Empty;
+                OnPropertyChanged(nameof(HasBadge));
+            }
+        }
+
+        private void LoadEquippedBorder()
+        {
+            if (!string.IsNullOrEmpty(CurrentUser.EquippedBorder))
+            {
+                var allItems = ShopService.GetShopItems();
+                var borderItem = allItems.FirstOrDefault(i => i.Id == CurrentUser.EquippedBorder);
+                if (borderItem != null)
+                {
+                    // Map border to color
+                    ProfileBorderColor = GetBorderColor(borderItem.Id);
+                    ProfileBorderWidth = 4;
+                }
+                else
+                {
+                    ProfileBorderColor = Color.FromArgb("#FFD700");
+                    ProfileBorderWidth = 1;
+                }
+            }
+            else
+            {
+                ProfileBorderColor = Color.FromArgb("#FFD700");
+                ProfileBorderWidth = 1;
+            }
+        }
+
+        private Color GetBorderColor(string borderId)
+        {
+            return borderId switch
+            {
+                "border_simple" => Color.FromArgb("#CCCCCC"),
+                "border_gold" => Color.FromArgb("#FFD700"),
+                "border_ice" => Color.FromArgb("#87CEEB"),
+                "border_fire" => Color.FromArgb("#FF4500"),
+                "border_diamond" => Color.FromArgb("#B9F2FF"),
+                _ => Color.FromArgb("#FFD700"),
+            };
         }
 
         private async Task EditProfile()

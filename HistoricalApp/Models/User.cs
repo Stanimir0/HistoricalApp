@@ -14,6 +14,11 @@
         // Currency system for shop
         public int Currency { get; set; } = 0;
 
+        // Shop customization
+        public List<string> PurchasedItems { get; set; } = new List<string>();
+        public string EquippedBadge { get; set; } = string.Empty;
+        public string EquippedBorder { get; set; } = string.Empty;
+
         // Time-based leaderboard tracking
         public int DailyPoints { get; set; } = 0;
         public int WeeklyPoints { get; set; } = 0;

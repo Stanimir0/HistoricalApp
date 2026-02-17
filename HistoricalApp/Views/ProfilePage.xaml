@@ -65,7 +65,7 @@
                                        WidthRequest="120"
                                        Padding="0"
                                        IsClippedToBounds="True"
-                                       BorderColor="{StaticResource Primary}"
+                                       BorderColor="{Binding ProfileBorderColor}"
                                        BackgroundColor="{StaticResource BackgroundMain}">
                                     <Image Source="{Binding UserProfileImageSource}"
                                            Aspect="AspectFill"
@@ -74,9 +74,15 @@
                                 </Frame>
 
                                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                                    <Label Text="{Binding CurrentUser.UserName, FallbackValue='Loading...', TargetNullValue='Guest'}"
-                                           Style="{StaticResource Headline}"
-                                           FontSize="24"/>
+                                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                                        <Label Text="{Binding CurrentUser.UserName, FallbackValue='Loading...', TargetNullValue='Guest'}"
+                                               Style="{StaticResource Headline}"
+                                               FontSize="24"/>
+                                        <Label Text="{Binding BadgeEmoji}"
+                                               FontSize="20"
+                                               IsVisible="{Binding HasBadge}"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
                                     
                                     <Label Text="{Binding CurrentUser.Rank, FallbackValue='Loading...', TargetNullValue='Novice'}"
                                            TextColor="{StaticResource TextGold}"

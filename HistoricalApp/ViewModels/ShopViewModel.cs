@@ -94,6 +94,22 @@ namespace HistoricalApp.ViewModels
                         {
                             UserCurrency = user.Currency;
                         });
+
+                        // Mark purchased items
+                        var purchasedItems = await _userService.GetPurchasedItemsAsync(userId);
+                        if (purchasedItems != null && purchasedItems.Count > 0)
+                        {
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                foreach (var item in ShopItems)
+                                {
+                                    if (purchasedItems.Contains(item.Id))
+                                    {
+                                        item.IsPurchased = true;
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
 
@@ -172,7 +188,7 @@ namespace HistoricalApp.ViewModels
 
                     await Application.Current.MainPage.DisplayAlert(
                         "Success",
-                        $"You purchased {item.Name}!",
+                        $"You purchased {item.Name}! You can equip it in Edit Profile.",
                         "OK"
                     );
                 }

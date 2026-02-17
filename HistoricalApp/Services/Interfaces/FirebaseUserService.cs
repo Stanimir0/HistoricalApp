@@ -73,7 +73,97 @@ namespace HistoricalApp.Services
                 var user = await GetUserByIdAsync(userId);
                 if (user == null || user.Currency < item.Price) return false;
 
+                // Check if already purchased
+                if (user.PurchasedItems == null)
+                    user.PurchasedItems = new List<string>();
+                
+                if (user.PurchasedItems.Contains(item.Id))
+                    return false; // Already purchased
+
                 user.Currency -= item.Price;
+                user.PurchasedItems.Add(item.Id);
+                await UpdateUserAsync(userId, user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Get purchased items by category
+        public async Task<List<string>> GetPurchasedItemsAsync(string userId, string category = "")
+        {
+            try
+            {
+                var user = await GetUserByIdAsync(userId);
+                if (user == null || user.PurchasedItems == null)
+                    return new List<string>();
+
+                return user.PurchasedItems;
+            }
+            catch
+            {
+                return new List<string>();
+            }
+        }
+
+        // Equip an item (Badge or Border)
+        public async Task<bool> EquipItemAsync(string userId, string itemId, string category)
+        {
+            try
+            {
+                var user = await GetUserByIdAsync(userId);
+                if (user == null) return false;
+
+                // Check if user owns the item
+                if (user.PurchasedItems == null || !user.PurchasedItems.Contains(itemId))
+                    return false;
+
+                // Equip based on category
+                if (category.Equals("Badge", StringComparison.OrdinalIgnoreCase))
+                {
+                    user.EquippedBadge = itemId;
+                }
+                else if (category.Equals("Border", StringComparison.OrdinalIgnoreCase))
+                {
+                    user.EquippedBorder = itemId;
+                }
+                else
+                {
+                    return false; // Invalid category
+                }
+
+                await UpdateUserAsync(userId, user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Unequip an item
+        public async Task<bool> UnequipItemAsync(string userId, string category)
+        {
+            try
+            {
+                var user = await GetUserByIdAsync(userId);
+                if (user == null) return false;
+
+                if (category.Equals("Badge", StringComparison.OrdinalIgnoreCase))
+                {
+                    user.EquippedBadge = string.Empty;
+                }
+                else if (category.Equals("Border", StringComparison.OrdinalIgnoreCase))
+                {
+                    user.EquippedBorder = string.Empty;
+                }
+                else
+                {
+                    return false;
+                }
+
                 await UpdateUserAsync(userId, user);
                 return true;
             }
