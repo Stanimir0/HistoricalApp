@@ -11,6 +11,9 @@
 
         public int TotalPoints { get; set; } = 0;
 
+        // Permanent XP for leveling — never resets (unlike TotalPoints used for leaderboards)
+        public int TotalXP { get; set; } = 0;
+
         // Currency system for shop
         public int Currency { get; set; } = 0;
 

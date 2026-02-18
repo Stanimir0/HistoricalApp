@@ -151,7 +151,7 @@
                                    VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                         <ProgressBar Progress="{Binding LevelProgress}"
-                                     ProgressColor="#FFD700"
+                                     ProgressColor="#76FF03"
                                      BackgroundColor="#333"
                                      HeightRequest="8"/>
                         <Label Text="{Binding LevelProgressText}"

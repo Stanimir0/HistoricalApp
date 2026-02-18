@@ -75,7 +75,7 @@ namespace HistoricalApp.Services
         /// </summary>
         public static (int levelsGained, int coinsAwarded, int newLevel) CheckAndProcessLevelUp(User user)
         {
-            int calculatedLevel = GetLevelFromXP(user.TotalPoints);
+            int calculatedLevel = GetLevelFromXP(user.TotalXP);
             int levelsGained = calculatedLevel - user.Level;
 
             if (levelsGained <= 0)

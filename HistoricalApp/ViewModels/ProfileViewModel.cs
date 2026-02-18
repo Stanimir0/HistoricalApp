@@ -76,10 +76,10 @@ namespace HistoricalApp.ViewModels
         // === Level Display ===
         public string LevelText => CurrentUser != null ? $"Level {CurrentUser.Level}" : "Level 1";
         public double LevelProgress => CurrentUser != null
-            ? LevelService.GetLevelProgress(CurrentUser.TotalPoints, CurrentUser.Level)
+            ? LevelService.GetLevelProgress(CurrentUser.TotalXP, CurrentUser.Level)
             : 0.0;
         public string LevelProgressText => CurrentUser != null
-            ? $"{CurrentUser.TotalPoints}/{LevelService.GetXPForNextLevel(CurrentUser.Level)} XP"
+            ? $"{CurrentUser.TotalXP}/{LevelService.GetXPForNextLevel(CurrentUser.Level)} XP"
             : "0/100 XP";
 
         // === Streak Display ===

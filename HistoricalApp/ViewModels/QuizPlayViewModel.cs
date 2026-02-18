@@ -417,8 +417,9 @@ namespace HistoricalApp.ViewModels
 
             if (user != null)
             {
-                // Award points
+                // Award points (leaderboard) and XP (permanent leveling)
                 user.TotalPoints += Score;
+                user.TotalXP += Score;
                 user.DailyPoints += Score;
                 user.WeeklyPoints += Score;
                 user.MonthlyPoints += Score;

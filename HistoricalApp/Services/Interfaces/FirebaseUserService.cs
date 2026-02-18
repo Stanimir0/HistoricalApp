@@ -251,6 +251,7 @@ namespace HistoricalApp.Services
             if (user == null) return;
 
             user.TotalPoints += points;
+            user.TotalXP += points;
             user.DailyPoints += points;
             user.WeeklyPoints += points;
             user.MonthlyPoints += points;

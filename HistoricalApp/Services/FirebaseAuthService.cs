@@ -45,7 +45,8 @@ namespace HistoricalApp.Services
                 Id = userId!,
                 Email = email,
                 Role = "User",
-                TotalPoints = 0
+                TotalPoints = 0,
+                TotalXP = 0
             });
 
             return userId!;
@@ -78,7 +79,8 @@ namespace HistoricalApp.Services
                     Id = userId!,
                     Email = email,
                     Role = "User",
-                    TotalPoints = 0
+                    TotalPoints = 0,
+                    TotalXP = 0
                 });
             }
 
