@@ -42,7 +42,38 @@ namespace HistoricalApp.Services
                 .Child("users")
                 .OnceAsync<User>();
 
-            return users.Select(u => u.Object).ToList();
+            return users.Select(u =>
+            {
+                var user = u.Object;
+                user.Id = u.Key;
+                return user;
+            }).ToList();
+        }
+
+        public async Task<User?> GetUserByUsernameAsync(string username)
+        {
+            try
+            {
+                var allUsers = await _client
+                    .Child("users")
+                    .OnceAsync<User>();
+
+                foreach (var entry in allUsers)
+                {
+                    if (entry.Object.UserName != null &&
+                        entry.Object.UserName.Equals(username, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var user = entry.Object;
+                        user.Id = entry.Key;
+                        return user;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         // Currency management

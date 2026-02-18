@@ -165,40 +165,80 @@ namespace HistoricalApp.ViewModels
                     return;
                 }
 
+                // Handle consumable powerups differently
+                bool isPowerup = item.Category.Equals("Powerup", StringComparison.OrdinalIgnoreCase);
+
+                // For non-powerups, check if already purchased
+                if (!isPowerup && item.IsPurchased)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Already Owned",
+                        "You already own this item.",
+                        "OK"
+                    );
+                    return;
+                }
+
                 // Confirm purchase
+                string confirmMsg = isPowerup
+                    ? $"Purchase {item.Name} for {item.Price} coins? (consumable)"
+                    : $"Purchase {item.Name} for {item.Price} coins?";
+
                 bool confirm = await Application.Current.MainPage.DisplayAlert(
                     Translations.Purchase,
-                    $"Purchase {item.Name} for {item.Price} coins?",
+                    confirmMsg,
                     "Yes",
                     "No"
                 );
 
                 if (!confirm) return;
 
-                // Process purchase
-                bool success = await _userService.PurchaseItemAsync(userId, item);
-
-                if (success)
+                if (isPowerup)
                 {
-                    // Update currency display
-                    UserCurrency -= item.Price;
+                    // Consumable purchase — deduct currency, add to inventory
+                    var user = await _userService.GetUserByIdAsync(userId);
+                    if (user == null) return;
 
-                    // Mark as purchased
-                    item.IsPurchased = true;
+                    user.Currency -= item.Price;
+
+                    if (item.Id == "hint_fifty_fifty")
+                        user.HintFiftyFifty++;
+                    else if (item.Id == "hint_double_points")
+                        user.HintDoublePoints++;
+
+                    await _userService.UpdateUserAsync(userId, user);
+                    UserCurrency = user.Currency;
 
                     await Application.Current.MainPage.DisplayAlert(
                         "Success",
-                        $"You purchased {item.Name}! You can equip it in Edit Profile.",
+                        $"You purchased {item.Name}! Use it during a quiz.",
                         "OK"
                     );
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Error",
-                        "Purchase failed. Please try again.",
-                        "OK"
-                    );
+                    // Regular cosmetic purchase
+                    bool success = await _userService.PurchaseItemAsync(userId, item);
+
+                    if (success)
+                    {
+                        UserCurrency -= item.Price;
+                        item.IsPurchased = true;
+
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Success",
+                            $"You purchased {item.Name}! You can equip it in Edit Profile.",
+                            "OK"
+                        );
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Error",
+                            "Purchase failed. Please try again.",
+                            "OK"
+                        );
+                    }
                 }
             }
             catch (Exception ex)

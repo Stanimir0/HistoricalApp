@@ -9,15 +9,15 @@
     <!-- Global Styles -->
     
     <Style TargetType="ActivityIndicator">
-        <Setter Property="Color" Value="{StaticResource Primary}"/>
+        <Setter Property="Color" Value="{DynamicResource Primary}"/>
     </Style>
 
     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="{StaticResource BackgroundGradientStart}" Offset="0.1" />
-                    <GradientStop Color="{StaticResource BackgroundGradientEnd}" Offset="1.0" />
+                    <GradientStop Color="{DynamicResource BackgroundGradientStart}" Offset="0.1" />
+                    <GradientStop Color="{DynamicResource BackgroundGradientEnd}" Offset="1.0" />
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
@@ -25,26 +25,26 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextPrimary}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
-        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
         <Setter Property="FontSize" Value="32" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="FontFamily" Value="OpenSansSemibold" />
         <Setter Property="Shadow">
             <Setter.Value>
-                <Shadow Brush="{StaticResource PrimaryDark}" Offset="0,2" Radius="5" Opacity="0.5"/>
+                <Shadow Brush="{DynamicResource PrimaryDark}" Offset="0,2" Radius="5" Opacity="0.5"/>
             </Setter.Value>
         </Setter>
     </Style>
     
     <Style TargetType="Label" x:Key="SubHeadline">
-        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextSecondary}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
@@ -52,7 +52,7 @@
 
     <!-- Premium Button -->
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{StaticResource TextInverted}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextInverted}" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Padding" Value="20,12" />
@@ -61,14 +61,14 @@
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0.0" />
-                    <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1.0" />
+                    <GradientStop Color="{DynamicResource PrimaryGradientStart}" Offset="0.0" />
+                    <GradientStop Color="{DynamicResource PrimaryGradientEnd}" Offset="1.0" />
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
         <Setter Property="Shadow">
             <Setter.Value>
-                <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="8" Opacity="0.4"/>
+                <Shadow Brush="{DynamicResource Primary}" Offset="0,4" Radius="8" Opacity="0.4"/>
             </Setter.Value>
         </Setter>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -89,8 +89,8 @@
     <!-- Secondary Button (Outlined) -->
     <Style TargetType="Button" x:Key="SecondaryButton">
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource Primary}" />
-        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Primary}" />
         <Setter Property="BorderWidth" Value="1.5" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="FontAttributes" Value="Bold" />
@@ -100,9 +100,9 @@
 
     <!-- Modern Entry -->
     <Style TargetType="Entry">
-        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
-        <Setter Property="BackgroundColor" Value="{StaticResource GlassSurface}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource GlassSurface}" />
         <Setter Property="HeightRequest" Value="54" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="15" />
@@ -111,16 +111,16 @@
 
     <!-- Glass Card Frame -->
     <Style TargetType="Frame">
-        <Setter Property="BackgroundColor" Value="{StaticResource GlassSurface}" />
-        <Setter Property="BorderColor" Value="{StaticResource GlassBorder}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource GlassSurface}" />
+        <Setter Property="BorderColor" Value="{DynamicResource GlassBorder}" />
         <Setter Property="CornerRadius" Value="20" />
         <Setter Property="HasShadow" Value="True" />
         <Setter Property="Padding" Value="20" />
     </Style>
     
     <Style TargetType="Frame" x:Key="Frame">
-        <Setter Property="BackgroundColor" Value="{StaticResource GlassSurface}" />
-        <Setter Property="BorderColor" Value="{StaticResource GlassBorder}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource GlassSurface}" />
+        <Setter Property="BorderColor" Value="{DynamicResource GlassBorder}" />
         <Setter Property="CornerRadius" Value="20" />
         <Setter Property="HasShadow" Value="True" />
         <Setter Property="Padding" Value="20" />
@@ -128,13 +128,13 @@
     
     <!-- Shell/TabBar -->
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor" Value="{StaticResource BackgroundMain}" />
-        <Setter Property="Shell.ForegroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="Shell.TitleColor" Value="{StaticResource Primary}" />
-        <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource BackgroundMain}" />
-        <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TextSecondary}" />
-        <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
+        <Setter Property="Shell.BackgroundColor" Value="{DynamicResource BackgroundMain}" />
+        <Setter Property="Shell.ForegroundColor" Value="{DynamicResource Primary}" />
+        <Setter Property="Shell.TitleColor" Value="{DynamicResource Primary}" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource BackgroundMain}" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource Primary}" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource Primary}" />
     </Style>
 
 </ResourceDictionary>

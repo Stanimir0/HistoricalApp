@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:models="clr-namespace:HistoricalApp.Models"
     xmlns:controls="clr-namespace:HistoricalApp.Controls"
     xmlns:helpers="clr-namespace:HistoricalApp.Helpers"
     x:Class="HistoricalApp.Views.HomePage"
@@ -15,10 +16,10 @@
     <Grid RowDefinitions="*,80" RowSpacing="0">
         <!-- Main Scrollable Content -->
         <ScrollView Grid.Row="0" Grid.RowSpan="2" Padding="0,0,0,80" x:Name="HomeRoot" Opacity="0" TranslationY="100">
-            <Grid RowDefinitions="Auto, Auto, *" RowSpacing="20" Padding="20,40,20,20">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, *" RowSpacing="20" Padding="20,40,20,20">
                 
                 <!-- Hero Section -->
-                <VerticalStackLayout Grid.Row="0" Spacing="5" Margin="0,10,0,30">
+                <VerticalStackLayout Grid.Row="0" Spacing="5" Margin="0,10,0,10">
                     <Label Text="{Binding Translations.WelcomeBack}"
                            Style="{StaticResource SubHeadline}" 
                            HorizontalOptions="Start"
@@ -32,9 +33,115 @@
                            TextColor="{StaticResource TextPrimary}"/>
                 </VerticalStackLayout>
 
+                <!-- Quick Stats Row (Level + Streak + Coins) -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    
+                    <!-- Level -->
+                    <Frame Grid.Column="0"
+                           BackgroundColor="#1A1A1A"
+                           CornerRadius="15"
+                           Padding="10"
+                           HasShadow="False">
+                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                            <Label Text="{Binding LevelText}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFD700"
+                                   HorizontalOptions="Center"/>
+                            <ProgressBar Progress="{Binding LevelProgress}"
+                                         ProgressColor="#FFD700"
+                                         BackgroundColor="#333"
+                                         HeightRequest="4"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Streak -->
+                    <Frame Grid.Column="1"
+                           BackgroundColor="#1A1A1A"
+                           CornerRadius="15"
+                           Padding="10"
+                           HasShadow="False">
+                        <Label Text="{Binding StreakText}"
+                               FontSize="13"
+                               TextColor="#FF9800"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               LineBreakMode="TailTruncation"/>
+                    </Frame>
+
+                    <!-- Coins -->
+                    <Frame Grid.Column="2"
+                           BackgroundColor="#1A1A1A"
+                           CornerRadius="15"
+                           Padding="10"
+                           HasShadow="False">
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="🥮" FontSize="16"/>
+                            <Label Text="{Binding CurrentUser.Currency, FallbackValue='0'}"
+                                   FontSize="16"
+                                   TextColor="#f1c40f"
+                                   FontAttributes="Bold"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Daily Missions Card -->
+                <Frame Grid.Row="2"
+                       BackgroundColor="#1A1A1A"
+                       CornerRadius="16"
+                       Padding="15"
+                       HasShadow="False"
+                       IsVisible="{Binding HasMissions}">
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="📋" FontSize="18" VerticalOptions="Center"/>
+                            <Label Text="Daily Missions"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#4FC3F7"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+
+                        <CollectionView ItemsSource="{Binding DailyMissions}"
+                                        SelectionMode="None"
+                                        HeightRequest="50">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DailyMission">
+                                    <Grid ColumnDefinitions="30, *, Auto" Padding="0,5" ColumnSpacing="10">
+                                        <Label Grid.Column="0" 
+                                               Text="{Binding IconEmoji}" 
+                                               FontSize="20" 
+                                               VerticalOptions="Center"/>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding Title}"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"/>
+                                            <Label Text="{Binding Description}"
+                                                   FontSize="11"
+                                                   TextColor="#888"/>
+                                        </VerticalStackLayout>
+                                        <HorizontalStackLayout Grid.Column="2" Spacing="3" VerticalOptions="Center">
+                                            <Label Text="{Binding CoinReward, StringFormat='{0} 🥮'}"
+                                                   FontSize="13"
+                                                   TextColor="#f1c40f"
+                                                   FontAttributes="Bold"
+                                                   IsVisible="{Binding IsCompleted, Converter={helpers:InverseBoolConverter}}"/>
+                                            <Label Text="✅"
+                                                   FontSize="18"
+                                                   IsVisible="{Binding IsCompleted}"/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
 
                 <!-- Game Modes Dashboard -->
-                <Grid Grid.Row="2" ColumnDefinitions="*,*" RowDefinitions="160, 160" ColumnSpacing="15" RowSpacing="15">
+                <Grid Grid.Row="4" ColumnDefinitions="*,*" RowDefinitions="160, 160" ColumnSpacing="15" RowSpacing="15">
                     
                     <!-- Battles Card -->
                     <Frame Grid.Row="0" Grid.Column="0" 

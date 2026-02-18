@@ -13,6 +13,25 @@ namespace HistoricalApp.ViewModels
         public Color RankColor { get; set; }
         public bool IsTopThree => Position <= 3;
         public int PotentialReward { get; set; }
+        public string BadgeEmoji { get; set; } = string.Empty;
+        public bool HasBadge => !string.IsNullOrEmpty(BadgeEmoji);
+
+        public ImageSource ProfileImageSource
+        {
+            get
+            {
+                if (User != null && !string.IsNullOrEmpty(User.ProfileImage))
+                {
+                    try
+                    {
+                        var bytes = Convert.FromBase64String(User.ProfileImage);
+                        return ImageSource.FromStream(() => new MemoryStream(bytes));
+                    }
+                    catch { }
+                }
+                return "dotnet_bot.png";
+            }
+        }
     }
 
     public class LeaderboardViewModel : BaseViewModel
@@ -81,12 +100,26 @@ namespace HistoricalApp.ViewModels
                     // Calculate potential reward based on period and position
                     int reward = CalculateReward(rank, SelectedPeriod);
 
+                    // Build badge emoji (shop badge + secret badge)
+                    string badgeEmoji = "";
+                    if (!string.IsNullOrEmpty(user.EquippedBadge))
+                    {
+                        var shopBadge = ShopService.GetShopItems().FirstOrDefault(i => i.Id == user.EquippedBadge);
+                        if (shopBadge != null) badgeEmoji += shopBadge.IconEmoji;
+                    }
+                    if (!string.IsNullOrEmpty(user.EquippedSecretBadge))
+                    {
+                        var secretBadge = SecretBadgeService.GetBadgeById(user.EquippedSecretBadge);
+                        if (secretBadge != null) badgeEmoji += secretBadge.Emoji;
+                    }
+
                     Users.Add(new LeaderboardItem 
                     { 
                         User = user, 
                         Position = rank,
                         RankColor = rankColor,
-                        PotentialReward = reward
+                        PotentialReward = reward,
+                        BadgeEmoji = badgeEmoji
                     });
                     rank++;
                 }

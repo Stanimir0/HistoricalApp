@@ -10,13 +10,8 @@ namespace HistoricalApp
         {
             InitializeComponent();
 
-            // Optional: explicit route registrations (extra safety)
-            Routing.RegisterRoute("HomePage", typeof(HomePage));
-            Routing.RegisterRoute("ProfilePage", typeof(ProfilePage));
-            Routing.RegisterRoute("LeaderboardPage", typeof(LeaderboardPage));
-            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+            // Only register routes not defined as ShellContent in XAML
             Routing.RegisterRoute("EditProfilePage", typeof(EditProfilePage));
-
         }
 
         public async Task RefreshUserAccessAsync()
@@ -33,6 +28,16 @@ namespace HistoricalApp
 
             bool isAdmin = user?.Role == "Admin";
             Preferences.Set("IsAdmin", isAdmin);
+
+            // Apply equipped theme
+            if (user != null && !string.IsNullOrEmpty(user.EquippedTheme))
+            {
+                ThemeService.Instance.ApplyTheme(user.EquippedTheme);
+            }
+            else
+            {
+                ThemeService.Instance.ApplyTheme(string.Empty); // Default
+            }
         }
     }
 }

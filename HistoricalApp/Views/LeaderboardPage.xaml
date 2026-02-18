@@ -138,7 +138,7 @@
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                     
-                                    <!-- Avatar Placeholder -->
+                                    <!-- Profile Picture -->
                                     <Frame Grid.Column="1"
                                            HeightRequest="40"
                                            WidthRequest="40"
@@ -148,15 +148,24 @@
                                            BackgroundColor="#333"
                                            BorderColor="{Binding RankColor}"
                                            HasShadow="False">
-                                        <Image Source="icon_profile.png" Aspect="AspectFill" Margin="8"/>
+                                        <Image Source="{Binding ProfileImageSource}" 
+                                               Aspect="AspectFill"
+                                               HeightRequest="40"
+                                               WidthRequest="40"/>
                                     </Frame>
 
                                     <!-- User Info -->
                                     <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="2">
-                                        <Label Text="{Binding User.UserName}"
-                                               TextColor="White"
-                                               FontSize="18"
-                                               FontAttributes="Bold"/>
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="{Binding User.UserName}"
+                                                   TextColor="White"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding BadgeEmoji}"
+                                                   FontSize="16"
+                                                   VerticalOptions="Center"
+                                                   IsVisible="{Binding HasBadge}"/>
+                                        </HorizontalStackLayout>
                                         <Label Text="{Binding User.Rank}"
                                                TextColor="{StaticResource TextSecondary}"
                                                FontSize="12"/>
@@ -174,7 +183,7 @@
                                                FontSize="10"
                                                HorizontalOptions="End"/>
                                         <HorizontalStackLayout Spacing="3" HorizontalOptions="End">
-                                            <Label Text="💰"
+                                            <Label Text="🥮"
                                                    FontSize="10"
                                                    IsVisible="{Binding IsTopThree}"/>
                                             <Label Text="{Binding PotentialReward}"

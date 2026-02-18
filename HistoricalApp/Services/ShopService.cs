@@ -46,6 +46,16 @@ namespace HistoricalApp.Services
                     Category = "Border",
                     Rarity = "Rare"
                 },
+                new ShopItem
+                {
+                    Id = "border_ancient",
+                    Name = "Ancient Stone Border",
+                    Description = "Carved stone aesthetic",
+                    Price = 400,
+                    IconEmoji = "🪨",
+                    Category = "Border",
+                    Rarity = "Rare"
+                },
                 
                 // Epic Borders
                 new ShopItem
@@ -65,6 +75,16 @@ namespace HistoricalApp.Services
                     Description = "Blazing fire effect border",
                     Price = 800,
                     IconEmoji = "🔥",
+                    Category = "Border",
+                    Rarity = "Epic"
+                },
+                new ShopItem
+                {
+                    Id = "border_royal",
+                    Name = "Royal Border",
+                    Description = "Fit for royalty",
+                    Price = 1000,
+                    IconEmoji = "👑",
                     Category = "Border",
                     Rarity = "Epic"
                 },
@@ -115,7 +135,7 @@ namespace HistoricalApp.Services
                     Rarity = "Common"
                 },
                 
-                // Rare Badge
+                // Rare Badges
                 new ShopItem
                 {
                     Id = "badge_warrior",
@@ -123,6 +143,36 @@ namespace HistoricalApp.Services
                     Description = "For the battle champions",
                     Price = 350,
                     IconEmoji = "⚔️",
+                    Category = "Badge",
+                    Rarity = "Rare"
+                },
+                new ShopItem
+                {
+                    Id = "badge_pharaoh",
+                    Name = "Pharaoh Badge",
+                    Description = "Rule like ancient kings",
+                    Price = 250,
+                    IconEmoji = "🏛️",
+                    Category = "Badge",
+                    Rarity = "Rare"
+                },
+                new ShopItem
+                {
+                    Id = "badge_knight",
+                    Name = "Knight Badge",
+                    Description = "Chivalry and honor",
+                    Price = 300,
+                    IconEmoji = "🛡️",
+                    Category = "Badge",
+                    Rarity = "Rare"
+                },
+                new ShopItem
+                {
+                    Id = "badge_explorer",
+                    Name = "Explorer Badge",
+                    Description = "Discover new worlds",
+                    Price = 200,
+                    IconEmoji = "🧭",
                     Category = "Badge",
                     Rarity = "Rare"
                 },
@@ -187,9 +237,9 @@ namespace HistoricalApp.Services
                     Rarity = "Epic"
                 },
 
-                // ============ THEMES ============
+                // ============ THEMES (History-Related) ============
                 
-                // Rare Theme
+                // Rare Themes
                 new ShopItem
                 {
                     Id = "theme_simple",
@@ -197,6 +247,26 @@ namespace HistoricalApp.Services
                     Description = "Clean and minimal color scheme",
                     Price = 200,
                     IconEmoji = "⚫",
+                    Category = "Theme",
+                    Rarity = "Rare"
+                },
+                new ShopItem
+                {
+                    Id = "theme_ancient",
+                    Name = "Ancient Egypt",
+                    Description = "Pharaoh-inspired golden theme",
+                    Price = 400,
+                    IconEmoji = "🏛️",
+                    Category = "Theme",
+                    Rarity = "Rare"
+                },
+                new ShopItem
+                {
+                    Id = "theme_medieval",
+                    Name = "Medieval Kingdom",
+                    Description = "Castle and knight aesthetic",
+                    Price = 500,
+                    IconEmoji = "🏰",
                     Category = "Theme",
                     Rarity = "Rare"
                 },
@@ -230,6 +300,60 @@ namespace HistoricalApp.Services
                     Price = 650,
                     IconEmoji = "🌲",
                     Category = "Theme",
+                    Rarity = "Epic"
+                },
+                new ShopItem
+                {
+                    Id = "theme_renaissance",
+                    Name = "Renaissance",
+                    Description = "Art and enlightenment vibes",
+                    Price = 700,
+                    IconEmoji = "🎨",
+                    Category = "Theme",
+                    Rarity = "Epic"
+                },
+                new ShopItem
+                {
+                    Id = "theme_wartime",
+                    Name = "Wartime Era",
+                    Description = "Military camouflage aesthetic",
+                    Price = 800,
+                    IconEmoji = "🎖️",
+                    Category = "Theme",
+                    Rarity = "Epic"
+                },
+                
+                // Legendary Theme
+                new ShopItem
+                {
+                    Id = "theme_viking",
+                    Name = "Viking Age",
+                    Description = "Norse warrior theme",
+                    Price = 1500,
+                    IconEmoji = "⚔️",
+                    Category = "Theme",
+                    Rarity = "Legendary"
+                },
+
+                // ============ POWERUPS (Consumable Hints) ============
+                new ShopItem
+                {
+                    Id = "hint_fifty_fifty",
+                    Name = "50/50 Hint",
+                    Description = "Removes 2 wrong answers",
+                    Price = 500,
+                    IconEmoji = "🎯",
+                    Category = "Powerup",
+                    Rarity = "Epic"
+                },
+                new ShopItem
+                {
+                    Id = "hint_double_points",
+                    Name = "Double Points",
+                    Description = "2x points for one quiz",
+                    Price = 500,
+                    IconEmoji = "✨",
+                    Category = "Powerup",
                     Rarity = "Epic"
                 }
             };

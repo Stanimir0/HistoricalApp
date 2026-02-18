@@ -19,6 +19,10 @@ namespace HistoricalApp.ViewModels
         public ICommand RemoveBadgeCommand { get; }
         public ICommand SelectBorderCommand { get; }
         public ICommand RemoveBorderCommand { get; }
+        public ICommand SelectSecretBadgeCommand { get; }
+        public ICommand RemoveSecretBadgeCommand { get; }
+        public ICommand SelectThemeCommand { get; }
+        public ICommand RemoveThemeCommand { get; }
 
         public TranslationService Translations => TranslationService.Instance;
 
@@ -45,6 +49,8 @@ namespace HistoricalApp.ViewModels
 
         public ObservableCollection<ShopItem> PurchasedBadges { get; set; } = new();
         public ObservableCollection<ShopItem> PurchasedBorders { get; set; } = new();
+        public ObservableCollection<ShopItem> PurchasedThemes { get; set; } = new();
+        public ObservableCollection<SecretBadgeDisplay> OwnedSecretBadges { get; set; } = new();
 
         public ShopItem SelectedBadge
         {
@@ -60,8 +66,29 @@ namespace HistoricalApp.ViewModels
         }
         private ShopItem _selectedBorder;
 
+        public SecretBadgeDisplay SelectedSecretBadge
+        {
+            get => _selectedSecretBadge;
+            set => SetProperty(ref _selectedSecretBadge, value);
+        }
+        private SecretBadgeDisplay _selectedSecretBadge;
+
+        public ShopItem SelectedTheme
+        {
+            get => _selectedTheme;
+            set 
+            {
+                SetProperty(ref _selectedTheme, value);
+                // Preview theme immediately if desired, or wait for save
+            }
+        }
+        private ShopItem _selectedTheme;
+
         public bool HasSelectedBadge => SelectedBadge != null;
         public bool HasSelectedBorder => SelectedBorder != null;
+        public bool HasSelectedSecretBadge => SelectedSecretBadge != null;
+        public bool HasSelectedTheme => SelectedTheme != null;
+        public bool HasSecretBadges => OwnedSecretBadges.Count > 0;
 
         private string _base64Image;
 
@@ -84,6 +111,10 @@ namespace HistoricalApp.ViewModels
             RemoveBadgeCommand = new Command(RemoveBadge);
             SelectBorderCommand = new Command<ShopItem>(SelectBorder);
             RemoveBorderCommand = new Command(RemoveBorder);
+            SelectSecretBadgeCommand = new Command<SecretBadgeDisplay>(SelectSecretBadge);
+            RemoveSecretBadgeCommand = new Command(RemoveSecretBadge);
+            SelectThemeCommand = new Command<ShopItem>(SelectTheme);
+            RemoveThemeCommand = new Command(RemoveTheme);
 
             // Load purchased items
             _ = LoadPurchasedItems();
@@ -107,6 +138,11 @@ namespace HistoricalApp.ViewModels
                     .Where(item => item.Category == "Border" && purchasedItemIds.Contains(item.Id))
                     .ToList();
 
+                // Filter themes
+                var themes = allShopItems
+                    .Where(item => item.Category == "Theme" && purchasedItemIds.Contains(item.Id))
+                    .ToList();
+
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     PurchasedBadges.Clear();
@@ -121,6 +157,12 @@ namespace HistoricalApp.ViewModels
                         PurchasedBorders.Add(border);
                     }
 
+                    PurchasedThemes.Clear();
+                    foreach (var theme in themes)
+                    {
+                        PurchasedThemes.Add(theme);
+                    }
+
                     // Set currently equipped items
                     if (!string.IsNullOrEmpty(_editingUser.EquippedBadge))
                     {
@@ -131,6 +173,33 @@ namespace HistoricalApp.ViewModels
                     {
                         SelectedBorder = PurchasedBorders.FirstOrDefault(b => b.Id == _editingUser.EquippedBorder);
                     }
+
+                    if (!string.IsNullOrEmpty(_editingUser.EquippedTheme))
+                    {
+                        SelectedTheme = PurchasedThemes.FirstOrDefault(t => t.Id == _editingUser.EquippedTheme);
+                    }
+
+                    // Load secret badges
+                    OwnedSecretBadges.Clear();
+                    if (_editingUser.SecretBadges != null)
+                    {
+                        foreach (var badgeId in _editingUser.SecretBadges)
+                        {
+                            var badge = SecretBadgeService.GetBadgeById(badgeId);
+                            if (badge != null)
+                            {
+                                var display = new SecretBadgeDisplay { Name = badge.Name, Emoji = badge.Emoji };
+                                OwnedSecretBadges.Add(display);
+                                // Pre-select if currently equipped
+                                if (badgeId == _editingUser.EquippedSecretBadge)
+                                {
+                                    SelectedSecretBadge = display;
+                                }
+                            }
+                        }
+                    }
+                    OnPropertyChanged(nameof(HasSecretBadges));
+                    OnPropertyChanged(nameof(HasSelectedSecretBadge));
                 });
             }
             catch (Exception ex)
@@ -161,6 +230,30 @@ namespace HistoricalApp.ViewModels
         {
             SelectedBorder = null;
             OnPropertyChanged(nameof(HasSelectedBorder));
+        }
+
+        private void SelectSecretBadge(SecretBadgeDisplay badge)
+        {
+            SelectedSecretBadge = badge;
+            OnPropertyChanged(nameof(HasSelectedSecretBadge));
+        }
+
+        private void RemoveSecretBadge()
+        {
+            SelectedSecretBadge = null;
+            OnPropertyChanged(nameof(HasSelectedSecretBadge));
+        }
+
+        private void SelectTheme(ShopItem theme)
+        {
+            SelectedTheme = theme;
+            OnPropertyChanged(nameof(HasSelectedTheme));
+        }
+
+        private void RemoveTheme()
+        {
+            SelectedTheme = null;
+            OnPropertyChanged(nameof(HasSelectedTheme));
         }
 
         private void LoadImage(string base64)
@@ -236,7 +329,24 @@ namespace HistoricalApp.ViewModels
             
             // Update equipped items
             _editingUser.EquippedBadge = SelectedBadge?.Id ?? string.Empty;
+            _editingUser.EquippedBadge = SelectedBadge?.Id ?? string.Empty;
             _editingUser.EquippedBorder = SelectedBorder?.Id ?? string.Empty;
+            _editingUser.EquippedTheme = SelectedTheme?.Id ?? string.Empty;
+
+            // Apply theme immediately
+            ThemeService.Instance.ApplyTheme(_editingUser.EquippedTheme);
+
+            // Equip secret badge — find the badge ID from the display name
+            if (SelectedSecretBadge != null)
+            {
+                var allBadges = SecretBadgeService.GetAllBadges();
+                var match = allBadges.FirstOrDefault(b => b.Name == SelectedSecretBadge.Name);
+                _editingUser.EquippedSecretBadge = match?.Id ?? string.Empty;
+            }
+            else
+            {
+                _editingUser.EquippedSecretBadge = string.Empty;
+            }
 
             await _userService.UpdateUserAsync(_editingUser.Id, _editingUser);
             

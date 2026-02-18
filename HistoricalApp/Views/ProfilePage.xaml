@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:HistoricalApp.ViewModels"
+    xmlns:models="clr-namespace:HistoricalApp.Models"
     xmlns:controls="clr-namespace:HistoricalApp.Controls"
     x:Class="HistoricalApp.Views.ProfilePage"
     BackgroundColor="#1e1e1e"
@@ -93,7 +94,7 @@
                             </VerticalStackLayout>
 
                             <!-- Stats Row -->
-                            <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,30,0,10">
+                            <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Margin="0,30,0,10">
                                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="5">
                                     <Label Text="{Binding Translations.TotalPoints}" 
                                            TextColor="{StaticResource TextSecondary}" 
@@ -117,18 +118,108 @@
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="5">
+                                    <Label Text="Coins" 
+                                           TextColor="{StaticResource TextSecondary}" 
+                                           FontSize="12"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="{Binding CurrentUser.Currency, FallbackValue='0'}"
+                                           TextColor="#f1c40f"
+                                           FontSize="24"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
                             </Grid>
 
                         </Grid>
                     </Grid>
                 </Frame>
 
+                <!-- Level Progress Card -->
+                <Frame BackgroundColor="#252525"
+                       CornerRadius="16"
+                       Padding="15"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="📊" FontSize="18" VerticalOptions="Center"/>
+                            <Label Text="{Binding LevelText}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFD700"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        <ProgressBar Progress="{Binding LevelProgress}"
+                                     ProgressColor="#FFD700"
+                                     BackgroundColor="#333"
+                                     HeightRequest="8"/>
+                        <Label Text="{Binding LevelProgressText}"
+                               FontSize="12"
+                               TextColor="#888"
+                               HorizontalOptions="End"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Streak Card -->
+                <Frame BackgroundColor="#252525"
+                       CornerRadius="16"
+                       Padding="15"
+                       HasShadow="True">
+                    <Label Text="{Binding StreakText}"
+                           FontSize="16"
+                           TextColor="#FF9800"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                </Frame>
+
+                <!-- Secret Badges -->
+                <Frame BackgroundColor="#252525"
+                       CornerRadius="16"
+                       Padding="15"
+                       HasShadow="True"
+                       IsVisible="{Binding HasSecretBadges}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="✨ Secret Badges"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#CE93D8"/>
+                        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start"
+                                    BindableLayout.ItemsSource="{Binding SecretBadges}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:SecretBadgeDisplay">
+                                    <Frame BackgroundColor="#333"
+                                           CornerRadius="10"
+                                           Padding="8,5"
+                                           Margin="3"
+                                           HasShadow="False">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="{Binding Emoji}" FontSize="16"/>
+                                            <Label Text="{Binding Name}" TextColor="White" FontSize="12"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Gift Coins Button -->
+                <Button Text="🎁 Gift Coins to Friend"
+                        BackgroundColor="#252525"
+                        TextColor="#f1c40f"
+                        CornerRadius="16"
+                        HeightRequest="50"
+                        BorderColor="#333"
+                        BorderWidth="1"
+                        Command="{Binding GiftCurrencyCommand}"/>
+
                 <Button Text="{Binding Translations.AdminPanel}"
                         BackgroundColor="#FFD700"
                         TextColor="#1E1E1E"
                         Command="{Binding AdminPanelCommand}"
                         IsVisible="{Binding IsAdmin}"
-                        Margin="0,20,0,0" />
+                        Margin="0,10,0,0" />
 
                 <!-- Language Selector -->
                 <Frame BackgroundColor="#252525"

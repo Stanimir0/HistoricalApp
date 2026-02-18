@@ -158,6 +158,107 @@
                         HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
+            <!-- Secret Badge Selection Section -->
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,0"
+                                 IsVisible="{Binding HasSecretBadges}">
+                <Label Text="Equip Secret Badge (Optional)" TextColor="#CE93D8" FontAttributes="Bold"/>
+                
+                <CollectionView ItemsSource="{Binding OwnedSecretBadges}"
+                                SelectionMode="None"
+                                HeightRequest="80">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="15"
+                                   CornerRadius="12"
+                                   BorderColor="#CE93D8"
+                                   BackgroundColor="#252525"
+                                   HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:EditProfileViewModel}}, Path=SelectSecretBadgeCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="3" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="{Binding Emoji}"
+                                           FontSize="28"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="{Binding Name}"
+                                           FontSize="9"
+                                           TextColor="#CE93D8"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Remove Secret Badge"
+                        BackgroundColor="#444"
+                        TextColor="#CE93D8"
+                        FontSize="12"
+                        HeightRequest="35"
+                        Command="{Binding RemoveSecretBadgeCommand}"
+                        IsVisible="{Binding HasSelectedSecretBadge}"
+                        HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Theme Selection Section -->
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
+                <Label Text="Select App Theme" TextColor="#FFD700" FontAttributes="Bold"/>
+                
+                <CollectionView ItemsSource="{Binding PurchasedThemes}"
+                                SelectionMode="None"
+                                HeightRequest="90">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="10"
+                                   CornerRadius="12"
+                                   BorderColor="{DynamicResource Primary}"
+                                   BackgroundColor="{DynamicResource SurfaceHighlight}"
+                                   HasShadow="True"
+                                   WidthRequest="100">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:EditProfileViewModel}}, Path=SelectThemeCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="{Binding IconEmoji}"
+                                           FontSize="28"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="{Binding Name}"
+                                           FontSize="11"
+                                           TextColor="{DynamicResource TextPrimary}"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="TailTruncation"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No themes purchased yet."
+                               TextColor="#888"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+                <Button Text="Reset to Default Theme"
+                        BackgroundColor="#444"
+                        TextColor="#FFD700"
+                        FontSize="12"
+                        HeightRequest="35"
+                        Command="{Binding RemoveThemeCommand}"
+                        IsVisible="{Binding HasSelectedTheme}"
+                        HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
             <!-- Action Buttons -->
             <Button Text="{Binding Translations.SaveChanges}"
                     BackgroundColor="#FFD700"

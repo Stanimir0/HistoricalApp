@@ -12,7 +12,9 @@ namespace HistoricalApp.Views
 
             var viewModel = new QuizPlayViewModel();
             BindingContext = viewModel;
-            viewModel.LoadQuiz(quiz);
+
+            // Use async load to get hint inventory
+            _ = viewModel.LoadQuizAsync(quiz);
         }
 
         protected override async void OnAppearing()
@@ -21,23 +23,12 @@ namespace HistoricalApp.Views
             await AnimationHelper.SlideUpFadeIn(RootLayout);
         }
 
-        
         private async void OnAnswerTapped(object sender, TappedEventArgs e)
         {
-            if (sender is Frame frame)
+            if (sender is Border border)
             {
-              
-                var chosen = frame.BindingContext as string;
-
-                if (BindingContext is QuizPlayViewModel vm)
-                {
-                    bool isCorrect = vm.IsCorrectAnswer(chosen);
-
-                    if (isCorrect)
-                        await AnimationHelper.GlowCorrect(frame);
-                    else
-                        await AnimationHelper.Shake(frame);
-                }
+                // Quick press animation
+                await AnimationHelper.AnimateButtonPress(border);
             }
         }
     }

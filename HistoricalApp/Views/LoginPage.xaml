@@ -48,7 +48,9 @@
                                 <Entry Placeholder="{Binding Translations.EmailPlaceholder}" 
                                        Text="{Binding Email}" 
                                        Keyboard="Email"
-                                       Style="{StaticResource Entry}"/>
+                                       TextColor="White"
+                                       PlaceholderColor="#888"
+                                       BackgroundColor="#2A2A2A"/>
                             </Border>
                         </VerticalStackLayout>
 
@@ -61,7 +63,9 @@
                                 <Entry Placeholder="{Binding Translations.PasswordPlaceholder}" 
                                        Text="{Binding Password}" 
                                        IsPassword="True" 
-                                       Style="{StaticResource Entry}"/>
+                                       TextColor="White"
+                                       PlaceholderColor="#888"
+                                       BackgroundColor="#2A2A2A"/>
                             </Border>
                         </VerticalStackLayout>
 

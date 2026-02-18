@@ -37,7 +37,7 @@
                             Padding="15,10"
                             VerticalOptions="Center">
                         <HorizontalStackLayout Spacing="8">
-                            <Label Text="💰"
+                            <Label Text="🥮"
                                    FontSize="20"
                                    VerticalOptions="Center"/>
                             <Label Text="{Binding UserCurrency}"
@@ -133,7 +133,7 @@
                                                    IsVisible="{Binding IsPurchased, Converter={helpers:InverseBoolConverter}}">
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="💰 "/>
+                                                        <Span Text="🥮 "/>
                                                         <Span Text="{Binding Price}"/>
                                                     </FormattedString>
                                                 </Label.FormattedText>

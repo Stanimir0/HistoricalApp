@@ -12,6 +12,13 @@ namespace HistoricalApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // Load user data from Firebase so level/streak/coins display correctly
+            if (BindingContext is HistoricalApp.ViewModels.ProfileViewModel vm)
+            {
+                await vm.LoadCurrentUser();
+            }
+
             await AnimationHelper.SlideUpFadeIn(HomeRoot);
         }
 

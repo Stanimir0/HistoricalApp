@@ -11,7 +11,11 @@ namespace HistoricalApp.Models
         public string Difficulty { get; set; }
         public int Points { get; set; }
 
-        // 🆕 Add questions
+        // Time-based quiz
+        public bool IsTimeBased { get; set; } = false;
+        public int TimeLimitSeconds { get; set; } = 15;
+
+        // Questions
         public List<Question> Questions { get; set; } = new();
     }
 

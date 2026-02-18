@@ -22,11 +22,11 @@ namespace HistoricalApp.Services
                 quiz.Id = Guid.NewGuid().ToString();
 
             if (quiz.Questions == null)
-                quiz.Questions = new List<Question>(); // ✅ Prevent null reference
+                quiz.Questions = new List<Question>();
 
             await _client.Child("quizzes")
                          .Child(quiz.Id)
-                         .PutAsync(quiz); // ✅ Stores entire quiz object (with questions)
+                         .PutAsync(quiz);
         }
 
         public async Task<List<Quiz>> GetAllQuizzesAsync()
@@ -39,9 +39,9 @@ namespace HistoricalApp.Services
                 quiz.Id = item.Key;
 
                 if (quiz.Questions == null)
-                    quiz.Questions = new List<Question>(); // ✅ Always safe
+                    quiz.Questions = new List<Question>();
 
-                // ✅ Sanitize Questions (Fix for IndexOutOfRange in UI)
+                // Sanitize Questions — fix null/incomplete answers and out-of-range CorrectAnswerIndex
                 foreach (var q in quiz.Questions)
                 {
                     if (q.Answers == null || q.Answers.Length < 4)
@@ -53,6 +53,27 @@ namespace HistoricalApp.Services
                                 newAnswers[i] = q.Answers[i];
                         }
                         q.Answers = newAnswers;
+                    }
+
+                    // Trim whitespace and replace null entries
+                    for (int i = 0; i < q.Answers.Length; i++)
+                    {
+                        if (q.Answers[i] == null)
+                        {
+                            q.Answers[i] = string.Empty;
+                            System.Diagnostics.Debug.WriteLine($"[QuizService] Warning: null answer at index {i} in question '{q.Text}'");
+                        }
+                        else
+                        {
+                            q.Answers[i] = q.Answers[i].Trim();
+                        }
+                    }
+
+                    // Validate CorrectAnswerIndex
+                    if (q.CorrectAnswerIndex < 0 || q.CorrectAnswerIndex >= 4)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[QuizService] Warning: CorrectAnswerIndex {q.CorrectAnswerIndex} out of range for question '{q.Text}', resetting to 0");
+                        q.CorrectAnswerIndex = 0;
                     }
                 }
 

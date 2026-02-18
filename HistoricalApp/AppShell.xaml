@@ -8,7 +8,14 @@
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False">
 
-    <!-- TOP LEVEL ROUTES -->
+    <!-- LoginPage is FIRST so it's the default on startup -->
+    <ShellContent Route="LoginPage"
+                  ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <ShellContent Route="RegisterPage"
+                  ContentTemplate="{DataTemplate views:RegisterPage}" />
+
+    <!-- Authenticated pages -->
     <ShellContent Route="HomePage"
                   ContentTemplate="{DataTemplate views:HomePage}" />
 
@@ -20,12 +27,6 @@
 
     <ShellContent Route="AdminPage"
                   ContentTemplate="{DataTemplate views:AdminPage}" />
-
-    <ShellContent Route="LoginPage"
-                  ContentTemplate="{DataTemplate views:LoginPage}" />
-
-    <ShellContent Route="RegisterPage"
-                  ContentTemplate="{DataTemplate views:RegisterPage}" />
 
     <ShellContent Route="QuizSelectionPage"
                   ContentTemplate="{DataTemplate views:QuizSelectionPage}" />

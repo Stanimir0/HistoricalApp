@@ -5,40 +5,160 @@
     x:Class="HistoricalApp.Views.QuizResultPage"
     BackgroundColor="#0E0E0E">
 
-    <VerticalStackLayout x:Name="RootLayout"
-                         Padding="25"
-                         Spacing="20"
-                         VerticalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout x:Name="RootLayout"
+                             Padding="25"
+                             Spacing="15"
+                             VerticalOptions="Center">
 
-        <Label Text="Quiz Completed!"
-               FontSize="32"
-               TextColor="#f1c40f"
-               HorizontalOptions="Center"
-               FontAttributes="Bold"/>
+            <!-- Title -->
+            <Label Text="Quiz Completed!"
+                   FontSize="32"
+                   TextColor="#f1c40f"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"/>
 
-        <Label Text="{Binding ScoreText}"
-               FontSize="26"
-               TextColor="White"
-               HorizontalOptions="Center"/>
+            <!-- Stars Rating -->
+            <Label Text="{Binding StarsText}"
+                   FontSize="40"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,5"/>
 
-        <Label Text="{Binding PointsInfo}"
-               FontSize="20"
-               TextColor="#aaaaaa"
-               HorizontalOptions="Center"/>
+            <!-- Score Card -->
+            <Border StrokeShape="RoundRectangle 18"
+                    StrokeThickness="1"
+                    Stroke="#333"
+                    BackgroundColor="#1A1A1A"
+                    Padding="20">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="{Binding ScoreText}"
+                           FontSize="24"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"/>
+                    <Label Text="{Binding AccuracyText}"
+                           FontSize="16"
+                           TextColor="#aaa"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding PointsInfo}"
+                           FontSize="14"
+                           TextColor="#888"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
 
-        <Button Text="Back to Home"
-                Clicked="OnBackHomeClicked"
-                BackgroundColor="#f1c40f"
-                TextColor="Black"
-                CornerRadius="15"
-                HeightRequest="55"/>
+            <!-- Level Up Banner -->
+            <Border StrokeShape="RoundRectangle 15"
+                    StrokeThickness="2"
+                    Stroke="#FFD700"
+                    BackgroundColor="#33FFD700"
+                    Padding="20"
+                    IsVisible="{Binding ShowLevelUp}">
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Label Text="🎉 LEVEL UP!"
+                           FontSize="22"
+                           TextColor="#FFD700"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding LevelUpText}"
+                           FontSize="16"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding LevelUpCoins}"
+                           FontSize="14"
+                           TextColor="#4CAF50"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
 
-        <Button Text="Play Another Quiz"
-                Clicked="OnPlayAnotherClicked"
-                BackgroundColor="#1A1A1A"
-                TextColor="#f1c40f"
-                CornerRadius="15"
-                HeightRequest="55"/>
+            <!-- Streak Banner -->
+            <Border StrokeShape="RoundRectangle 15"
+                    StrokeThickness="1"
+                    Stroke="#FF9800"
+                    BackgroundColor="#33FF9800"
+                    Padding="15"
+                    IsVisible="{Binding ShowStreak}">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="🔥" FontSize="24" VerticalOptions="Center"/>
+                    <VerticalStackLayout>
+                        <Label Text="{Binding StreakText}"
+                               FontSize="16"
+                               TextColor="#FF9800"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding StreakBonusText}"
+                               FontSize="13"
+                               TextColor="#aaa"
+                               IsVisible="{Binding ShowStreakBonus}"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Border>
 
-    </VerticalStackLayout>
+            <!-- Mission Coins -->
+            <Border StrokeShape="RoundRectangle 15"
+                    StrokeThickness="1"
+                    Stroke="#4CAF50"
+                    BackgroundColor="#334CAF50"
+                    Padding="15"
+                    IsVisible="{Binding ShowMissionCoins}">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="📋" FontSize="20" VerticalOptions="Center"/>
+                    <Label Text="{Binding MissionCoinsText}"
+                           FontSize="16"
+                           TextColor="#4CAF50"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Secret Badge Earned -->
+            <Border StrokeShape="RoundRectangle 15"
+                    StrokeThickness="2"
+                    Stroke="#9C27B0"
+                    BackgroundColor="#339C27B0"
+                    Padding="20"
+                    IsVisible="{Binding ShowSecretBadge}">
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Label Text="✨ SECRET BADGE UNLOCKED! ✨"
+                           FontSize="18"
+                           TextColor="#CE93D8"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding SecretBadgeDisplay}"
+                           FontSize="36"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding SecretBadgeNameText}"
+                           FontSize="16"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Double Points Used -->
+            <Label Text="✨ Double Points were active!"
+                   FontSize="14"
+                   TextColor="#FFD700"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding WasDoublePoints}"/>
+
+            <!-- Buttons -->
+            <Button Text="Back to Home"
+                    Clicked="OnBackHomeClicked"
+                    BackgroundColor="#f1c40f"
+                    TextColor="Black"
+                    CornerRadius="15"
+                    HeightRequest="55"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,0"/>
+
+            <Button Text="Play Another Quiz"
+                    Clicked="OnPlayAnotherClicked"
+                    BackgroundColor="#1A1A1A"
+                    TextColor="#f1c40f"
+                    CornerRadius="15"
+                    HeightRequest="55"
+                    BorderColor="#333"
+                    BorderWidth="1"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
