@@ -32,7 +32,10 @@
                     Padding="12,8"
                     VerticalOptions="Center">
                 <HorizontalStackLayout Spacing="5">
-                    <Label Text="⭐" FontSize="16" VerticalOptions="Center"/>
+                    <Image Source="achievement-svgrepo-com.svg" 
+                           HeightRequest="16" 
+                           WidthRequest="16" 
+                           VerticalOptions="Center"/>
                     <Label Text="{Binding Score}"
                            TextColor="#f1c40f"
                            FontSize="18"
@@ -61,7 +64,10 @@
                 Margin="0,10"
                 IsVisible="{Binding IsTimeBased}">
             <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-                <Label Text="⏱️" FontSize="20" VerticalOptions="Center"/>
+                <Image Source="stop-watch-svgrepo-com.svg" 
+                       HeightRequest="20" 
+                       WidthRequest="20" 
+                       VerticalOptions="Center"/>
                 <Label Text="{Binding RemainingTime, StringFormat='{0}s'}"
                        TextColor="{Binding TimerColor}"
                        FontSize="24"

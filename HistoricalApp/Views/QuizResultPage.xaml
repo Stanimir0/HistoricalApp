@@ -79,7 +79,10 @@
                     Padding="15"
                     IsVisible="{Binding ShowStreak}">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Label Text="🔥" FontSize="24" VerticalOptions="Center"/>
+                    <Image Source="lightning-svgrepo-com.svg" 
+                           HeightRequest="24" 
+                           WidthRequest="24" 
+                           VerticalOptions="Center"/>
                     <VerticalStackLayout>
                         <Label Text="{Binding StreakText}"
                                FontSize="16"
@@ -101,7 +104,10 @@
                     Padding="15"
                     IsVisible="{Binding ShowMissionCoins}">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Label Text="📋" FontSize="20" VerticalOptions="Center"/>
+                    <Image Source="achivement-business-mission-svgrepo-com.svg" 
+                           HeightRequest="20" 
+                           WidthRequest="20" 
+                           VerticalOptions="Center"/>
                     <Label Text="{Binding MissionCoinsText}"
                            FontSize="16"
                            TextColor="#4CAF50"

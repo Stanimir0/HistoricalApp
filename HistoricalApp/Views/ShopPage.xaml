@@ -37,8 +37,9 @@
                             Padding="15,10"
                             VerticalOptions="Center">
                         <HorizontalStackLayout Spacing="8">
-                            <Label Text="🥮"
-                                   FontSize="20"
+                            <Image Source="money-svgrepo-com.svg"
+                                   HeightRequest="20"
+                                   WidthRequest="20"
                                    VerticalOptions="Center"/>
                             <Label Text="{Binding UserCurrency}"
                                    TextColor="#FFD700"
@@ -127,17 +128,19 @@
                                                    FontSize="12"
                                                    FontAttributes="Bold"
                                                    IsVisible="{Binding IsPurchased}"/>
-                                            <Label TextColor="#FFD700"
-                                                   FontSize="12"
-                                                   FontAttributes="Bold"
-                                                   IsVisible="{Binding IsPurchased, Converter={helpers:InverseBoolConverter}}">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="🥮 "/>
-                                                        <Span Text="{Binding Price}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
+                                            <HorizontalStackLayout HorizontalOptions="Center" 
+                                                                   Spacing="4"
+                                                                   IsVisible="{Binding IsPurchased, Converter={helpers:InverseBoolConverter}}">
+                                                <Image Source="money-svgrepo-com.svg"
+                                                       HeightRequest="14"
+                                                       WidthRequest="14"
+                                                       VerticalOptions="Center"/>
+                                                <Label Text="{Binding Price}"
+                                                       TextColor="#FFD700"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
                                         </HorizontalStackLayout>
                                     </Border>
                                 </VerticalStackLayout>
