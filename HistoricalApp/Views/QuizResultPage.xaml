@@ -79,7 +79,7 @@
                     Padding="15"
                     IsVisible="{Binding ShowStreak}">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Image Source="lightning-svgrepo-com.svg" 
+                    <Image Source="lightning_svgrepo_com.svg" 
                            HeightRequest="24" 
                            WidthRequest="24" 
                            VerticalOptions="Center"/>
@@ -104,7 +104,7 @@
                     Padding="15"
                     IsVisible="{Binding ShowMissionCoins}">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Image Source="achivement-business-mission-svgrepo-com.svg" 
+                    <Image Source="achivement_business_mission_svgrepo_com.svg" 
                            HeightRequest="20" 
                            WidthRequest="20" 
                            VerticalOptions="Center"/>

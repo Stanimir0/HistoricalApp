@@ -1,4 +1,4 @@
-﻿using HistoricalApp.Helpers;
+using HistoricalApp.Helpers;
 using HistoricalApp.Services;
 using System.Windows.Input;
 
@@ -55,7 +55,10 @@ namespace HistoricalApp.ViewModels
 
             await Shell.Current.GoToAsync("//HomePage");
 
-            await ((Shell.Current as AppShell)?.RefreshUserAccessAsync());
+            if (Shell.Current is AppShell appShell)
+            {
+                await appShell.RefreshUserAccessAsync();
+            }
         }
     }
 }

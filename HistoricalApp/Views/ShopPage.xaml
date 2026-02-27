@@ -37,7 +37,7 @@
                             Padding="15,10"
                             VerticalOptions="Center">
                         <HorizontalStackLayout Spacing="8">
-                            <Image Source="money-svgrepo-com.svg"
+                            <Image Source="money_svgrepo_com.svg"
                                    HeightRequest="20"
                                    WidthRequest="20"
                                    VerticalOptions="Center"/>
@@ -131,7 +131,7 @@
                                             <HorizontalStackLayout HorizontalOptions="Center" 
                                                                    Spacing="4"
                                                                    IsVisible="{Binding IsPurchased, Converter={helpers:InverseBoolConverter}}">
-                                                <Image Source="money-svgrepo-com.svg"
+                                                <Image Source="money_svgrepo_com.svg"
                                                        HeightRequest="14"
                                                        WidthRequest="14"
                                                        VerticalOptions="Center"/>
