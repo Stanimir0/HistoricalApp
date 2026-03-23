@@ -1,10 +1,13 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "start",
+      "label": "web: start (npm.cmd)",
+      "type": "shell",
+      "command": "npm.cmd run start",
+      "options": {
+        "cwd": "${workspaceFolder}/web"
+      },
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
@@ -21,8 +24,12 @@
       }
     },
     {
-      "type": "npm",
-      "script": "test",
+      "label": "web: test (npm.cmd)",
+      "type": "shell",
+      "command": "npm.cmd run test",
+      "options": {
+        "cwd": "${workspaceFolder}/web"
+      },
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
