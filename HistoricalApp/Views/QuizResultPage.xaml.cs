@@ -17,12 +17,15 @@ namespace HistoricalApp.Views
         public string SecretBadgeEmoji { get; }
         public bool WasDoublePoints { get; }
 
+        // Translation helper
+        public TranslationService Translations => TranslationService.Instance;
+
         // Computed properties for UI
-        public string ScoreText => $"You scored {Score} points";
-        public string PointsInfo => $"{CorrectAnswers}/{TotalQuestions} correct answers";
+        public string ScoreText => Translations.GetFormatted("YouScored", Score);
+        public string PointsInfo => Translations.GetFormatted("CorrectAnswers", CorrectAnswers, TotalQuestions);
         public string AccuracyText => TotalQuestions > 0
-            ? $"Accuracy: {(CorrectAnswers * 100 / TotalQuestions)}%"
-            : "Accuracy: 0%";
+            ? Translations.GetFormatted("Accuracy", CorrectAnswers * 100 / TotalQuestions)
+            : Translations.GetFormatted("Accuracy", 0);
 
         public string StarsText
         {
@@ -39,19 +42,19 @@ namespace HistoricalApp.Views
         // Level up
         public bool ShowLevelUp => LevelsGained > 0;
         public string LevelUpText => LevelsGained > 1
-            ? $"Level {NewLevel - LevelsGained} → Level {NewLevel}!"
-            : $"You reached Level {NewLevel}!";
-        public string LevelUpCoins => CoinsFromLevelUp > 0 ? $"+{CoinsFromLevelUp} coins earned!" : "";
+            ? Translations.GetFormatted("LevelRange", NewLevel - LevelsGained, NewLevel)
+            : Translations.GetFormatted("ReachedLevel", NewLevel);
+        public string LevelUpCoins => CoinsFromLevelUp > 0 ? Translations.GetFormatted("CoinsEarned", CoinsFromLevelUp) : "";
 
         // Streak
         public bool ShowStreak => StreakCount > 0;
-        public string StreakText => $"{StreakCount} day streak!";
+        public string StreakText => Translations.GetFormatted("DayStreakExcl", StreakCount);
         public bool ShowStreakBonus => StreakBonusCoins > 0;
-        public string StreakBonusText => $"+{StreakBonusCoins} bonus coins!";
+        public string StreakBonusText => Translations.GetFormatted("BonusCoins", StreakBonusCoins);
 
         // Mission
         public bool ShowMissionCoins => MissionCoins > 0;
-        public string MissionCoinsText => $"Daily Mission Reward: +{MissionCoins} coins!";
+        public string MissionCoinsText => Translations.GetFormatted("DailyMissionReward", MissionCoins);
 
         // Secret Badge
         public bool ShowSecretBadge => !string.IsNullOrEmpty(SecretBadgeName);

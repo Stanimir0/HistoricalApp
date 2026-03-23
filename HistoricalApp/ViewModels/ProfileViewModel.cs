@@ -1,4 +1,4 @@
-﻿using HistoricalApp.Helpers;
+using HistoricalApp.Helpers;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using HistoricalApp.Views;
@@ -74,7 +74,9 @@ namespace HistoricalApp.ViewModels
         private int _profileBorderWidth = 1;
 
         // === Level Display ===
-        public string LevelText => CurrentUser != null ? $"Level {CurrentUser.Level}" : "Level 1";
+        public string LevelText => CurrentUser != null
+            ? $"{Translations.Level} {CurrentUser.Level}"
+            : $"{Translations.Level} 1";
         public double LevelProgress => CurrentUser != null
             ? LevelService.GetLevelProgress(CurrentUser.TotalXP, CurrentUser.Level)
             : 0.0;
@@ -84,8 +86,8 @@ namespace HistoricalApp.ViewModels
 
         // === Streak Display ===
         public string StreakText => CurrentUser != null && CurrentUser.Streak > 0
-            ? $"{StreakService.GetStreakEmoji(CurrentUser.Streak)} {CurrentUser.Streak} day streak"
-            : "No streak yet";
+            ? $"{StreakService.GetStreakEmoji(CurrentUser.Streak)} {CurrentUser.Streak} {Translations.DayStreak}"
+            : Translations.NoStreakYet;
         public bool HasStreak => CurrentUser != null && CurrentUser.Streak > 0;
 
         // === Secret Badges ===
@@ -117,6 +119,7 @@ namespace HistoricalApp.ViewModels
 
         public async Task LoadCurrentUser()
         {
+            IsLoading = true;
             var userId = Preferences.Get("UserId", string.Empty);
 
             if (string.IsNullOrEmpty(userId))
@@ -174,6 +177,7 @@ namespace HistoricalApp.ViewModels
                     LoadDailyMissions();
                 });
             }
+            IsLoading = false;
         }
 
         private void LoadEquippedBadge()
@@ -271,30 +275,30 @@ namespace HistoricalApp.ViewModels
         private async Task GiftCurrency()
         {
             string recipient = await Application.Current.MainPage.DisplayPromptAsync(
-                "Gift Coins",
-                "Enter the username of the friend:",
-                "Send",
-                "Cancel",
+                Translations.GiftCoinsTitle,
+                Translations.EnterFriendUsername,
+                Translations.Send,
+                Translations.Cancel,
                 placeholder: "username");
 
             if (string.IsNullOrWhiteSpace(recipient)) return;
 
             string amountStr = await Application.Current.MainPage.DisplayPromptAsync(
-                "Gift Coins",
-                $"How many coins to send to {recipient}?",
-                "Send",
-                "Cancel",
+                Translations.GiftCoinsTitle,
+                Translations.GetFormatted("HowManyCoins", recipient),
+                Translations.Send,
+                Translations.Cancel,
                 keyboard: Microsoft.Maui.Keyboard.Numeric);
 
             if (string.IsNullOrWhiteSpace(amountStr) || !int.TryParse(amountStr, out int amount) || amount <= 0)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please enter a valid amount.", "OK");
+                await Application.Current.MainPage.DisplayAlert(Translations.Error, Translations.InvalidAmount, Translations.OK);
                 return;
             }
 
             if (CurrentUser.Currency < amount)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "You don't have enough coins.", "OK");
+                await Application.Current.MainPage.DisplayAlert(Translations.Error, Translations.NotEnoughCoins, Translations.OK);
                 return;
             }
 
@@ -302,20 +306,20 @@ namespace HistoricalApp.ViewModels
             var recipientUser = await _userService.GetUserByUsernameAsync(recipient);
             if (recipientUser == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"User '{recipient}' not found.", "OK");
+                await Application.Current.MainPage.DisplayAlert(Translations.Error, Translations.GetFormatted("UserNotFound", recipient), Translations.OK);
                 return;
             }
 
             if (recipientUser.Id == CurrentUser.Id)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "You can't gift coins to yourself.", "OK");
+                await Application.Current.MainPage.DisplayAlert(Translations.Error, Translations.CantGiftSelf, Translations.OK);
                 return;
             }
 
             bool confirm = await Application.Current.MainPage.DisplayAlert(
-                "Confirm Gift",
-                $"Send {amount} coins to {recipientUser.UserName}?",
-                "Yes", "No");
+                Translations.ConfirmGift,
+                Translations.GetFormatted("ConfirmGiftMsg", amount, recipientUser.UserName),
+                Translations.Yes, Translations.No);
 
             if (!confirm) return;
 
@@ -329,9 +333,9 @@ namespace HistoricalApp.ViewModels
             OnPropertyChanged(nameof(CurrentUser));
 
             await Application.Current.MainPage.DisplayAlert(
-                "Success",
-                $"You sent {amount} coins to {recipientUser.UserName}!",
-                "OK");
+                Translations.Success,
+                Translations.GetFormatted("GiftSuccess", amount, recipientUser.UserName),
+                Translations.OK);
         }
 
         private async Task EditProfile()
@@ -342,7 +346,7 @@ namespace HistoricalApp.ViewModels
             }
             else
             {
-                await Shell.Current.DisplayAlert("Error", "Please wait for your profile to load before editing.", "OK");
+                await Shell.Current.DisplayAlert(Translations.Error, Translations.WaitForProfile, Translations.OK);
             }
         }
 
@@ -383,13 +387,17 @@ namespace HistoricalApp.ViewModels
             // Update translation service to refresh UI immediately
             TranslationService.Instance.SetLanguage(languageCode);
             
+            // Re-notify streak/level text since they use translations
+            OnPropertyChanged(nameof(StreakText));
+            OnPropertyChanged(nameof(LevelText));
+            
             // Notify UI is updated
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await Shell.Current.DisplayAlert(
-                    languageCode == "bg" ? "Езикът е променен" : "Language Changed",
-                    languageCode == "bg" ? "UI е актуализиран!" : "UI has been updated!",
-                    "OK");
+                    Translations.LanguageChanged,
+                    Translations.UIUpdated,
+                    Translations.OK);
             });
         }
     }

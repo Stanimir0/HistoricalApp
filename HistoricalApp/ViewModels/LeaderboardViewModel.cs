@@ -1,4 +1,4 @@
-﻿using HistoricalApp.Helpers;
+using HistoricalApp.Helpers;
 using HistoricalApp.Models;
 using HistoricalApp.Services;
 using System.Collections.ObjectModel;
@@ -74,6 +74,7 @@ namespace HistoricalApp.ViewModels
 
         public async Task LoadLeaderboard()
         {
+            IsLoading = true;
             // Check if any periods need to be reset first
             await _resetService.CheckAndResetPeriodsAsync();
 
@@ -124,6 +125,7 @@ namespace HistoricalApp.ViewModels
                     rank++;
                 }
             });
+            IsLoading = false;
         }
 
         private int CalculateReward(int position, string period)

@@ -99,7 +99,7 @@
                         Padding="10,6"
                         HorizontalOptions="Center"
                         IsVisible="{Binding IsDoublePointsActive}">
-                    <Label Text="✨ DOUBLE POINTS ACTIVE ✨"
+                    <Label Text="{Binding Source={x:Static helpers:TranslationService.Instance}, Path=DoublePointsActive}"
                            TextColor="#FFD700"
                            FontSize="13"
                            FontAttributes="Bold"
@@ -167,7 +167,7 @@
                     BorderColor="#333"
                     BorderWidth="1">
                 <Button.Text>
-                    <Binding Path="DoublePointsCount" StringFormat="✨ 2x Points ({0})"/>
+                    <Binding Path="DoublePointsCount" StringFormat="✨ 2x ({0})"/>
                 </Button.Text>
             </Button>
         </Grid>

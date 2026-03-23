@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -26,5 +26,19 @@ namespace HistoricalApp.ViewModels
             OnPropertyChanged(propertyName);
             return true;
         }
+
+        // Loading state for data-fetching pages
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                SetProperty(ref _isLoading, value);
+                OnPropertyChanged(nameof(IsNotLoading));
+            }
+        }
+
+        public bool IsNotLoading => !IsLoading;
     }
 }

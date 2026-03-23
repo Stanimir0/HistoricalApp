@@ -16,7 +16,7 @@
     <Grid RowDefinitions="*,Auto">
 
         <!-- MAIN CONTENT -->
-        <ScrollView Grid.Row="0">
+        <ScrollView Grid.Row="0" IsVisible="{Binding IsNotLoading}">
             <VerticalStackLayout Padding="20" Spacing="20">
 
                 <Label Text="{Binding Translations.YourProfile}"
@@ -120,7 +120,7 @@
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="5">
-                                    <Label Text="Coins" 
+                                    <Label Text="{Binding Translations.Coins}" 
                                            TextColor="{StaticResource TextSecondary}" 
                                            FontSize="12"
                                            HorizontalOptions="Center"/>
@@ -180,7 +180,7 @@
                        HasShadow="True"
                        IsVisible="{Binding HasSecretBadges}">
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="✨ Secret Badges"
+                        <Label Text="{Binding Translations.SecretBadgesLabel}"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#CE93D8"/>
@@ -205,7 +205,7 @@
                 </Frame>
 
                 <!-- Gift Coins Button -->
-                <Button Text="🎁 Gift Coins to Friend"
+                <Button Text="{Binding Translations.GiftCoins}"
                         BackgroundColor="#252525"
                         TextColor="#f1c40f"
                         CornerRadius="16"
@@ -228,7 +228,7 @@
                        HasShadow="True"
                        Margin="0,20,0,0">
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="Language / Език"
+                        <Label Text="{Binding Translations.LanguageLabel}"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#FFD700" />
@@ -255,6 +255,16 @@
 
         <!-- BOTTOM NAV BAR -->
         <controls:BottomNavBar Grid.Row="1"/>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.Row="0" IsVisible="{Binding IsLoading}" BackgroundColor="#1e1e1e">
+            <ActivityIndicator IsRunning="{Binding IsLoading}" 
+                               Color="#FFD700" 
+                               HeightRequest="50" 
+                               WidthRequest="50"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"/>
+        </Grid>
 
     </Grid>
 </ContentPage>

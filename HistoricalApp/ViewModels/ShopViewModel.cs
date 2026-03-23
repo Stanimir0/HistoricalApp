@@ -58,6 +58,7 @@ namespace HistoricalApp.ViewModels
         {
             try
             {
+                IsLoading = true;
                 // Load shop items
                 var items = ShopService.GetShopItems();
                 
@@ -119,6 +120,10 @@ namespace HistoricalApp.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine($"Error loading shop: {ex.Message}");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private void FilterItems()
@@ -147,9 +152,9 @@ namespace HistoricalApp.ViewModels
                 if (string.IsNullOrEmpty(userId))
                 {
                     await Application.Current.MainPage.DisplayAlert(
-                        "Error",
-                        "You must be logged in to purchase items.",
-                        "OK"
+                        Translations.Error,
+                        Translations.MustBeLoggedIn,
+                        Translations.OK
                     );
                     return;
                 }
@@ -159,8 +164,8 @@ namespace HistoricalApp.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Translations.InsufficientFunds,
-                        $"You need {item.Price - UserCurrency} more coins.",
-                        "OK"
+                        Translations.GetFormatted("NeedMoreCoins", item.Price - UserCurrency),
+                        Translations.OK
                     );
                     return;
                 }
@@ -172,23 +177,23 @@ namespace HistoricalApp.ViewModels
                 if (!isPowerup && item.IsPurchased)
                 {
                     await Application.Current.MainPage.DisplayAlert(
-                        "Already Owned",
-                        "You already own this item.",
-                        "OK"
+                        Translations.AlreadyOwned,
+                        Translations.AlreadyOwnedMsg,
+                        Translations.OK
                     );
                     return;
                 }
 
                 // Confirm purchase
                 string confirmMsg = isPowerup
-                    ? $"Purchase {item.Name} for {item.Price} coins? (consumable)"
-                    : $"Purchase {item.Name} for {item.Price} coins?";
+                    ? Translations.GetFormatted("PurchaseConfirmConsumable", item.Name, item.Price)
+                    : Translations.GetFormatted("PurchaseConfirm", item.Name, item.Price);
 
                 bool confirm = await Application.Current.MainPage.DisplayAlert(
                     Translations.Purchase,
                     confirmMsg,
-                    "Yes",
-                    "No"
+                    Translations.Yes,
+                    Translations.No
                 );
 
                 if (!confirm) return;
@@ -210,9 +215,9 @@ namespace HistoricalApp.ViewModels
                     UserCurrency = user.Currency;
 
                     await Application.Current.MainPage.DisplayAlert(
-                        "Success",
-                        $"You purchased {item.Name}! Use it during a quiz.",
-                        "OK"
+                        Translations.Success,
+                        Translations.GetFormatted("PurchaseSuccessConsumable", item.Name),
+                        Translations.OK
                     );
                 }
                 else
@@ -226,17 +231,17 @@ namespace HistoricalApp.ViewModels
                         item.IsPurchased = true;
 
                         await Application.Current.MainPage.DisplayAlert(
-                            "Success",
-                            $"You purchased {item.Name}! You can equip it in Edit Profile.",
-                            "OK"
+                            Translations.Success,
+                            Translations.GetFormatted("PurchaseSuccess", item.Name),
+                            Translations.OK
                         );
                     }
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert(
-                            "Error",
-                            "Purchase failed. Please try again.",
-                            "OK"
+                            Translations.Error,
+                            Translations.PurchaseFailed,
+                            Translations.OK
                         );
                     }
                 }
@@ -245,9 +250,9 @@ namespace HistoricalApp.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine($"Error purchasing item: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "An error occurred during purchase.",
-                    "OK"
+                    Translations.Error,
+                    Translations.PurchaseError,
+                    Translations.OK
                 );
             }
         }

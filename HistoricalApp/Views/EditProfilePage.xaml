@@ -64,7 +64,7 @@
 
             <!-- Badge Selection Section -->
             <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
-                <Label Text="Select Badge (Optional)" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Label Text="{Binding Translations.SelectBadge}" TextColor="#FFD700" FontAttributes="Bold"/>
                 
                 <CollectionView ItemsSource="{Binding PurchasedBadges}"
                                 SelectionMode="None"
@@ -92,7 +92,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
-                        <Label Text="No badges purchased yet. Visit the Shop!"
+                         <Label Text="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:EditProfileViewModel}}, Path=Translations.NoBadgesPurchased}"
                                TextColor="#888"
                                FontSize="12"
                                HorizontalOptions="Center"
@@ -100,7 +100,7 @@
                     </CollectionView.EmptyView>
                 </CollectionView>
 
-                <Button Text="Remove Badge"
+                <Button Text="{Binding Translations.RemoveBadge}"
                         BackgroundColor="#444"
                         TextColor="#FFD700"
                         FontSize="12"
@@ -112,7 +112,7 @@
 
             <!-- Border Selection Section -->
             <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
-                <Label Text="Select Profile Border (Optional)" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Label Text="{Binding Translations.SelectBorder}" TextColor="#FFD700" FontAttributes="Bold"/>
                 
                 <CollectionView ItemsSource="{Binding PurchasedBorders}"
                                 SelectionMode="None"
@@ -140,7 +140,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
-                        <Label Text="No borders purchased yet. Visit the Shop!"
+                         <Label Text="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:EditProfileViewModel}}, Path=Translations.NoBordersPurchased}"
                                TextColor="#888"
                                FontSize="12"
                                HorizontalOptions="Center"
@@ -148,7 +148,7 @@
                     </CollectionView.EmptyView>
                 </CollectionView>
 
-                <Button Text="Remove Border"
+                <Button Text="{Binding Translations.RemoveBorder}"
                         BackgroundColor="#444"
                         TextColor="#FFD700"
                         FontSize="12"
@@ -161,7 +161,7 @@
             <!-- Secret Badge Selection Section -->
             <VerticalStackLayout Spacing="10" Margin="0,10,0,0"
                                  IsVisible="{Binding HasSecretBadges}">
-                <Label Text="Equip Secret Badge (Optional)" TextColor="#CE93D8" FontAttributes="Bold"/>
+                <Label Text="{Binding Translations.EquipSecretBadge}" TextColor="#CE93D8" FontAttributes="Bold"/>
                 
                 <CollectionView ItemsSource="{Binding OwnedSecretBadges}"
                                 SelectionMode="None"
@@ -194,7 +194,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="Remove Secret Badge"
+                <Button Text="{Binding Translations.RemoveSecretBadge}"
                         BackgroundColor="#444"
                         TextColor="#CE93D8"
                         FontSize="12"
@@ -206,7 +206,7 @@
 
             <!-- Theme Selection Section -->
             <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
-                <Label Text="Select App Theme" TextColor="#FFD700" FontAttributes="Bold"/>
+                <Label Text="{Binding Translations.SelectTheme}" TextColor="#FFD700" FontAttributes="Bold"/>
                 
                 <CollectionView ItemsSource="{Binding PurchasedThemes}"
                                 SelectionMode="None"
@@ -241,7 +241,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
-                        <Label Text="No themes purchased yet."
+                         <Label Text="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:EditProfileViewModel}}, Path=Translations.NoThemesPurchased}"
                                TextColor="#888"
                                FontSize="12"
                                HorizontalOptions="Center"
@@ -249,7 +249,7 @@
                     </CollectionView.EmptyView>
                 </CollectionView>
 
-                <Button Text="Reset to Default Theme"
+                <Button Text="{Binding Translations.ResetTheme}"
                         BackgroundColor="#444"
                         TextColor="#FFD700"
                         FontSize="12"

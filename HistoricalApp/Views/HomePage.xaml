@@ -15,7 +15,7 @@
 
     <Grid RowDefinitions="*,80" RowSpacing="0">
         <!-- Main Scrollable Content -->
-        <ScrollView Grid.Row="0" Grid.RowSpan="2" Padding="0,0,0,80" x:Name="HomeRoot" Opacity="0" TranslationY="100">
+        <ScrollView Grid.Row="0" Grid.RowSpan="2" Padding="0,0,0,80" x:Name="HomeRoot" Opacity="0" TranslationY="100" IsVisible="{Binding IsNotLoading}">
             <Grid RowDefinitions="Auto, Auto, Auto, Auto, *" RowSpacing="20" Padding="20,40,20,20">
                 
                 <!-- Hero Section -->
@@ -96,7 +96,7 @@
                     <VerticalStackLayout Spacing="10">
                         <HorizontalStackLayout Spacing="8">
                             <Label Text="📋" FontSize="18" VerticalOptions="Center"/>
-                            <Label Text="Daily Missions"
+                            <Label Text="{Binding Translations.DailyMissions}"
                                    FontSize="18"
                                    FontAttributes="Bold"
                                    TextColor="#4FC3F7"
@@ -140,12 +140,13 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- Game Modes Dashboard -->
-                <Grid Grid.Row="4" ColumnDefinitions="*,*" RowDefinitions="160, 160" ColumnSpacing="15" RowSpacing="15">
+                <!-- Quick Actions -->
+                <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="15">
                     
-                    <!-- Battles Card -->
-                    <Frame Grid.Row="0" Grid.Column="0" 
-                           Style="{StaticResource Frame}">
+                    <!-- Play Quiz Card -->
+                    <Frame Grid.Column="0"
+                           Style="{StaticResource Frame}"
+                           HeightRequest="160">
                         <Frame.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                 <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
@@ -153,55 +154,11 @@
                             </LinearGradientBrush>
                         </Frame.Background>
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnBattlesClicked"/>
+                            <TapGestureRecognizer Tapped="OnPlayQuizClicked"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                            <Label Text="⚔️" FontSize="48" HorizontalOptions="Center"/>
-                            <Label Text="{Binding Translations.Battles}" 
-                                   FontAttributes="Bold" 
-                                   FontSize="16"
-                                   TextColor="{StaticResource TextPrimary}" 
-                                   HorizontalOptions="Center"/>
-                        </VerticalStackLayout>
-                    </Frame>
-
-                    <!-- Events Card -->
-                    <Frame Grid.Row="0" Grid.Column="1"
-                           Style="{StaticResource Frame}">
-                         <Frame.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
-                                <GradientStop Color="#2AFFFFFF" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Frame.Background>
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnEventsClicked"/>
-                        </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                            <Label Text="📅" FontSize="48" HorizontalOptions="Center"/>
-                            <Label Text="{Binding Translations.Events}" 
-                                   FontAttributes="Bold" 
-                                   FontSize="16"
-                                   TextColor="{StaticResource TextPrimary}" 
-                                   HorizontalOptions="Center"/>
-                        </VerticalStackLayout>
-                    </Frame>
-
-                    <!-- Characters Card -->
-                    <Frame Grid.Row="1" Grid.Column="0"
-                           Style="{StaticResource Frame}">
-                         <Frame.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource GlassSurface}" Offset="0.0" />
-                                <GradientStop Color="#2AFFFFFF" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Frame.Background>
-                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnCharactersClicked"/>
-                        </Frame.GestureRecognizers>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                            <Label Text="👤" FontSize="48" HorizontalOptions="Center"/>
-                            <Label Text="{Binding Translations.People}" 
+                            <Label Text="📝" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="{Binding Translations.PlayQuiz}" 
                                    FontAttributes="Bold" 
                                    FontSize="16"
                                    TextColor="{StaticResource TextPrimary}" 
@@ -210,9 +167,10 @@
                     </Frame>
 
                     <!-- Shop Shortcut -->
-                    <Frame Grid.Row="1" Grid.Column="1"
+                    <Frame Grid.Column="1"
                            Style="{StaticResource Frame}"
-                           BorderColor="{StaticResource Primary}">
+                           BorderColor="{StaticResource Primary}"
+                           HeightRequest="160">
                          <Frame.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                 <GradientStop Color="#4D D4AF37" Offset="0.0" />

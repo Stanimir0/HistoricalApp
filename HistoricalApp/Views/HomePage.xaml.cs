@@ -22,14 +22,6 @@ namespace HistoricalApp.Views
             await AnimationHelper.SlideUpFadeIn(HomeRoot);
         }
 
-        private async void OnCategoryClicked(object sender, EventArgs e)
-        {
-            if (sender is View v)
-                await AnimationHelper.AnimateButtonPress(v);
-        }
-
-
-
         private async void OnShopClicked(object sender, EventArgs e)
         {
             if (sender is View v)
@@ -37,25 +29,11 @@ namespace HistoricalApp.Views
             await Shell.Current.GoToAsync("//ShopPage");
         }
 
-        private async void OnBattlesClicked(object sender, EventArgs e)
+        private async void OnPlayQuizClicked(object sender, EventArgs e)
         {
             if (sender is View v)
                 await AnimationHelper.AnimateButtonPress(v);
-            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Battles");
-        }
-
-        private async void OnEventsClicked(object sender, EventArgs e)
-        {
-            if (sender is View v)
-                await AnimationHelper.AnimateButtonPress(v);
-            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Events");
-        }
-
-        private async void OnCharactersClicked(object sender, EventArgs e)
-        {
-            if (sender is View v)
-                await AnimationHelper.AnimateButtonPress(v);
-            await Shell.Current.GoToAsync("//QuizSelectionPage?category=Characters");
+            await Shell.Current.GoToAsync("//CategorySelectionPage");
         }
     }
 }

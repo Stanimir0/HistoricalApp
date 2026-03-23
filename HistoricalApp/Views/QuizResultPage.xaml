@@ -12,7 +12,7 @@
                              VerticalOptions="Center">
 
             <!-- Title -->
-            <Label Text="Quiz Completed!"
+            <Label Text="{Binding Translations.QuizCompleted}"
                    FontSize="32"
                    TextColor="#f1c40f"
                    HorizontalOptions="Center"
@@ -55,7 +55,7 @@
                     Padding="20"
                     IsVisible="{Binding ShowLevelUp}">
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="🎉 LEVEL UP!"
+                    <Label Text="{Binding Translations.LevelUp}"
                            FontSize="22"
                            TextColor="#FFD700"
                            FontAttributes="Bold"
@@ -124,7 +124,7 @@
                     Padding="20"
                     IsVisible="{Binding ShowSecretBadge}">
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="✨ SECRET BADGE UNLOCKED! ✨"
+                    <Label Text="{Binding Translations.SecretBadgeUnlocked}"
                            FontSize="18"
                            TextColor="#CE93D8"
                            FontAttributes="Bold"
@@ -140,14 +140,14 @@
             </Border>
 
             <!-- Double Points Used -->
-            <Label Text="✨ Double Points were active!"
+            <Label Text="{Binding Translations.DoublePointsWereActive}"
                    FontSize="14"
                    TextColor="#FFD700"
                    HorizontalOptions="Center"
                    IsVisible="{Binding WasDoublePoints}"/>
 
             <!-- Buttons -->
-            <Button Text="Back to Home"
+            <Button Text="{Binding Translations.BackToHome}"
                     Clicked="OnBackHomeClicked"
                     BackgroundColor="#f1c40f"
                     TextColor="Black"
@@ -156,7 +156,7 @@
                     FontAttributes="Bold"
                     Margin="0,10,0,0"/>
 
-            <Button Text="Play Another Quiz"
+            <Button Text="{Binding Translations.PlayAnotherQuiz}"
                     Clicked="OnPlayAnotherClicked"
                     BackgroundColor="#1A1A1A"
                     TextColor="#f1c40f"
