@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "web:start": "npm --prefix web start",
+    "web:build": "npm --prefix web run build"
+  },
   "dependencies": {
     "firebase": "^12.4.0"
   }
