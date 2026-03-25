@@ -1,7 +1,7 @@
 # Historical App
 
 Historical App is a gamified history-learning platform built with .NET MAUI and Firebase.  
-It includes quiz gameplay, user progression, and leaderboards, plus an Angular web site for publishing releases.
+It includes quiz gameplay, user progression, and leaderboards, plus a small static website for publishing releases.
 
 App builds are distributed from our website (link will be added once hosting is ready).
 
@@ -19,21 +19,20 @@ App builds are distributed from our website (link will be added once hosting is 
 ```text
 HistoricalApp/             # .NET MAUI app
 HistoricalApp.Tests/       # Unit tests
-web/                       # Angular web/landing site (recommended in separate repo for hosting)
+web/                       # Static website (HTML/CSS/JS) for publishing releases (recommended in separate repo for hosting)
 HistoricalApp.sln          # Solution file
 ```
 
 ## Tech Stack
 
 - App client: .NET MAUI (.NET 9, C#)
-- Web landing site: Angular
+- Web landing site: static HTML/CSS/JS
 - Backend services: Firebase Auth + Firebase Realtime Database
 
 ## Prerequisites
 
 - .NET 9 SDK
 - MAUI workloads installed
-- Node.js + npm (for the Angular `web/` project)
 - Android/iOS workloads and tooling as needed (Android SDK, Xcode on macOS for iOS)
 
 ## Getting Started
@@ -60,9 +59,9 @@ dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-android
 dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-windows10.0.19041.0
 ```
 
-### 3) Run the Angular web site (for development)
+### 3) Run the web site (for development)
 
-Note: the `web/` site is a static Angular build (HTML/CSS/JS output). For easiest hosting, it can live in a separate repo that deploys to Cloudflare Pages or Firebase Hosting.
+Note: the `web/` site is static HTML/CSS/JS. For easiest hosting, it can live in a separate repo that deploys to Cloudflare Pages or Firebase Hosting.
 
 From repo root:
 
@@ -78,7 +77,7 @@ npm run web:build
 
 Output is generated in `web/dist/web`.
 
-#### Deploying `web/` to Cloudflare Pages (Angular)
+#### Deploying `web/` to Cloudflare Pages
 
 Cloudflare Pages serves static build output. Recommended Pages settings:
 
@@ -98,10 +97,10 @@ Cloudflare Pages serves static build output. Recommended Pages settings:
 # Build Android app
 dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-android -c Debug
 
-# Run Angular dev server
+# Run web dev server
 npm run web:start
 
-# Build Angular site
+# Build web site
 npm run web:build
 ```
 
