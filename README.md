@@ -1,7 +1,9 @@
 # Historical App
 
 Historical App is a gamified history-learning platform built with .NET MAUI and Firebase.  
-It includes quiz gameplay, user progression, and leaderboards, plus a new Angular download site for publishing app builds.
+It includes quiz gameplay, user progression, and leaderboards, plus an Angular web site for publishing releases.
+
+App builds are distributed from our website (link will be added once hosting is ready).
 
 ## Features
 
@@ -17,7 +19,7 @@ It includes quiz gameplay, user progression, and leaderboards, plus a new Angula
 ```text
 HistoricalApp/             # .NET MAUI app
 HistoricalApp.Tests/       # Unit tests
-web/                       # Angular download/landing site
+web/                       # Angular web/landing site
 HistoricalApp.sln          # Solution file
 ```
 
@@ -58,7 +60,7 @@ dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-android
 dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-windows10.0.19041.0
 ```
 
-### 3) Run the Angular download site
+### 3) Run the Angular web site (for development)
 
 From repo root:
 
@@ -78,7 +80,7 @@ Output is generated in `web/dist/web`.
 
 - Firebase API key and endpoints are currently configured in source files.
 - For production, move secrets and environment-specific values to safer configuration patterns.
-- Update download links in `web/src/app/app.component.ts` once APK/installer hosting is ready.
+- Update release metadata/links used by the web site once APK/installer hosting is ready.
 
 ## Useful Commands
 
@@ -96,7 +98,7 @@ npm run web:build
 ## Roadmap Ideas
 
 - Add release pipeline (build + publish APK/installer + update web links)
-- Add screenshots/video preview to the download page
+- Add screenshots/video preview to the release page
 - Add CI checks for MAUI and Angular builds
 - Externalize Firebase config per environment
 

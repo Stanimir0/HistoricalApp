@@ -1,5 +1,7 @@
 # Web
 
+This folder contains the public website for `Historical App`. App releases are published on the official website (the link can be added once hosting is ready).
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.22.
 
 ## Development server
@@ -71,6 +73,6 @@ Recommended Cloudflare Pages settings:
 
 After deployment:
 - The landing page will be served from `/`.
-- `web/public/releases.json` is included in the build and will be available at `/releases.json` (used by `app.component.ts` via `fetch('/releases.json')`).
+- `web/public/releases.json` is included in the build and will be available at `/releases.json` (used by `app.component.ts` to populate the release list).
 
 No SPA routing fallback (rewrite-to-`index.html`) is required right now because this web app doesn’t define additional client routes.
