@@ -7,11 +7,67 @@
 
 .page {
   min-height: 100vh;
-  padding: 2rem 1rem 3rem;
+  padding: 1rem 1rem 3rem;
   background:
     radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.35), transparent 45%),
     radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.35), transparent 35%),
     linear-gradient(135deg, #0b1020 0%, #111a33 45%, #182848 100%);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: -1rem -1rem 1.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(7, 12, 31, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  color: #eef2ff;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-weight: 650;
+  padding: 0.42rem 0.65rem;
+  border-radius: 12px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.hero,
+.steps,
+.features,
+.downloads {
+  scroll-margin-top: 90px;
 }
 
 .hero {
@@ -102,6 +158,39 @@ h1 {
   gap: 1rem;
 }
 
+.downloads {
+  max-width: 1000px;
+  margin: 2.5rem auto 0;
+  text-align: center;
+}
+
+.downloads h2 {
+  margin: 0;
+  font-size: 1.7rem;
+  color: #eef2ff;
+}
+
+.downloads-subtitle {
+  margin: 0.6rem 0 0;
+  color: #cbd5e1;
+}
+
+.downloads-note {
+  margin-top: 1.25rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.github-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 650;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
+
 .card {
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -136,6 +225,13 @@ h1 {
   color: #60a5fa;
 }
 
+.button:focus-visible,
+.nav-link:focus-visible,
+.github-link:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.9);
+  outline-offset: 3px;
+}
+
 @media (max-width: 840px) {
   .features {
     grid-template-columns: 1fr;
@@ -143,5 +239,16 @@ h1 {
 
   .steps-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .topbar {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .nav {
+    justify-content: center;
   }
 }

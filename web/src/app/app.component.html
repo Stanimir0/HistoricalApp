@@ -1,20 +1,30 @@
-<main class="page">
-  <section class="hero">
+<main class="page" id="top">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">{{ appName }}</a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="nav-link" href="#get-started">How it works</a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#downloads">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
     <p class="badge">{{ appName }} {{ version }}</p>
-    <h1>Learn History the Fun Way</h1>
+    <h1 id="hero-title">Learn History the Fun Way</h1>
     <p class="subtitle">
-      Download the official Historical App and explore Battles, Events, and Historical Characters
-      through interactive quizzes and friendly competition.
+      Download the official Historical App and explore Battles, Events, and Historical Characters through
+      interactive quizzes and friendly competition.
     </p>
 
     <div class="cta">
       <a class="button primary" [href]="downloads.androidApk" target="_blank" rel="noopener">Android (APK)</a>
-      <a class="button ghost" [href]="downloads.windows" target="_blank" rel="noopener">Windows</a>
-      <a class="button ghost" [href]="downloads.iosInfo" target="_blank" rel="noopener">iOS Info</a>
+      <a class="button ghost" href="#downloads">All platforms</a>
     </div>
   </section>
 
-  <section class="steps">
+  <section class="steps" id="get-started">
     <h2>Get started in minutes</h2>
     <div class="steps-grid">
       <article class="card">
@@ -32,7 +42,7 @@
     </div>
   </section>
 
-  <section class="features">
+  <section class="features" id="features">
     <article class="card">
       <h2>Interactive Quizzes</h2>
       <p>Category-based questions with immediate feedback and score tracking.</p>
@@ -47,6 +57,22 @@
       <h2>Global Leaderboard</h2>
       <p>Compete with other players and compare your progress over time.</p>
     </article>
+  </section>
+
+  <section class="downloads" id="downloads" aria-labelledby="downloads-title">
+    <h2 id="downloads-title">Downloads</h2>
+    <p class="downloads-subtitle">Latest version: <strong>{{ version }}</strong></p>
+
+    <div class="cta" role="group" aria-label="Download links">
+      <a class="button primary" [href]="downloads.androidApk" target="_blank" rel="noopener">Android (APK)</a>
+      <a class="button ghost" [href]="downloads.windows" target="_blank" rel="noopener">Windows</a>
+      <a class="button ghost" [href]="downloads.iosInfo" target="_blank" rel="noopener">iOS Info</a>
+    </div>
+
+    <div class="downloads-note">
+      Prefer GitHub releases?&nbsp;
+      <a class="github-link" href="https://github.com/Stanimir0/HistoricalApp" target="_blank" rel="noopener">View releases</a>.
+    </div>
   </section>
 
   <footer class="footer">
