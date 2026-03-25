@@ -3,7 +3,11 @@
 Historical App is a gamified history-learning platform built with .NET MAUI and Firebase.  
 It includes quiz gameplay, user progression, and leaderboards, plus a small static website for publishing releases.
 
-App builds are distributed from our website (link will be added once hosting is ready).
+App builds are distributed only through the official website:
+- https://historical-web.site
+
+Website source repository:
+- https://github.com/Stanimir0/historical-web
 
 ## Features
 
@@ -19,7 +23,6 @@ App builds are distributed from our website (link will be added once hosting is 
 ```text
 HistoricalApp/             # .NET MAUI app
 HistoricalApp.Tests/       # Unit tests
-web/                       # Static website (HTML/CSS/JS) for publishing releases (recommended in separate repo for hosting)
 HistoricalApp.sln          # Solution file
 ```
 
