@@ -8,7 +8,7 @@ App builds are distributed only through the official website:
 
 Website source repository:
 - https://github.com/Stanimir0/historical-web
-can be downloaded from here https://historical-web.site
+- can be downloaded from here https://historical-web.site
 
 ## Features
 
