@@ -57,3 +57,20 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Deploying to Cloudflare Pages (Angular)
+
+This project is a client-side Angular app. The production build outputs files under `dist/web/browser`, so Cloudflare Pages should use that as the build output directory.
+
+Recommended Cloudflare Pages settings:
+
+- **Source**: your GitHub repo branch (for example `master`)
+- **Project root**: `web`
+- **Build command**: `npm ci && npm run build`
+- **Build output directory**: `dist/web/browser`
+
+After deployment:
+- The landing page will be served from `/`.
+- `web/public/releases.json` is included in the build and will be available at `/releases.json` (used by `app.component.ts` via `fetch('/releases.json')`).
+
+No SPA routing fallback (rewrite-to-`index.html`) is required right now because this web app doesn’t define additional client routes.

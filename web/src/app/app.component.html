@@ -4,20 +4,38 @@
     <h1>Learn History the Fun Way</h1>
     <p class="subtitle">
       Download the official Historical App and explore Battles, Events, and Historical Characters
-      through interactive quizzes and leaderboards.
+      through interactive quizzes and friendly competition.
     </p>
 
     <div class="cta">
-      <a class="button primary" [href]="downloads.androidApk" target="_blank" rel="noopener">Download for Android</a>
-      <a class="button ghost" [href]="downloads.windows" target="_blank" rel="noopener">Download for Windows</a>
-      <a class="button ghost" [href]="downloads.iosInfo" target="_blank" rel="noopener">iOS Coming Soon</a>
+      <a class="button primary" [href]="downloads.androidApk" target="_blank" rel="noopener">Android (APK)</a>
+      <a class="button ghost" [href]="downloads.windows" target="_blank" rel="noopener">Windows</a>
+      <a class="button ghost" [href]="downloads.iosInfo" target="_blank" rel="noopener">iOS Info</a>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2>Get started in minutes</h2>
+    <div class="steps-grid">
+      <article class="card">
+        <h3>Download</h3>
+        <p>Pick your platform and install the app.</p>
+      </article>
+      <article class="card">
+        <h3>Play quizzes</h3>
+        <p>Answer questions and get instant feedback.</p>
+      </article>
+      <article class="card">
+        <h3>Climb the leaderboard</h3>
+        <p>Earn XP, rank up, and compete with others.</p>
+      </article>
     </div>
   </section>
 
   <section class="features">
     <article class="card">
       <h2>Interactive Quizzes</h2>
-      <p>Play category-based quizzes with immediate feedback and score tracking.</p>
+      <p>Category-based questions with immediate feedback and score tracking.</p>
     </article>
 
     <article class="card">
@@ -30,4 +48,11 @@
       <p>Compete with other players and compare your progress over time.</p>
     </article>
   </section>
+
+  <footer class="footer">
+    <p>
+      Version {{ version }} · Built for learners ·
+      <a href="https://github.com/Stanimir0/HistoricalApp" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
 </main>
