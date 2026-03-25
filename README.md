@@ -19,7 +19,7 @@ App builds are distributed from our website (link will be added once hosting is 
 ```text
 HistoricalApp/             # .NET MAUI app
 HistoricalApp.Tests/       # Unit tests
-web/                       # Angular web/landing site
+web/                       # Angular web/landing site (recommended in separate repo for hosting)
 HistoricalApp.sln          # Solution file
 ```
 
@@ -62,6 +62,8 @@ dotnet build HistoricalApp/HistoricalApp.csproj -f net9.0-windows10.0.19041.0
 
 ### 3) Run the Angular web site (for development)
 
+Note: the `web/` site is a static Angular build (HTML/CSS/JS output). For easiest hosting, it can live in a separate repo that deploys to Cloudflare Pages or Firebase Hosting.
+
 From repo root:
 
 ```bash
@@ -75,6 +77,14 @@ npm run web:build
 ```
 
 Output is generated in `web/dist/web`.
+
+#### Deploying `web/` to Cloudflare Pages (Angular)
+
+Cloudflare Pages serves static build output. Recommended Pages settings:
+
+- **Project root**: `web`
+- **Build command**: `npm ci && npm run build`
+- **Build output directory**: `dist/web/browser`
 
 ## Configuration Notes
 

@@ -1,9 +1,5 @@
 {
-  "scripts": {
-    "web:start": "npm --prefix web start",
-    "web:build": "npm --prefix web run build",
-    "web:preview": "npx http-server \"web/dist/web/browser\" -p 8080 -c-1"
-  },
+  "scripts": {},
   "dependencies": {
     "firebase": "^12.4.0"
   }
