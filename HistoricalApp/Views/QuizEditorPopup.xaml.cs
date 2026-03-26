@@ -1,4 +1,3 @@
-﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using HistoricalApp.Models;
 using System;

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Views;
 using Firebase.Database;
 using Firebase.Database.Query;
 using HistoricalApp.Helpers;
