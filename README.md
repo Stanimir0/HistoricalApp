@@ -17,7 +17,7 @@ Website source repository:
 - Scoring, XP, and rank progression
 - Global leaderboard support
 - Admin tools for quiz management
-- Cross-platform targets: Android, iOS, macOS, Windows
+- Cross-platform targets: Android,Windows
 
 ## Project Structure
 
@@ -29,28 +29,23 @@ HistoricalApp.sln          # Solution file
 
 ## Tech Stack
 
-- App client: .NET MAUI (.NET 9, C#)
+- App client: .NET MAUI (.NET 8, C#)
 - Web landing site: static HTML/CSS/JS
 - Backend services: Firebase Auth + Firebase Realtime Database
 
 ## Prerequisites
 
-- .NET 9 SDK
+- .NET 8 SDK
 - MAUI workloads installed
-- Android/iOS workloads and tooling as needed (Android SDK, Xcode on macOS for iOS)
+- Android/Win workloads and tooling as needed (Android SDK)
 
-## Configuration Notes
-
-- Firebase API key and endpoints are currently configured in source files.
-- For production, move secrets and environment-specific values to safer configuration patterns.
-- Update release metadata/links used by the web site once APK/installer hosting is ready.
 
 ## Roadmap Ideas
 
-- Add release pipeline (build + publish APK/installer + update web links)
-- Add screenshots/video preview to the release page
-- Add CI checks for MAUI and Angular builds
-- Externalize Firebase config per environment
+- Add time based quizes
+- Add PVP Quizes where 2 players compete who will score more points for an amount of time
+- Add more cosmetics and perks to the shop
+
 
 ## License
 
