@@ -42,6 +42,23 @@
 		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<!-- Force APK output for Android Release builds -->
+		<AndroidPackageFormats>apk</AndroidPackageFormats>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Windows publish mode: exe (default) or msix -->
+		<WindowsPublishType Condition="'$(WindowsPublishType)' == ''">exe</WindowsPublishType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(WindowsPublishType)' == 'msix'">
+		<WindowsPackageType>MSIX</WindowsPackageType>
+		<GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+		<!-- Keeps local publish simple; use proper cert in CI/store -->
+		<AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
