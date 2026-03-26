@@ -9,6 +9,7 @@ App builds are distributed only through the official website:
 Website source repository:
 - https://github.com/Stanimir0/historical-web
 
+
 ## Features
 
 - Firebase authentication (register/login)
