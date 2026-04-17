@@ -28,6 +28,7 @@ namespace HistoricalApp.Helpers
         public string UserName => LocalizationStrings.Get("UserName", _currentLanguage);
         public string Rank => LocalizationStrings.Get("Rank", _currentLanguage);
         public string TotalPoints => LocalizationStrings.Get("TotalPoints", _currentLanguage);
+        public string HighestScore => LocalizationStrings.Get("HighestScore", _currentLanguage);
         public string AdminPanel => LocalizationStrings.Get("AdminPanel", _currentLanguage);
         public string Logout => LocalizationStrings.Get("Logout", _currentLanguage);
         public string Coins => LocalizationStrings.Get("Coins", _currentLanguage);

@@ -108,11 +108,11 @@
                                 </VerticalStackLayout>
                                 
                                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="5">
-                                    <Label Text="{Binding Translations.Rank}" 
+                                    <Label Text="{Binding Translations.HighestScore}" 
                                            TextColor="{StaticResource TextSecondary}" 
                                            FontSize="12"
                                            HorizontalOptions="Center"/>
-                                    <Label Text="{Binding CurrentUser.Rank}"
+                                    <Label Text="{Binding CurrentUser.HighestScore, FallbackValue='0'}"
                                            TextColor="{StaticResource TextPrimary}"
                                            FontSize="24"
                                            FontAttributes="Bold"

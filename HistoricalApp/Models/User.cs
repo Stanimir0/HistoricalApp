@@ -10,6 +10,7 @@
         public string Description { get; set; } = string.Empty;
 
         public int TotalPoints { get; set; } = 0;
+        public int HighestScore { get; set; } = 0;
 
         // Permanent XP for leveling — never resets (unlike TotalPoints used for leaderboards)
         public int TotalXP { get; set; } = 0;

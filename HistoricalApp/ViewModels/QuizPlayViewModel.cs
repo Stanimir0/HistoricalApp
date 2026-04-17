@@ -423,6 +423,7 @@ namespace HistoricalApp.ViewModels
                 user.DailyPoints += Score;
                 user.WeeklyPoints += Score;
                 user.MonthlyPoints += Score;
+                user.HighestScore = Math.Max(user.HighestScore, Score);
                 user.RecalculateRank();
 
                 // Level up check

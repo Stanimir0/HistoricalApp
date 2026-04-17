@@ -19,4 +19,12 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\HistoricalApp\Models\User.cs" Link="Source\Models\User.cs" />
+    <Compile Include="..\HistoricalApp\Models\Quiz.cs" Link="Source\Models\Quiz.cs" />
+    <Compile Include="..\HistoricalApp\Models\DailyMission.cs" Link="Source\Models\DailyMission.cs" />
+    <Compile Include="..\HistoricalApp\Helpers\RankHelper.cs" Link="Source\Helpers\RankHelper.cs" />
+    <Compile Include="..\HistoricalApp\Services\DailyMissionService.cs" Link="Source\Services\DailyMissionService.cs" />
+  </ItemGroup>
+
 </Project>
